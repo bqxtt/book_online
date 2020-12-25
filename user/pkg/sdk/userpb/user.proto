@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option go_package = "github.com/bqxtt/book_online/user/pkg/sdk/userpb";
+
+import "include/google/protobuf/timestamp.proto";
+
+package sdk;
+
+message User {
+  int64 id = 1;
+  int64 user_id = 2;
+  string name = 3;
+  google.protobuf.Timestamp created_at=4;
+}
+
+message UserAuth {
+  int64 user_id=1;
+  string pwd_digest=2;
+}

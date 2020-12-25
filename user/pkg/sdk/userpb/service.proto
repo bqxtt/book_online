@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option go_package = "github.com/bqxtt/book_online/user/pkg/sdk/userpb";
+
+import "userpb/user.proto";
+import "base/request_response.proto";
+
+package sdk;
+
+service UserService {
+  rpc Register(RegisterRequest) returns (RegisterReply) {}
+  rpc Login(LoginRequest) returns (LoginReply) {};
+  rpc UpdateInfo(UpdateInfoRequest) returns (UpdateInfoReply) {};
+}
+
+message RegisterRequest {
+  User user = 1;
+  UserAuth user_auth = 2;
+}
+
+message RegisterReply {
+  base.BaseReply reply = 1;
+  int64 user_id = 2;
+}
+
+message LoginRequest {
+  UserAuth user_auth = 1;
+}
+
+message LoginReply {
+  base.BaseReply reply = 1;
+}
+
+message UpdateInfoRequest {
+  User user_info = 1;
+}
+
+message UpdateInfoReply {
+  base.BaseReply reply = 1;
+  User result_user_info = 2;
+}

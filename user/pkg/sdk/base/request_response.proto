@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option go_package = "github.com/bqxtt/book_online/user/pkg/sdk/base";
+
+package base;
+
+enum REPLY_STATUS {
+  UNKNOWN = 0;
+  SUCCESS = 1;
+  FAILURE = 2;
+}
+
+message BaseReply {
+  REPLY_STATUS status = 1;
+  string message = 2;
+}
