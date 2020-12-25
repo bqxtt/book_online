@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"github.com/bqxtt/book_online/user/pkg/handler/adapter"
+	"github.com/bqxtt/book_online/user/pkg/sdk/base"
 	"github.com/bqxtt/book_online/user/pkg/sdk/userpb"
 	"github.com/bqxtt/book_online/user/pkg/service"
 )
@@ -23,6 +24,10 @@ func (h *UserHandler) Register(ctx context.Context, request *userpb.RegisterRequ
 		return nil, err
 	}
 	return &userpb.RegisterReply{
+		Reply: &base.BaseReply{
+			Status:  base.REPLY_STATUS_SUCCESS,
+			Message: "register success",
+		},
 		UserId: user.UserID,
 	}, nil
 }

@@ -9,7 +9,7 @@ type InMemoryDao struct {
 	userMap map[int64]*model.User
 }
 
-func NewInmemoryDao() (*InMemoryDao, error) {
+func NewInMemoryDao() (*InMemoryDao, error) {
 	return &InMemoryDao{
 		userMap: make(map[int64]*model.User),
 	}, nil
@@ -22,6 +22,7 @@ func (in *InMemoryDao) CreateUser(user *model.User, userAuth *model.UserAuth) er
 	}
 
 	in.userMap[user.UserID] = user
+	fmt.Printf("user created, user: %v", user)
 	return nil
 }
 

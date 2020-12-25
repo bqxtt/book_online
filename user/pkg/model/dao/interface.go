@@ -15,6 +15,6 @@ func NewUserDAO(daoType common.DAOType) (UserDAOInterface, error) {
 	switch daoType {
 	// TODO:
 	default:
-		return NewInmemoryDao()
+		return NewInMemoryDao()
 	}
 }
