@@ -6,30 +6,57 @@ import (
 )
 
 type InMemoryDao struct {
-	userMap map[int64]*model.User
+	userMap     map[int64]*model.User
+	userAuthMap map[int64]*model.UserAuth
 }
 
-func NewInmemoryDao() (*InMemoryDao, error) {
+func NewInMemoryDao() (*InMemoryDao, error) {
 	return &InMemoryDao{
-		userMap: make(map[int64]*model.User),
+		userMap:     make(map[int64]*model.User),
+		userAuthMap: make(map[int64]*model.UserAuth),
 	}, nil
 }
 
-func (in *InMemoryDao) CreateUser(user *model.User, userAuth *model.UserAuth) error {
+func (in *InMemoryDao) CreateUser(user *model.User, userAuth *model.UserAuth) (*model.User, *model.UserAuth, error) {
 	_, ok := in.userMap[user.UserID]
 	if ok {
-		return fmt.Errorf("user id %v already used", user.UserID)
+		return nil, nil, fmt.Errorf("user id %v already exists", user.UserID)
+	}
+	// TODO: if we need to check both the tables?
+	_, ok = in.userAuthMap[user.UserID]
+	if ok {
+		return nil, nil, fmt.Errorf("user id %v already exists", user.UserID)
 	}
 
 	in.userMap[user.UserID] = user
-	return nil
+	in.userAuthMap[user.UserID] = userAuth
+	return in.userMap[user.UserID], in.userAuthMap[user.UserID], nil
 }
 
-func (in *InMemoryDao) GetUserByUserId(userId int64) (*model.User, error) {
+func (in *InMemoryDao) GetUserByUserId(userId int64) (result *model.User, exists bool, err error) {
 	user, ok := in.userMap[userId]
 	if ok {
-		return user, nil
+		return user, true, nil
 	}
 
-	return nil, nil
+	return nil, false, nil
+}
+
+func (in *InMemoryDao) GetUserAuthByUserId(userId int64) (result *model.UserAuth, exists bool, err error) {
+	ua, ok := in.userAuthMap[userId]
+	if ok {
+		return ua, true, nil
+	}
+
+	return nil, false, nil
+}
+
+func (in *InMemoryDao) UpdateUserByUserId(userId int64, user *model.User) (result *model.User, err error) {
+	_, ok := in.userMap[userId]
+	if !ok {
+		return nil, fmt.Errorf("user with user id %v not found", userId)
+	}
+
+	in.userMap[userId] = user
+	return in.userMap[userId], nil
 }

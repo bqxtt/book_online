@@ -5,11 +5,12 @@ const (
 )
 
 type DAOType string
+
 const (
-	DAOTypeDefault DAOType = "default"
+	DAOTypeDefault      DAOType = "default"
 	DAOTypeDBDirectConn DAOType = "straight-db"
-	DAOTypeDBProxy DAOType = "db-proxy"
+	DAOTypeDBProxy      DAOType = "db-proxy"
 	// mainly for tests
 	DAOTypeInMemory DAOType = "in-memory"
-	DAOTypeUnknown DAOType = "unknown"
+	DAOTypeUnknown  DAOType = "unknown"
 )
