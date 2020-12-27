@@ -10,6 +10,7 @@ package sdk;
 service UserService {
   rpc Register(RegisterRequest) returns (RegisterReply) {}
   rpc Login(LoginRequest) returns (LoginReply) {};
+  rpc GetInfo(GetInfoRequest) returns (GetInfoReply) {};
   rpc UpdateInfo(UpdateInfoRequest) returns (UpdateInfoReply) {};
 }
 
@@ -20,7 +21,7 @@ message RegisterRequest {
 
 message RegisterReply {
   base.BaseReply reply = 1;
-  int64 user_id = 2;
+  User user = 2;
 }
 
 message LoginRequest {
@@ -29,6 +30,15 @@ message LoginRequest {
 
 message LoginReply {
   base.BaseReply reply = 1;
+}
+
+message GetInfoRequest {
+  int64 user_id = 1;
+}
+
+message GetInfoReply {
+  base.BaseReply reply = 1;
+  User user = 2;
 }
 
 message UpdateInfoRequest {
