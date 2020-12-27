@@ -25,3 +25,7 @@ func Register(c *gin.Context) {
 		"status": "register success",
 	})
 }
+
+func Login(c *gin.Context) {
+
+}
