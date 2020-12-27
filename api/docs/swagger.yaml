@@ -1,0 +1,45 @@
+definitions:
+  contract.RegisterRequest:
+    properties:
+      user:
+        $ref: '#/definitions/entity.User'
+    required:
+    - user
+    type: object
+  entity.User:
+    properties:
+      name:
+        type: string
+      password:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - name
+    - password
+    - user_id
+    type: object
+info:
+  contact: {}
+paths:
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: 用户注册
+      parameters:
+      - description: register request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/contract.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+      summary: 注册
+swagger: "2.0"
