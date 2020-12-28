@@ -7,8 +7,8 @@ import "github.com/gin-gonic/gin"
 // @Description 借阅图书
 // @Accept  json
 // @Produce json
-// @Param   book_id path int true "borrow book id"
 // @Param Authorization header string true "Authentication Token"
+// @Param   book_id path int true "borrow book id"
 // @Success 200 {object} contract.BorrowBookResponse
 // @Failure 400 {object} contract.BorrowBookResponse
 // @Router /book/borrow/{book_id} [get]
@@ -21,8 +21,8 @@ func BorrowBook(c *gin.Context) {
 // @Description 归还图书
 // @Accept  json
 // @Produce json
-// @Param   book_id path int true "return book id"
 // @Param Authorization header string true "Authentication Token"
+// @Param   book_id path int true "return book id"
 // @Success 200 {object} contract.ReturnBookResponse
 // @Failure 400 {object} contract.ReturnBookResponse
 // @Router /book/return/{book_id} [get]

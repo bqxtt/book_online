@@ -26,7 +26,7 @@ func Init() {
 	{
 		adminUser := admin.Group("/user")
 		{
-			adminUser.GET("/list", handler.ListAllUsers)
+			adminUser.POST("/list", handler.ListAllUsers)
 			adminUser.DELETE("/delete/:userId", handler.DeleteUser)
 		}
 		adminBook := admin.Group("/book")
@@ -45,7 +45,7 @@ func Init() {
 
 	book := router.Group("/book")
 	{
-		book.GET("/list/:page/:pageSize", handler.ListBooks)
+		book.POST("/list", handler.ListBooks)
 		bookRecord := book.Group("/record")
 		{
 			bookRecord.GET("/borrow", handler.ListBorrowedBook)

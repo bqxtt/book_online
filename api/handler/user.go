@@ -1,7 +1,10 @@
 package handler
 
 import (
+	"fmt"
+	"github.com/bqxtt/book_online/api/auth"
 	"github.com/bqxtt/book_online/api/model/contract"
+	"github.com/bqxtt/book_online/api/model/entity"
 	"github.com/bqxtt/book_online/api/service"
 	"github.com/bqxtt/book_online/api/utils"
 	"github.com/gin-gonic/gin"
@@ -13,8 +16,8 @@ import (
 // @Description 用户注册
 // @Accept  json
 // @Produce json
-// @Param   request body contract.RegisterRequest true "register request"
 // @Param Authorization header string true "Authentication Token"
+// @Param   request body contract.RegisterRequest true "register request"
 // @Success 200 {object} contract.RegisterResponse
 // @Failure 400 {object} contract.RegisterResponse
 // @Router /user/register [post]
@@ -42,8 +45,8 @@ func Register(c *gin.Context) {
 // @Description 用户登录
 // @Accept  json
 // @Produce json
-// @Param   request body contract.LoginRequest true "login request"
 // @Param Authorization header string true "Authentication Token"
+// @Param   request body contract.LoginRequest true "login request"
 // @Success 200 {object} contract.LoginResponse
 // @Failure 400 {object} contract.LoginResponse
 // @Router /user/login [post]
@@ -55,12 +58,18 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
-	if err := service.UserService.Login(request.UserAuth); err != nil {
-		c.JSON(http.StatusBadRequest, &contract.LoginResponse{
-			BaseResponse: utils.NewFailureResponse("user service error, err: %v", err),
-		})
-		return
-	}
+	//if err := service.UserService.Login(request.UserAuth); err != nil {
+	//	c.JSON(http.StatusBadRequest, &contract.LoginResponse{
+	//		BaseResponse: utils.NewFailureResponse("user service error, err: %v", err),
+	//	})
+	//	return
+	//}
+	token, _ := auth.GenerateToken(request.UserAuth.UserId, "admin")
+	c.JSON(http.StatusOK, &contract.LoginResponse{
+		BaseResponse: utils.NewSuccessResponse("login success"),
+		Role:         "admin",
+		Token:        token,
+	})
 }
 
 // @Tags user
@@ -73,7 +82,21 @@ func Login(c *gin.Context) {
 // @Failure 400 {object} contract.GetUserInfoResponse
 // @Router /user/info [get]
 func GetUserInfo(c *gin.Context) {
+	_, exist := c.Get("auth")
+	if !exist {
+		c.JSON(http.StatusBadRequest, &contract.GetUserInfoResponse{
+			BaseResponse: utils.NewFailureResponse("missing auth header"),
+		})
+		return
+	}
+	//claims := iClaims.(*auth.Claims)
+	//userId := claims.UserId
+	//role := claims.Role
 
+	c.JSON(http.StatusOK, &contract.GetUserInfoResponse{
+		BaseResponse: utils.NewSuccessResponse("success"),
+		User:         utils.NewDefaultUser(),
+	})
 }
 
 // @Tags user
@@ -87,7 +110,26 @@ func GetUserInfo(c *gin.Context) {
 // @Failure 400 {object} contract.UpdateUserInfoResponse
 // @Router /user/info/update [post]
 func UpdateUserInfo(c *gin.Context) {
+	_, exist := c.Get("auth")
+	if !exist {
+		c.JSON(http.StatusBadRequest, &contract.GetUserInfoResponse{
+			BaseResponse: utils.NewFailureResponse("missing auth header"),
+		})
+		return
+	}
+	request := &contract.UpdateUserInfoRequest{}
+	if err := c.ShouldBindJSON(request); err != nil {
+		c.JSON(http.StatusBadRequest, &contract.GetUserInfoResponse{
+			BaseResponse: utils.NewFailureResponse("request param error, err: %v", err),
+			User:         nil,
+		})
+		return
+	}
 
+	c.JSON(http.StatusOK, &contract.GetUserInfoResponse{
+		BaseResponse: utils.NewSuccessResponse("success"),
+		User:         utils.NewDefaultUser(),
+	})
 }
 
 // @Tags admin
@@ -96,11 +138,38 @@ func UpdateUserInfo(c *gin.Context) {
 // @Accept  json
 // @Produce json
 // @Param Authorization header string true "Authentication Token"
+// @Param   request body contract.ListAllUsersRequest true "list all user request"
 // @Success 200 {object} contract.ListAllUsersResponse
 // @Failure 400 {object} contract.ListAllUsersResponse
-// @Router /admin/user/list [get]
+// @Router /admin/user/list [post]
 func ListAllUsers(c *gin.Context) {
+	iClaims, exist := c.Get("auth")
+	if !exist {
+		c.JSON(http.StatusBadRequest, &contract.ListAllUsersResponse{
+			BaseResponse: utils.NewFailureResponse("missing auth header"),
+		})
+		return
+	}
+	claims := iClaims.(*auth.Claims)
+	if claims.Role != "admin" {
+		c.JSON(http.StatusBadRequest, &contract.ListAllUsersResponse{
+			BaseResponse: utils.NewFailureResponse("not admin"),
+		})
+		return
+	}
+	request := &contract.ListAllUsersRequest{}
+	if err := c.ShouldBindJSON(request); err != nil {
+		c.JSON(http.StatusBadRequest, &contract.ListAllUsersResponse{
+			BaseResponse: utils.NewFailureResponse("request param error, err: %v", err),
+			Users:        nil,
+		})
+		return
+	}
 
+	c.JSON(http.StatusOK, &contract.ListAllUsersResponse{
+		BaseResponse: utils.NewSuccessResponse("success"),
+		Users:        []*entity.User{utils.NewDefaultUser(), utils.NewDefaultUser()},
+	})
 }
 
 // @Tags admin
@@ -114,5 +183,24 @@ func ListAllUsers(c *gin.Context) {
 // @Failure 400 {object} contract.DeleteUserResponse
 // @Router /admin/user/delete/{user_id} [delete]
 func DeleteUser(c *gin.Context) {
+	iClaims, exist := c.Get("auth")
+	if !exist {
+		c.JSON(http.StatusBadRequest, &contract.DeleteUserResponse{
+			BaseResponse: utils.NewFailureResponse("missing auth header"),
+		})
+		return
+	}
+	claims := iClaims.(*auth.Claims)
+	if claims.Role != "admin" {
+		c.JSON(http.StatusBadRequest, &contract.DeleteUserResponse{
+			BaseResponse: utils.NewFailureResponse("not admin"),
+		})
+		return
+	}
+	userId := c.Param("userId")
+	fmt.Println(userId)
 
+	c.JSON(http.StatusOK, &contract.DeleteUserResponse{
+		BaseResponse: utils.NewSuccessResponse("success"),
+	})
 }

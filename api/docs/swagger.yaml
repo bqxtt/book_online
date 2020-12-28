@@ -7,39 +7,104 @@ definitions:
         $ref: '#/definitions/contract.StatusInfo'
     type: object
   contract.BorrowBookResponse:
+    properties:
+      base_response:
+        $ref: '#/definitions/contract.BaseResponse'
     type: object
   contract.CreateBookRequest:
     type: object
   contract.CreateBookResponse:
+    properties:
+      base_response:
+        $ref: '#/definitions/contract.BaseResponse'
     type: object
   contract.DeleteBookResponse:
+    properties:
+      base_response:
+        $ref: '#/definitions/contract.BaseResponse'
     type: object
   contract.DeleteUserResponse:
+    properties:
+      base_response:
+        $ref: '#/definitions/contract.BaseResponse'
     type: object
   contract.GetUserInfoResponse:
+    properties:
+      base_response:
+        $ref: '#/definitions/contract.BaseResponse'
+      user:
+        $ref: '#/definitions/entity.User'
     type: object
   contract.ListAllBookRecordsResponse:
+    properties:
+      base_response:
+        $ref: '#/definitions/contract.BaseResponse'
     type: object
   contract.ListAllBorrowedBookResponse:
+    properties:
+      base_response:
+        $ref: '#/definitions/contract.BaseResponse'
     type: object
   contract.ListAllReturnedBookResponse:
+    properties:
+      base_response:
+        $ref: '#/definitions/contract.BaseResponse'
+    type: object
+  contract.ListAllUsersRequest:
+    properties:
+      page:
+        type: integer
+      page_size:
+        type: integer
+    required:
+    - page
+    - page_size
     type: object
   contract.ListAllUsersResponse:
+    properties:
+      base_response:
+        $ref: '#/definitions/contract.BaseResponse'
+      users:
+        items:
+          $ref: '#/definitions/entity.User'
+        type: array
     type: object
   contract.ListBookRecordsResponse:
+    properties:
+      base_response:
+        $ref: '#/definitions/contract.BaseResponse'
+    type: object
+  contract.ListBooksRequest:
+    properties:
+      page:
+        type: integer
+      page_size:
+        type: integer
+    required:
+    - page
+    - page_size
     type: object
   contract.ListBooksResponse:
+    properties:
+      base_response:
+        $ref: '#/definitions/contract.BaseResponse'
     type: object
   contract.ListBorrowedBookResponse:
+    properties:
+      base_response:
+        $ref: '#/definitions/contract.BaseResponse'
     type: object
   contract.ListReturnedBookResponse:
+    properties:
+      base_response:
+        $ref: '#/definitions/contract.BaseResponse'
     type: object
   contract.LoginRequest:
     properties:
-      user:
-        $ref: '#/definitions/entity.User'
+      user_auth:
+        $ref: '#/definitions/entity.UserAuth'
     required:
-    - user
+    - user_auth
     type: object
   contract.LoginResponse:
     properties:
@@ -52,10 +117,10 @@ definitions:
     type: object
   contract.RegisterRequest:
     properties:
-      user:
-        $ref: '#/definitions/entity.User'
+      user_auth:
+        $ref: '#/definitions/entity.UserAuth'
     required:
-    - user
+    - user_auth
     type: object
   contract.RegisterResponse:
     properties:
@@ -63,6 +128,9 @@ definitions:
         $ref: '#/definitions/contract.BaseResponse'
     type: object
   contract.ReturnBookResponse:
+    properties:
+      base_response:
+        $ref: '#/definitions/contract.BaseResponse'
     type: object
   contract.StatusInfo:
     properties:
@@ -74,21 +142,39 @@ definitions:
   contract.UpdateBookRequest:
     type: object
   contract.UpdateBookResponse:
+    properties:
+      base_response:
+        $ref: '#/definitions/contract.BaseResponse'
     type: object
   contract.UpdateUserInfoRequest:
+    properties:
+      user:
+        $ref: '#/definitions/entity.User'
+    required:
+    - user
     type: object
   contract.UpdateUserInfoResponse:
+    properties:
+      base_response:
+        $ref: '#/definitions/contract.BaseResponse'
     type: object
   entity.User:
     properties:
       name:
         type: string
+      user_id:
+        type: integer
+    required:
+    - name
+    - user_id
+    type: object
+  entity.UserAuth:
+    properties:
       password:
         type: string
       user_id:
         type: integer
     required:
-    - name
     - password
     - user_id
     type: object
@@ -293,7 +379,7 @@ paths:
       tags:
       - admin
   /admin/user/list:
-    get:
+    post:
       consumes:
       - application/json
       description: 所有用户
@@ -303,6 +389,12 @@ paths:
         name: Authorization
         required: true
         type: string
+      - description: list all user request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/contract.ListAllUsersRequest'
       produces:
       - application/json
       responses:
@@ -347,8 +439,8 @@ paths:
       summary: 借阅图书
       tags:
       - user
-  /book/list/{page}/{page_size}:
-    get:
+  /book/list:
+    post:
       consumes:
       - application/json
       description: 分页图书
@@ -368,6 +460,12 @@ paths:
         name: Authorization
         required: true
         type: string
+      - description: list book request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/contract.ListBooksRequest'
       produces:
       - application/json
       responses:

@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"github.com/bqxtt/book_online/api/model/contract"
+	"github.com/bqxtt/book_online/api/model/entity"
 	"time"
 )
 
@@ -25,5 +26,13 @@ func NewFailureResponse(format string, args ...interface{}) *contract.BaseRespon
 	return &contract.BaseResponse{
 		StatusCode: contract.FAILURE,
 		StatusInfo: statusInfo,
+	}
+}
+
+// just for test
+func NewDefaultUser() *entity.User {
+	return &entity.User{
+		UserId: 10175101201,
+		Name:   "tcg",
 	}
 }

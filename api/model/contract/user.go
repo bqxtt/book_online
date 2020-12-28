@@ -24,22 +24,31 @@ type GetUserInfoRequest struct {
 }
 
 type GetUserInfoResponse struct {
+	BaseResponse *BaseResponse `json:"base_response"`
+	User         *entity.User  `json:"user"`
 }
 
 type UpdateUserInfoRequest struct {
+	User *entity.User `form:"user" json:"user" binding:"required"`
 }
 
 type UpdateUserInfoResponse struct {
+	BaseResponse *BaseResponse `json:"base_response"`
 }
 
 type ListAllUsersRequest struct {
+	Page     int32 `form:"page" json:"page" binding:"required"`
+	PageSize int32 `form:"page_size" json:"page_size" binding:"required"`
 }
 
 type ListAllUsersResponse struct {
+	BaseResponse *BaseResponse  `json:"base_response"`
+	Users        []*entity.User `json:"users"`
 }
 
 type DeleteUserRequest struct {
 }
 
 type DeleteUserResponse struct {
+	BaseResponse *BaseResponse `json:"base_response"`
 }

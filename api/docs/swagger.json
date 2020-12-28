@@ -303,7 +303,7 @@
             }
         },
         "/admin/user/list": {
-            "get": {
+            "post": {
                 "description": "所有用户",
                 "consumes": [
                     "application/json"
@@ -322,6 +322,15 @@
                         "name": "Authorization",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "description": "list all user request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/contract.ListAllUsersRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -385,8 +394,8 @@
                 }
             }
         },
-        "/book/list/{page}/{page_size}": {
-            "get": {
+        "/book/list": {
+            "post": {
                 "description": "分页图书",
                 "consumes": [
                     "application/json"
@@ -419,6 +428,15 @@
                         "name": "Authorization",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "description": "list book request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/contract.ListBooksRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -835,55 +853,159 @@
             }
         },
         "contract.BorrowBookResponse": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "base_response": {
+                    "$ref": "#/definitions/contract.BaseResponse"
+                }
+            }
         },
         "contract.CreateBookRequest": {
             "type": "object"
         },
         "contract.CreateBookResponse": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "base_response": {
+                    "$ref": "#/definitions/contract.BaseResponse"
+                }
+            }
         },
         "contract.DeleteBookResponse": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "base_response": {
+                    "$ref": "#/definitions/contract.BaseResponse"
+                }
+            }
         },
         "contract.DeleteUserResponse": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "base_response": {
+                    "$ref": "#/definitions/contract.BaseResponse"
+                }
+            }
         },
         "contract.GetUserInfoResponse": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "base_response": {
+                    "$ref": "#/definitions/contract.BaseResponse"
+                },
+                "user": {
+                    "$ref": "#/definitions/entity.User"
+                }
+            }
         },
         "contract.ListAllBookRecordsResponse": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "base_response": {
+                    "$ref": "#/definitions/contract.BaseResponse"
+                }
+            }
         },
         "contract.ListAllBorrowedBookResponse": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "base_response": {
+                    "$ref": "#/definitions/contract.BaseResponse"
+                }
+            }
         },
         "contract.ListAllReturnedBookResponse": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "base_response": {
+                    "$ref": "#/definitions/contract.BaseResponse"
+                }
+            }
+        },
+        "contract.ListAllUsersRequest": {
+            "type": "object",
+            "required": [
+                "page",
+                "page_size"
+            ],
+            "properties": {
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                }
+            }
         },
         "contract.ListAllUsersResponse": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "base_response": {
+                    "$ref": "#/definitions/contract.BaseResponse"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.User"
+                    }
+                }
+            }
         },
         "contract.ListBookRecordsResponse": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "base_response": {
+                    "$ref": "#/definitions/contract.BaseResponse"
+                }
+            }
+        },
+        "contract.ListBooksRequest": {
+            "type": "object",
+            "required": [
+                "page",
+                "page_size"
+            ],
+            "properties": {
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                }
+            }
         },
         "contract.ListBooksResponse": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "base_response": {
+                    "$ref": "#/definitions/contract.BaseResponse"
+                }
+            }
         },
         "contract.ListBorrowedBookResponse": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "base_response": {
+                    "$ref": "#/definitions/contract.BaseResponse"
+                }
+            }
         },
         "contract.ListReturnedBookResponse": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "base_response": {
+                    "$ref": "#/definitions/contract.BaseResponse"
+                }
+            }
         },
         "contract.LoginRequest": {
             "type": "object",
             "required": [
-                "user"
+                "user_auth"
             ],
             "properties": {
-                "user": {
-                    "$ref": "#/definitions/entity.User"
+                "user_auth": {
+                    "$ref": "#/definitions/entity.UserAuth"
                 }
             }
         },
@@ -904,11 +1026,11 @@
         "contract.RegisterRequest": {
             "type": "object",
             "required": [
-                "user"
+                "user_auth"
             ],
             "properties": {
-                "user": {
-                    "$ref": "#/definitions/entity.User"
+                "user_auth": {
+                    "$ref": "#/definitions/entity.UserAuth"
                 }
             }
         },
@@ -921,7 +1043,12 @@
             }
         },
         "contract.ReturnBookResponse": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "base_response": {
+                    "$ref": "#/definitions/contract.BaseResponse"
+                }
+            }
         },
         "contract.StatusInfo": {
             "type": "object",
@@ -938,25 +1065,54 @@
             "type": "object"
         },
         "contract.UpdateBookResponse": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "base_response": {
+                    "$ref": "#/definitions/contract.BaseResponse"
+                }
+            }
         },
         "contract.UpdateUserInfoRequest": {
-            "type": "object"
+            "type": "object",
+            "required": [
+                "user"
+            ],
+            "properties": {
+                "user": {
+                    "$ref": "#/definitions/entity.User"
+                }
+            }
         },
         "contract.UpdateUserInfoResponse": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "base_response": {
+                    "$ref": "#/definitions/contract.BaseResponse"
+                }
+            }
         },
         "entity.User": {
             "type": "object",
             "required": [
                 "name",
-                "password",
                 "user_id"
             ],
             "properties": {
                 "name": {
                     "type": "string"
                 },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entity.UserAuth": {
+            "type": "object",
+            "required": [
+                "password",
+                "user_id"
+            ],
+            "properties": {
                 "password": {
                     "type": "string"
                 },
