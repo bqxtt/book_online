@@ -15,8 +15,7 @@ service UserService {
 }
 
 message RegisterRequest {
-  User user = 1;
-  UserAuth user_auth = 2;
+  UserAuth user_auth = 1;
 }
 
 message RegisterReply {

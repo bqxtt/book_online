@@ -1,0 +1,7 @@
+package common
+
+const (
+	REPLY_STATUS_UNKNOWN int32 = 0
+	REPLY_STATUS_SUCCESS int32 = 1
+	REPLY_STATUS_FAILURE int32 = 2
+)

@@ -4,4 +4,4 @@ protoc -I . --go_out=.  --go_opt=paths=source_relative --go-grpc_out=. --go-grpc
 protoc -I . --go_out=.  --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative base/request_response.proto
 cd ../..
 
-xcopy pkg\sdk\bookpb\* ..\rpc\clients\rpc_book\bookpb\ /s /y
+xcopy pkg\sdk\bookpb\*.go ..\rpc\clients\rpc_book\bookpb\ /s /y

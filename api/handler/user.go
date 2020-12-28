@@ -22,11 +22,11 @@ func Register(c *gin.Context) {
 	request := &contract.RegisterRequest{}
 	if err := c.ShouldBindJSON(request); err != nil {
 		c.JSON(http.StatusBadRequest, &contract.RegisterResponse{
-			BaseResponse: utils.NewFailureResponse("request error, err: %v", err),
+			BaseResponse: utils.NewFailureResponse("request param error, err: %v", err),
 		})
 		return
 	}
-	if err := service.UserService.Register(request.User); err != nil {
+	if err := service.UserService.Register(request.UserAuth); err != nil {
 		c.JSON(http.StatusBadRequest, &contract.RegisterResponse{
 			BaseResponse: utils.NewFailureResponse("user service error, err: %v", err),
 		})
@@ -48,7 +48,19 @@ func Register(c *gin.Context) {
 // @Failure 400 {object} contract.LoginResponse
 // @Router /user/login [post]
 func Login(c *gin.Context) {
-
+	request := &contract.LoginRequest{}
+	if err := c.ShouldBindJSON(request); err != nil {
+		c.JSON(http.StatusBadRequest, &contract.LoginResponse{
+			BaseResponse: utils.NewFailureResponse("request param error, err: %v", err),
+		})
+		return
+	}
+	if err := service.UserService.Login(request.UserAuth); err != nil {
+		c.JSON(http.StatusBadRequest, &contract.LoginResponse{
+			BaseResponse: utils.NewFailureResponse("user service error, err: %v", err),
+		})
+		return
+	}
 }
 
 // @Tags user

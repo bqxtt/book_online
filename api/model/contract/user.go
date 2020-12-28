@@ -3,7 +3,7 @@ package contract
 import "github.com/bqxtt/book_online/api/model/entity"
 
 type RegisterRequest struct {
-	User *entity.User `form:"user" json:"user" binding:"required"`
+	UserAuth *entity.UserAuth `form:"user_auth" json:"user_auth" binding:"required"`
 }
 
 type RegisterResponse struct {
@@ -11,7 +11,7 @@ type RegisterResponse struct {
 }
 
 type LoginRequest struct {
-	User *entity.User `form:"user" json:"user" binding:"required"`
+	UserAuth *entity.UserAuth `form:"user_auth" json:"user_auth" binding:"required"`
 }
 
 type LoginResponse struct {

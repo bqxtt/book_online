@@ -3,10 +3,12 @@ package handler
 import (
 	"context"
 	"github.com/bqxtt/book_online/user/pkg/handler/adapter"
+	"github.com/bqxtt/book_online/user/pkg/model"
 	"github.com/bqxtt/book_online/user/pkg/sdk/base"
 	"github.com/bqxtt/book_online/user/pkg/sdk/userpb"
 	"github.com/bqxtt/book_online/user/pkg/service"
 	"github.com/bqxtt/book_online/user/pkg/utils"
+	"time"
 )
 
 const defaultSuccessMessage = "success"
@@ -35,17 +37,18 @@ func (h *UserHandler) Register(ctx context.Context, request *userpb.RegisterRequ
 		}, nil
 	}
 
-	user, err := adapter.AdaptToModelUser(request.User)
-	if err != nil {
-		return &userpb.RegisterReply{
-			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "failed to adapt pb: %v", err),
-		}, nil
-	}
 	userAuth, err := adapter.AdaptToModelUserAuth(request.UserAuth)
 	if err != nil {
 		return &userpb.RegisterReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "failed to adapt pb: %v", err),
 		}, nil
+	}
+
+	//todo set default user info
+	user := &model.User{
+		UserID:    userAuth.UserID,
+		Name:      "default",
+		CreatedAt: time.Now(),
 	}
 
 	result, err := h.userService.CreateUser(user, userAuth)
