@@ -1,10 +1,83 @@
 definitions:
+  contract.BaseResponse:
+    properties:
+      status_code:
+        type: integer
+      status_info:
+        $ref: '#/definitions/contract.StatusInfo'
+    type: object
+  contract.BorrowBookResponse:
+    type: object
+  contract.CreateBookRequest:
+    type: object
+  contract.CreateBookResponse:
+    type: object
+  contract.DeleteBookResponse:
+    type: object
+  contract.DeleteUserResponse:
+    type: object
+  contract.GetUserInfoResponse:
+    type: object
+  contract.ListAllBookRecordsResponse:
+    type: object
+  contract.ListAllBorrowedBookResponse:
+    type: object
+  contract.ListAllReturnedBookResponse:
+    type: object
+  contract.ListAllUsersResponse:
+    type: object
+  contract.ListBookRecordsResponse:
+    type: object
+  contract.ListBooksResponse:
+    type: object
+  contract.ListBorrowedBookResponse:
+    type: object
+  contract.ListReturnedBookResponse:
+    type: object
+  contract.LoginRequest:
+    properties:
+      user:
+        $ref: '#/definitions/entity.User'
+    required:
+    - user
+    type: object
+  contract.LoginResponse:
+    properties:
+      base_response:
+        $ref: '#/definitions/contract.BaseResponse'
+      role:
+        type: string
+      token:
+        type: string
+    type: object
   contract.RegisterRequest:
     properties:
       user:
         $ref: '#/definitions/entity.User'
     required:
     - user
+    type: object
+  contract.RegisterResponse:
+    properties:
+      base_response:
+        $ref: '#/definitions/contract.BaseResponse'
+    type: object
+  contract.ReturnBookResponse:
+    type: object
+  contract.StatusInfo:
+    properties:
+      message:
+        type: string
+      time:
+        type: integer
+    type: object
+  contract.UpdateBookRequest:
+    type: object
+  contract.UpdateBookResponse:
+    type: object
+  contract.UpdateUserInfoRequest:
+    type: object
+  contract.UpdateUserInfoResponse:
     type: object
   entity.User:
     properties:
@@ -22,7 +95,516 @@ definitions:
 info:
   contact: {}
 paths:
-  /register:
+  /admin/book/create:
+    post:
+      consumes:
+      - application/json
+      description: 新增图书
+      parameters:
+      - description: create book request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/contract.CreateBookRequest'
+      - description: Authentication Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/contract.CreateBookResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/contract.CreateBookResponse'
+      summary: 新增图书
+      tags:
+      - admin
+  /admin/book/delete/{book_id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除图书
+      parameters:
+      - description: delete book id
+        in: path
+        name: book_id
+        required: true
+        type: integer
+      - description: Authentication Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/contract.DeleteBookResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/contract.DeleteBookResponse'
+      summary: 删除图书
+      tags:
+      - admin
+  /admin/book/record/all:
+    get:
+      consumes:
+      - application/json
+      description: 所有用户所有借阅图书记录
+      parameters:
+      - description: Authentication Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/contract.ListAllBookRecordsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/contract.ListAllBookRecordsResponse'
+      summary: 所有用户所有借阅图书记录
+      tags:
+      - admin
+  /admin/book/record/borrow:
+    get:
+      consumes:
+      - application/json
+      description: 所有用户待还图书记录
+      parameters:
+      - description: Authentication Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/contract.ListAllBorrowedBookResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/contract.ListAllBorrowedBookResponse'
+      summary: 所有用户待还图书记录
+      tags:
+      - admin
+  /admin/book/record/return:
+    get:
+      consumes:
+      - application/json
+      description: 所有用户已还图书记录
+      parameters:
+      - description: Authentication Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/contract.ListAllReturnedBookResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/contract.ListAllReturnedBookResponse'
+      summary: 所有用户已还图书记录
+      tags:
+      - admin
+  /admin/book/update:
+    post:
+      consumes:
+      - application/json
+      description: 更改图书
+      parameters:
+      - description: update book request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/contract.UpdateBookRequest'
+      - description: Authentication Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/contract.UpdateBookResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/contract.UpdateBookResponse'
+      summary: 更改图书信息
+      tags:
+      - admin
+  /admin/user/delete/{user_id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除用户
+      parameters:
+      - description: Authentication Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: delete user id
+        in: path
+        name: user_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/contract.DeleteUserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/contract.DeleteUserResponse'
+      summary: 删除用户
+      tags:
+      - admin
+  /admin/user/list:
+    get:
+      consumes:
+      - application/json
+      description: 所有用户
+      parameters:
+      - description: Authentication Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/contract.ListAllUsersResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/contract.ListAllUsersResponse'
+      summary: 获取所有用户
+      tags:
+      - admin
+  /book/borrow/{book_id}:
+    get:
+      consumes:
+      - application/json
+      description: 借阅图书
+      parameters:
+      - description: borrow book id
+        in: path
+        name: book_id
+        required: true
+        type: integer
+      - description: Authentication Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/contract.BorrowBookResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/contract.BorrowBookResponse'
+      summary: 借阅图书
+      tags:
+      - user
+  /book/list/{page}/{page_size}:
+    get:
+      consumes:
+      - application/json
+      description: 分页图书
+      parameters:
+      - description: page
+        in: path
+        name: page
+        required: true
+        type: integer
+      - description: page size
+        in: path
+        name: page_size
+        required: true
+        type: integer
+      - description: Authentication Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/contract.ListBooksResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/contract.ListBooksResponse'
+      summary: 图书列表
+      tags:
+      - user
+  /book/record/all:
+    get:
+      consumes:
+      - application/json
+      description: 所有借阅图书记录
+      parameters:
+      - description: Authentication Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/contract.ListBookRecordsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/contract.ListBookRecordsResponse'
+      summary: 所有借阅图书记录
+      tags:
+      - user
+  /book/record/borrow:
+    get:
+      consumes:
+      - application/json
+      description: 待还图书记录
+      parameters:
+      - description: Authentication Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/contract.ListBorrowedBookResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/contract.ListBorrowedBookResponse'
+      summary: 待还图书记录
+      tags:
+      - user
+  /book/record/return:
+    get:
+      consumes:
+      - application/json
+      description: 已还图书记录
+      parameters:
+      - description: Authentication Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/contract.ListReturnedBookResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/contract.ListReturnedBookResponse'
+      summary: 已还图书记录
+      tags:
+      - user
+  /book/return/{book_id}:
+    get:
+      consumes:
+      - application/json
+      description: 归还图书
+      parameters:
+      - description: return book id
+        in: path
+        name: book_id
+        required: true
+        type: integer
+      - description: Authentication Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/contract.ReturnBookResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/contract.ReturnBookResponse'
+      summary: 归还图书
+      tags:
+      - user
+  /token/admin:
+    get:
+      consumes:
+      - application/json
+      description: 生成管理员token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 生成管理员token
+      tags:
+      - temp
+  /token/user:
+    get:
+      consumes:
+      - application/json
+      description: 生成用户token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 生成用户token
+      tags:
+      - temp
+  /user/info:
+    get:
+      consumes:
+      - application/json
+      description: 用户信息
+      parameters:
+      - description: Authentication Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/contract.GetUserInfoResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/contract.GetUserInfoResponse'
+      summary: 获取用户信息
+      tags:
+      - user
+  /user/info/update:
+    post:
+      consumes:
+      - application/json
+      description: 更新用户信息
+      parameters:
+      - description: update user info request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/contract.UpdateUserInfoRequest'
+      - description: Authentication Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/contract.UpdateUserInfoResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/contract.UpdateUserInfoResponse'
+      summary: 更新用户信息
+      tags:
+      - user
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      description: 用户登录
+      parameters:
+      - description: login request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/contract.LoginRequest'
+      - description: Authentication Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/contract.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/contract.LoginResponse'
+      summary: 登录
+      tags:
+      - user
+  /user/register:
     post:
       consumes:
       - application/json
@@ -34,12 +616,23 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/contract.RegisterRequest'
+      - description: Authentication Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
         "200":
-          description: ok
+          description: OK
           schema:
-            type: string
+            $ref: '#/definitions/contract.RegisterResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/contract.RegisterResponse'
       summary: 注册
+      tags:
+      - user
 swagger: "2.0"
