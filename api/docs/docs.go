@@ -39,6 +39,13 @@ var doc = `{
                 "summary": "新增图书",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "Authentication Token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "description": "create book request",
                         "name": "request",
                         "in": "body",
@@ -46,13 +53,6 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/contract.CreateBookRequest"
                         }
-                    },
-                    {
-                        "type": "string",
-                        "description": "Authentication Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -86,17 +86,17 @@ var doc = `{
                 "summary": "删除图书",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "delete book id",
-                        "name": "book_id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
                         "type": "string",
                         "description": "Authentication Token",
                         "name": "Authorization",
                         "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "delete book id",
+                        "name": "book_id",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -245,6 +245,13 @@ var doc = `{
                 "summary": "更改图书信息",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "Authentication Token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "description": "update book request",
                         "name": "request",
                         "in": "body",
@@ -252,13 +259,6 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/contract.UpdateBookRequest"
                         }
-                    },
-                    {
-                        "type": "string",
-                        "description": "Authentication Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -369,8 +369,8 @@ var doc = `{
                 }
             }
         },
-        "/book/borrow/{book_id}": {
-            "get": {
+        "/book/borrow": {
+            "post": {
                 "description": "借阅图书",
                 "consumes": [
                     "application/json"
@@ -384,18 +384,20 @@ var doc = `{
                 "summary": "借阅图书",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "borrow book id",
-                        "name": "book_id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
                         "type": "string",
                         "description": "Authentication Token",
                         "name": "Authorization",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "description": "borrow book request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/contract.BorrowBookRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -589,8 +591,8 @@ var doc = `{
                 }
             }
         },
-        "/book/return/{book_id}": {
-            "get": {
+        "/book/return": {
+            "post": {
                 "description": "归还图书",
                 "consumes": [
                     "application/json"
@@ -604,18 +606,20 @@ var doc = `{
                 "summary": "归还图书",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "return book id",
-                        "name": "book_id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
                         "type": "string",
                         "description": "Authentication Token",
                         "name": "Authorization",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "description": "return book request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/contract.ReturnBookRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -780,6 +784,13 @@ var doc = `{
                 "summary": "登录",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "Authentication Token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "description": "login request",
                         "name": "request",
                         "in": "body",
@@ -787,13 +798,6 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/contract.LoginRequest"
                         }
-                    },
-                    {
-                        "type": "string",
-                        "description": "Authentication Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -827,6 +831,13 @@ var doc = `{
                 "summary": "注册",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "Authentication Token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "description": "register request",
                         "name": "request",
                         "in": "body",
@@ -834,13 +845,6 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/contract.RegisterRequest"
                         }
-                    },
-                    {
-                        "type": "string",
-                        "description": "Authentication Token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -872,6 +876,17 @@ var doc = `{
                 }
             }
         },
+        "contract.BorrowBookRequest": {
+            "type": "object",
+            "required": [
+                "book_id"
+            ],
+            "properties": {
+                "book_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "contract.BorrowBookResponse": {
             "type": "object",
             "properties": {
@@ -881,7 +896,12 @@ var doc = `{
             }
         },
         "contract.CreateBookRequest": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "book": {
+                    "$ref": "#/definitions/entity.Book"
+                }
+            }
         },
         "contract.CreateBookResponse": {
             "type": "object",
@@ -923,6 +943,12 @@ var doc = `{
             "properties": {
                 "base_response": {
                     "$ref": "#/definitions/contract.BaseResponse"
+                },
+                "records": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Record"
+                    }
                 }
             }
         },
@@ -931,6 +957,12 @@ var doc = `{
             "properties": {
                 "base_response": {
                     "$ref": "#/definitions/contract.BaseResponse"
+                },
+                "records": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Record"
+                    }
                 }
             }
         },
@@ -939,6 +971,12 @@ var doc = `{
             "properties": {
                 "base_response": {
                     "$ref": "#/definitions/contract.BaseResponse"
+                },
+                "records": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Record"
+                    }
                 }
             }
         },
@@ -976,6 +1014,12 @@ var doc = `{
             "properties": {
                 "base_response": {
                     "$ref": "#/definitions/contract.BaseResponse"
+                },
+                "records": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Record"
+                    }
                 }
             }
         },
@@ -999,6 +1043,15 @@ var doc = `{
             "properties": {
                 "base_response": {
                     "$ref": "#/definitions/contract.BaseResponse"
+                },
+                "books": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Book"
+                    }
+                },
+                "total_page": {
+                    "type": "integer"
                 }
             }
         },
@@ -1007,6 +1060,12 @@ var doc = `{
             "properties": {
                 "base_response": {
                     "$ref": "#/definitions/contract.BaseResponse"
+                },
+                "records": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Record"
+                    }
                 }
             }
         },
@@ -1015,6 +1074,12 @@ var doc = `{
             "properties": {
                 "base_response": {
                     "$ref": "#/definitions/contract.BaseResponse"
+                },
+                "records": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Record"
+                    }
                 }
             }
         },
@@ -1062,6 +1127,9 @@ var doc = `{
                 }
             }
         },
+        "contract.ReturnBookRequest": {
+            "type": "object"
+        },
         "contract.ReturnBookResponse": {
             "type": "object",
             "properties": {
@@ -1082,7 +1150,12 @@ var doc = `{
             }
         },
         "contract.UpdateBookRequest": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "book": {
+                    "$ref": "#/definitions/entity.Book"
+                }
+            }
         },
         "contract.UpdateBookResponse": {
             "type": "object",
@@ -1108,6 +1181,55 @@ var doc = `{
             "properties": {
                 "base_response": {
                     "$ref": "#/definitions/contract.BaseResponse"
+                }
+            }
+        },
+        "entity.Book": {
+            "type": "object",
+            "required": [
+                "author",
+                "book_name",
+                "isbn",
+                "publisher"
+            ],
+            "properties": {
+                "author": {
+                    "type": "string"
+                },
+                "book_id": {
+                    "type": "integer"
+                },
+                "book_name": {
+                    "type": "string"
+                },
+                "category": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "img_url": {
+                    "type": "string"
+                },
+                "isbn": {
+                    "type": "string"
+                },
+                "publisher": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.Record": {
+            "type": "object",
+            "properties": {
+                "book": {
+                    "$ref": "#/definitions/entity.Book"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "userId": {
+                    "type": "integer"
                 }
             }
         },

@@ -15,7 +15,7 @@ import (
 // @Accept  json
 // @Produce json
 // @Param Authorization header string true "Authentication Token"
-// @Param   request {object} contract.BorrowBookRequest true "borrow book request"
+// @Param   request body contract.BorrowBookRequest true "borrow book request"
 // @Success 200 {object} contract.BorrowBookResponse
 // @Failure 400 {object} contract.BorrowBookResponse
 // @Router /book/borrow [post]
@@ -49,7 +49,7 @@ func BorrowBook(c *gin.Context) {
 // @Accept  json
 // @Produce json
 // @Param Authorization header string true "Authentication Token"
-// @Param   request {object} contract.ReturnBookRequest true "return book request"
+// @Param   request body contract.ReturnBookRequest true "return book request"
 // @Success 200 {object} contract.ReturnBookResponse
 // @Failure 400 {object} contract.ReturnBookResponse
 // @Router /book/return [post]

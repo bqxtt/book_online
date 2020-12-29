@@ -6,12 +6,22 @@ definitions:
       status_info:
         $ref: '#/definitions/contract.StatusInfo'
     type: object
+  contract.BorrowBookRequest:
+    properties:
+      book_id:
+        type: integer
+    required:
+    - book_id
+    type: object
   contract.BorrowBookResponse:
     properties:
       base_response:
         $ref: '#/definitions/contract.BaseResponse'
     type: object
   contract.CreateBookRequest:
+    properties:
+      book:
+        $ref: '#/definitions/entity.Book'
     type: object
   contract.CreateBookResponse:
     properties:
@@ -39,16 +49,28 @@ definitions:
     properties:
       base_response:
         $ref: '#/definitions/contract.BaseResponse'
+      records:
+        items:
+          $ref: '#/definitions/entity.Record'
+        type: array
     type: object
   contract.ListAllBorrowedBookResponse:
     properties:
       base_response:
         $ref: '#/definitions/contract.BaseResponse'
+      records:
+        items:
+          $ref: '#/definitions/entity.Record'
+        type: array
     type: object
   contract.ListAllReturnedBookResponse:
     properties:
       base_response:
         $ref: '#/definitions/contract.BaseResponse'
+      records:
+        items:
+          $ref: '#/definitions/entity.Record'
+        type: array
     type: object
   contract.ListAllUsersRequest:
     properties:
@@ -73,6 +95,10 @@ definitions:
     properties:
       base_response:
         $ref: '#/definitions/contract.BaseResponse'
+      records:
+        items:
+          $ref: '#/definitions/entity.Record'
+        type: array
     type: object
   contract.ListBooksRequest:
     properties:
@@ -88,16 +114,30 @@ definitions:
     properties:
       base_response:
         $ref: '#/definitions/contract.BaseResponse'
+      books:
+        items:
+          $ref: '#/definitions/entity.Book'
+        type: array
+      total_page:
+        type: integer
     type: object
   contract.ListBorrowedBookResponse:
     properties:
       base_response:
         $ref: '#/definitions/contract.BaseResponse'
+      records:
+        items:
+          $ref: '#/definitions/entity.Record'
+        type: array
     type: object
   contract.ListReturnedBookResponse:
     properties:
       base_response:
         $ref: '#/definitions/contract.BaseResponse'
+      records:
+        items:
+          $ref: '#/definitions/entity.Record'
+        type: array
     type: object
   contract.LoginRequest:
     properties:
@@ -127,6 +167,8 @@ definitions:
       base_response:
         $ref: '#/definitions/contract.BaseResponse'
     type: object
+  contract.ReturnBookRequest:
+    type: object
   contract.ReturnBookResponse:
     properties:
       base_response:
@@ -140,6 +182,9 @@ definitions:
         type: integer
     type: object
   contract.UpdateBookRequest:
+    properties:
+      book:
+        $ref: '#/definitions/entity.Book'
     type: object
   contract.UpdateBookResponse:
     properties:
@@ -157,6 +202,39 @@ definitions:
     properties:
       base_response:
         $ref: '#/definitions/contract.BaseResponse'
+    type: object
+  entity.Book:
+    properties:
+      author:
+        type: string
+      book_id:
+        type: integer
+      book_name:
+        type: string
+      category:
+        type: string
+      description:
+        type: string
+      img_url:
+        type: string
+      isbn:
+        type: string
+      publisher:
+        type: string
+    required:
+    - author
+    - book_name
+    - isbn
+    - publisher
+    type: object
+  entity.Record:
+    properties:
+      book:
+        $ref: '#/definitions/entity.Book'
+      status:
+        type: integer
+      userId:
+        type: integer
     type: object
   entity.User:
     properties:
@@ -187,17 +265,17 @@ paths:
       - application/json
       description: 新增图书
       parameters:
+      - description: Authentication Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: create book request
         in: body
         name: request
         required: true
         schema:
           $ref: '#/definitions/contract.CreateBookRequest'
-      - description: Authentication Token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -218,16 +296,16 @@ paths:
       - application/json
       description: 删除图书
       parameters:
-      - description: delete book id
-        in: path
-        name: book_id
-        required: true
-        type: integer
       - description: Authentication Token
         in: header
         name: Authorization
         required: true
         type: string
+      - description: delete book id
+        in: path
+        name: book_id
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -323,17 +401,17 @@ paths:
       - application/json
       description: 更改图书
       parameters:
+      - description: Authentication Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: update book request
         in: body
         name: request
         required: true
         schema:
           $ref: '#/definitions/contract.UpdateBookRequest'
-      - description: Authentication Token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -409,22 +487,23 @@ paths:
       summary: 获取所有用户
       tags:
       - admin
-  /book/borrow/{book_id}:
-    get:
+  /book/borrow:
+    post:
       consumes:
       - application/json
       description: 借阅图书
       parameters:
-      - description: borrow book id
-        in: path
-        name: book_id
-        required: true
-        type: integer
       - description: Authentication Token
         in: header
         name: Authorization
         required: true
         type: string
+      - description: borrow book request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/contract.BorrowBookRequest'
       produces:
       - application/json
       responses:
@@ -555,22 +634,23 @@ paths:
       summary: 已还图书记录
       tags:
       - user
-  /book/return/{book_id}:
-    get:
+  /book/return:
+    post:
       consumes:
       - application/json
       description: 归还图书
       parameters:
-      - description: return book id
-        in: path
-        name: book_id
-        required: true
-        type: integer
       - description: Authentication Token
         in: header
         name: Authorization
         required: true
         type: string
+      - description: return book request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/contract.ReturnBookRequest'
       produces:
       - application/json
       responses:
@@ -677,17 +757,17 @@ paths:
       - application/json
       description: 用户登录
       parameters:
+      - description: Authentication Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: login request
         in: body
         name: request
         required: true
         schema:
           $ref: '#/definitions/contract.LoginRequest'
-      - description: Authentication Token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -708,17 +788,17 @@ paths:
       - application/json
       description: 用户注册
       parameters:
+      - description: Authentication Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: register request
         in: body
         name: request
         required: true
         schema:
           $ref: '#/definitions/contract.RegisterRequest'
-      - description: Authentication Token
-        in: header
-        name: Authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
