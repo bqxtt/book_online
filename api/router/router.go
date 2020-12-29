@@ -52,8 +52,8 @@ func Init() {
 			bookRecord.GET("/return", handler.ListReturnedBook)
 			bookRecord.GET("/all", handler.ListBookRecords)
 		}
-		book.GET("/borrow/:bookId", handler.BorrowBook)
-		book.GET("/return/:bookId", handler.ReturnBook)
+		book.POST("/borrow", handler.BorrowBook)
+		book.POST("/return", handler.ReturnBook)
 	}
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
