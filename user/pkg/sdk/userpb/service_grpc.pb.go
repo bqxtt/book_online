@@ -21,6 +21,7 @@ type UserServiceClient interface {
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginReply, error)
 	GetInfo(ctx context.Context, in *GetInfoRequest, opts ...grpc.CallOption) (*GetInfoReply, error)
 	UpdateInfo(ctx context.Context, in *UpdateInfoRequest, opts ...grpc.CallOption) (*UpdateInfoReply, error)
+	ListUsersPaged(ctx context.Context, in *ListUsersPagedRequest, opts ...grpc.CallOption) (*ListUsersPagedReply, error)
 }
 
 type userServiceClient struct {
@@ -67,6 +68,15 @@ func (c *userServiceClient) UpdateInfo(ctx context.Context, in *UpdateInfoReques
 	return out, nil
 }
 
+func (c *userServiceClient) ListUsersPaged(ctx context.Context, in *ListUsersPagedRequest, opts ...grpc.CallOption) (*ListUsersPagedReply, error) {
+	out := new(ListUsersPagedReply)
+	err := c.cc.Invoke(ctx, "/sdk.UserService/ListUsersPaged", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -75,6 +85,7 @@ type UserServiceServer interface {
 	Login(context.Context, *LoginRequest) (*LoginReply, error)
 	GetInfo(context.Context, *GetInfoRequest) (*GetInfoReply, error)
 	UpdateInfo(context.Context, *UpdateInfoRequest) (*UpdateInfoReply, error)
+	ListUsersPaged(context.Context, *ListUsersPagedRequest) (*ListUsersPagedReply, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -93,6 +104,9 @@ func (UnimplementedUserServiceServer) GetInfo(context.Context, *GetInfoRequest) 
 }
 func (UnimplementedUserServiceServer) UpdateInfo(context.Context, *UpdateInfoRequest) (*UpdateInfoReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateInfo not implemented")
+}
+func (UnimplementedUserServiceServer) ListUsersPaged(context.Context, *ListUsersPagedRequest) (*ListUsersPagedReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListUsersPaged not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -179,6 +193,24 @@ func _UserService_UpdateInfo_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_ListUsersPaged_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListUsersPagedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).ListUsersPaged(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/sdk.UserService/ListUsersPaged",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).ListUsersPaged(ctx, req.(*ListUsersPagedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _UserService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "sdk.UserService",
 	HandlerType: (*UserServiceServer)(nil),
@@ -198,6 +230,10 @@ var _UserService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateInfo",
 			Handler:    _UserService_UpdateInfo_Handler,
+		},
+		{
+			MethodName: "ListUsersPaged",
+			Handler:    _UserService_ListUsersPaged_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

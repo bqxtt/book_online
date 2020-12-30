@@ -50,8 +50,8 @@ func (testClient *clientTyp) login(ctx context.Context, id int64, pwdDigest stri
 func (testClient *clientTyp) update(ctx context.Context, id int64, name string) (*model.User, error) {
 	r, err := testClient.UpdateInfo(ctx, &userpb.UpdateInfoRequest{
 		UserInfo: &userpb.User{
-			UserId:    id,
-			Name:      name,
+			UserId: id,
+			Name:   name,
 		},
 	})
 	if err = parseError(r.GetReply(), err); err != nil {
@@ -61,12 +61,8 @@ func (testClient *clientTyp) update(ctx context.Context, id int64, name string) 
 	return adapter.AdaptToModelUser(r.GetResultUserInfo())
 }
 
-func (testClient *clientTyp) register(ctx context.Context, id int64, name string, pwdDigest string) (*model.User, error) {
+func (testClient *clientTyp) register(ctx context.Context, id int64, pwdDigest string) error {
 	r, err := testClient.Register(ctx, &userpb.RegisterRequest{
-		User: &userpb.User{
-			Name:   name,
-			UserId: id,
-		},
 		UserAuth: &userpb.UserAuth{
 			PwdDigest: pwdDigest,
 			UserId:    id,
@@ -74,10 +70,10 @@ func (testClient *clientTyp) register(ctx context.Context, id int64, name string
 	})
 
 	if err = parseError(r.GetReply(), err); err != nil {
-		return nil, fmt.Errorf("failed to register: %v", err)
+		return fmt.Errorf("failed to register: %v", err)
 	}
 
-	return adapter.AdaptToModelUser(r.GetUser())
+	return nil
 }
 
 func parseError(reply *base.BaseReply, err error) error {

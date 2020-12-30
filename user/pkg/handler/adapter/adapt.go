@@ -45,3 +45,17 @@ func AdaptToPbUser(user *model.User) (*userpb.User, error) {
 		CreatedAt: createdAt,
 	}, nil
 }
+
+func AdaptToPbUsers(users []*model.User) ([]*userpb.User, error) {
+	pbUsers := make([]*userpb.User, 0, len(users))
+	for _, user := range users {
+		pbUser, err := AdaptToPbUser(user)
+		if err != nil {
+			return nil, err
+		}
+
+		pbUsers = append(pbUsers, pbUser)
+	}
+
+	return pbUsers, nil
+}

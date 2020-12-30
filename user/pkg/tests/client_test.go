@@ -28,7 +28,6 @@ func Test_All(t *testing.T) {
 
 	Test_clientTyp_register(t)
 	Test_clientTyp_login(t)
-	Test_clientTyp_get(t)
 	Test_clientTyp_update(t)
 	Test_clientTyp_get(t)
 }
@@ -49,31 +48,31 @@ func Test_clientTyp_get(t *testing.T) {
 			name: "normal_get_01",
 			args: args{
 				ctx: testClient.ctx,
-				id: 12,
+				id:  12,
 			},
 			wantErr: false,
 			want: &model.User{
-				UserID:    12,
-				Name:      "bqx",
+				UserID: 12,
+				Name:   "bqx",
 			},
 		},
 		{
 			name: "normal_get_02",
 			args: args{
 				ctx: testClient.ctx,
-				id: 1,
+				id:  1,
 			},
 			wantErr: false,
 			want: &model.User{
-				UserID:    1,
-				Name:      "name",
+				UserID: 1,
+				Name:   "name",
 			},
 		},
 		{
 			name: "error_get_01",
 			args: args{
 				ctx: testClient.ctx,
-				id: 3663,
+				id:  3663,
 			},
 			wantErr: true,
 		},
@@ -107,8 +106,8 @@ func Test_clientTyp_login(t *testing.T) {
 		{
 			name: "normal_login_01",
 			args: args{
-				ctx: testClient.ctx,
-				id: 12,
+				ctx:       testClient.ctx,
+				id:        12,
 				pwdDigest: "123456",
 			},
 			wantErr: false,
@@ -116,8 +115,8 @@ func Test_clientTyp_login(t *testing.T) {
 		{
 			name: "normal_login_02",
 			args: args{
-				ctx: testClient.ctx,
-				id: 1,
+				ctx:       testClient.ctx,
+				id:        1,
 				pwdDigest: "password",
 			},
 			wantErr: false,
@@ -125,8 +124,8 @@ func Test_clientTyp_login(t *testing.T) {
 		{
 			name: "error_login_01",
 			args: args{
-				ctx: testClient.ctx,
-				id: 1,
+				ctx:       testClient.ctx,
+				id:        1,
 				pwdDigest: "123456",
 			},
 			wantErr: true,
@@ -134,8 +133,8 @@ func Test_clientTyp_login(t *testing.T) {
 		{
 			name: "error_login_02",
 			args: args{
-				ctx: testClient.ctx,
-				id: 3663,
+				ctx:       testClient.ctx,
+				id:        3663,
 				pwdDigest: "password",
 			},
 			wantErr: true,
@@ -167,37 +166,26 @@ func Test_clientTyp_register(t *testing.T) {
 		{
 			name: "normal_register_01",
 			args: args{
-				ctx: testClient.ctx,
-				id: 12,
-				name: "bqx",
+				ctx:       testClient.ctx,
+				id:        12,
 				pwdDigest: "123456",
 			},
 			wantErr: false,
-			want: &model.User{
-				UserID:    12,
-				Name:      "bqx",
-			},
 		},
 		{
 			name: "normal_register_02",
 			args: args{
-				ctx: testClient.ctx,
-				id: 1,
-				name: "name",
+				ctx:       testClient.ctx,
+				id:        1,
 				pwdDigest: "password",
 			},
 			wantErr: false,
-			want: &model.User{
-				UserID:    1,
-				Name:      "name",
-			},
 		},
 		{
 			name: "error_register_01",
 			args: args{
-				ctx: testClient.ctx,
-				id: 12,
-				name: "name",
+				ctx:       testClient.ctx,
+				id:        12,
 				pwdDigest: "password",
 			},
 			wantErr: true,
@@ -205,13 +193,10 @@ func Test_clientTyp_register(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := testClient.register(tt.args.ctx, tt.args.id, tt.args.name, tt.args.pwdDigest)
+			err := testClient.register(tt.args.ctx, tt.args.id, tt.args.pwdDigest)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("register() error = %v, wantErr %v", err, tt.wantErr)
 				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("register() got = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -233,60 +218,60 @@ func Test_clientTyp_update(t *testing.T) {
 		{
 			name: "normal_update_01",
 			args: args{
-				ctx: testClient.ctx,
-				id: 12,
+				ctx:  testClient.ctx,
+				id:   12,
 				name: "name",
 			},
 			wantErr: false,
 			want: &model.User{
-				UserID:    12,
-				Name:      "name",
+				UserID: 12,
+				Name:   "name",
 			},
 		},
 		{
 			name: "normal_update_02",
 			args: args{
-				ctx: testClient.ctx,
-				id: 12,
+				ctx:  testClient.ctx,
+				id:   12,
 				name: "bqx",
 			},
 			wantErr: false,
 			want: &model.User{
-				UserID:    12,
-				Name:      "bqx",
+				UserID: 12,
+				Name:   "bqx",
 			},
 		},
 		{
 			name: "normal_update_03",
 			args: args{
-				ctx: testClient.ctx,
-				id: 1,
+				ctx:  testClient.ctx,
+				id:   1,
 				name: "bqx",
 			},
 			wantErr: false,
 			want: &model.User{
-				UserID:    1,
-				Name:      "bqx",
+				UserID: 1,
+				Name:   "bqx",
 			},
 		},
 		{
 			name: "normal_update_04",
 			args: args{
-				ctx: testClient.ctx,
-				id: 1,
+				ctx:  testClient.ctx,
+				id:   1,
 				name: "name",
 			},
 			wantErr: false,
 			want: &model.User{
-				UserID:    1,
-				Name:      "name",
+				UserID: 1,
+				Name:   "name",
 			},
 		},
 		{
 			name: "error_update_01",
 			args: args{
-				ctx: testClient.ctx,
-				id: 3663,
+				ctx:  testClient.ctx,
+				id:   3663,
 				name: "name",
 			},
 			wantErr: true,

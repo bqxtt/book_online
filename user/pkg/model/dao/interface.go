@@ -11,6 +11,8 @@ type UserDAOInterface interface {
 	GetUserByUserId(userId int64) (result *model.User, exists bool, err error)
 	GetUserAuthByUserId(userId int64) (result *model.UserAuth, exists bool, err error)
 	UpdateUserByUserId(userId int64, user *model.User) (result *model.User, err error)
+	ListUsersByLimitOffset(limit int64, offset int64) (results []*model.User, err error)
+	CountUsers() (result int64, err error)
 }
 
 func NewUserDAO(daoType common.DAOType) (UserDAOInterface, error) {

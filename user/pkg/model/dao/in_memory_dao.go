@@ -10,6 +10,28 @@ type InMemoryDao struct {
 	userAuthMap map[int64]*model.UserAuth
 }
 
+// randomly ordered...
+func (in *InMemoryDao) ListUsersByLimitOffset(limit int64, offset int64) (results []*model.User, err error) {
+	var cnt int64 = 1
+	for _, user := range in.userMap {
+		if cnt <= offset {
+			continue
+		}
+		if cnt > offset+limit {
+			break
+		}
+
+		results = append(results, user)
+		cnt++
+	}
+
+	return results, nil
+}
+
+func (in *InMemoryDao) CountUsers() (result int64, err error) {
+	return int64(len(in.userMap)), nil
+}
+
 func NewInMemoryDao() (*InMemoryDao, error) {
 	return &InMemoryDao{
 		userMap:     make(map[int64]*model.User),

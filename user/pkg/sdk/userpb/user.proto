@@ -6,10 +6,18 @@ import "include/google/protobuf/timestamp.proto";
 
 package sdk;
 
+enum USER_ROLE {
+  UNKNOWN = 0;
+  NORMAL = 1;
+  ADMIN = 2;
+}
+
 message User {
-  int64 user_id = 2;
-  string name = 3;
-  google.protobuf.Timestamp created_at=4;
+  int64 user_id = 1;
+  string name = 2;
+  string avatar_url=3;
+  USER_ROLE role = 4;
+  google.protobuf.Timestamp created_at = 5;
 }
 
 message UserAuth {

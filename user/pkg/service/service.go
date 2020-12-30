@@ -5,6 +5,7 @@ import (
 	"github.com/bqxtt/book_online/user/pkg/common"
 	"github.com/bqxtt/book_online/user/pkg/model"
 	"github.com/bqxtt/book_online/user/pkg/model/dao"
+	"github.com/bqxtt/book_online/user/pkg/utils"
 )
 
 type UserService struct {
@@ -69,4 +70,21 @@ func (s *UserService) UpdateUser(user *model.User) (*model.User, error) {
 	}
 
 	return resultUserInfo, nil
+}
+
+// ListUserPaged returns a slice of users, the total number of pages under the pageSize, and an error(if exists).
+func (s *UserService) ListUserPaged(pageNo int64, pageSize int64) ([]*model.User, int64, error) {
+	limit, offset := utils.CalculateLimitOffset(pageNo, pageSize)
+
+	users, err := s.userDAO.ListUsersByLimitOffset(limit, offset)
+	if err != nil {
+		return nil, 0, fmt.Errorf("failed to list users: %v", err)
+	}
+
+	userCount, err := s.userDAO.CountUsers()
+	if err != nil {
+		return nil, 0, fmt.Errorf("failed to get total pages: %v", err)
+	}
+
+	return users, (userCount + pageSize - 1) / pageSize, nil
 }

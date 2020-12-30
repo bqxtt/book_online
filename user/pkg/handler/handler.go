@@ -2,13 +2,14 @@ package handler
 
 import (
 	"context"
+	"fmt"
+	"github.com/bqxtt/book_online/user/pkg/common"
 	"github.com/bqxtt/book_online/user/pkg/handler/adapter"
 	"github.com/bqxtt/book_online/user/pkg/model"
 	"github.com/bqxtt/book_online/user/pkg/sdk/base"
 	"github.com/bqxtt/book_online/user/pkg/sdk/userpb"
 	"github.com/bqxtt/book_online/user/pkg/service"
 	"github.com/bqxtt/book_online/user/pkg/utils"
-	"time"
 )
 
 const defaultSuccessMessage = "success"
@@ -45,29 +46,22 @@ func (h *UserHandler) Register(ctx context.Context, request *userpb.RegisterRequ
 	}
 
 	//todo set default user info
-	user := &model.User{
+	defaultUser := &model.User{
 		UserID:    userAuth.UserID,
-		Name:      "default",
-		CreatedAt: time.Now(),
+		Name:      fmt.Sprint(userAuth.UserID),
+		AvatarURL: common.DefaultUserAvatarURL,
+		Role:      common.UserRole(common.UserRoleNormal),
 	}
 
-	result, err := h.userService.CreateUser(user, userAuth)
+	_, err = h.userService.CreateUser(defaultUser, userAuth)
 	if err != nil {
 		return &userpb.RegisterReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "failed to register user: %v", err),
 		}, nil
 	}
 
-	resultPb, err := adapter.AdaptToPbUser(result)
-	if err != nil {
-		return &userpb.RegisterReply{
-			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "failed to convert to pb: %v", err),
-		}, nil
-	}
-
 	return &userpb.RegisterReply{
 		Reply: utils.PbReplyf(base.REPLY_STATUS_SUCCESS, defaultSuccessMessage),
-		User:  resultPb,
 	}, nil
 }
 
@@ -91,8 +85,23 @@ func (h *UserHandler) Login(ctx context.Context, request *userpb.LoginRequest) (
 		}, nil
 	}
 
+	user, err := h.userService.GetUserByUserId(userAuth.UserID)
+	if err != nil {
+		return &userpb.LoginReply{
+			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "failed to get user info: %v", err),
+		}, nil
+	}
+
+	resultPb, err := adapter.AdaptToPbUser(user)
+	if err != nil {
+		return &userpb.LoginReply{
+			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "failed to convert to pb: %v", err),
+		}, nil
+	}
+
 	return &userpb.LoginReply{
 		Reply: utils.PbReplyf(base.REPLY_STATUS_SUCCESS, defaultSuccessMessage),
+		User:  resultPb,
 	}, nil
 }
 
@@ -155,5 +164,42 @@ func (h *UserHandler) GetInfo(ctx context.Context, request *userpb.GetInfoReques
 	return &userpb.GetInfoReply{
 		Reply: utils.PbReplyf(base.REPLY_STATUS_SUCCESS, defaultSuccessMessage),
 		User:  resultPb,
+	}, nil
+}
+
+func (h *UserHandler) ListUserPaged(ctx context.Context, request *userpb.ListUsersPagedRequest) (*userpb.ListUsersPagedReply, error) {
+	if request == nil {
+		return &userpb.ListUsersPagedReply{
+			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "nil list user paged request pb message"),
+		}, nil
+	}
+
+	pageNo, pageSize := request.GetPage().GetPageNo(), request.GetPage().GetPageSize()
+	if utils.IsValidPagedInfo(pageNo, pageSize) {
+		return &userpb.ListUsersPagedReply{
+			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE,
+				"get invalid page info: pageNo=%v, pageSize=%v", pageNo, pageSize),
+		}, nil
+	}
+
+	users, totalPages, err := h.userService.ListUserPaged(pageNo, pageSize)
+	if err != nil {
+		return &userpb.ListUsersPagedReply{
+			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE,
+				"failed to list users pageNo %v pageSize %v: %v", pageNo, pageSize, err),
+		}, nil
+	}
+
+	resultPb, err := adapter.AdaptToPbUsers(users)
+	if err != nil {
+		return &userpb.ListUsersPagedReply{
+			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "failed to convert to pb: %v", err),
+		}, nil
+	}
+
+	return &userpb.ListUsersPagedReply{
+		Reply:      utils.PbReplyf(base.REPLY_STATUS_SUCCESS, defaultSuccessMessage),
+		Users:      resultPb,
+		TotalPages: totalPages,
 	}, nil
 }
