@@ -32,7 +32,8 @@ message GetBooksByPageRequest {
 
 message GetBooksByPageResponse {
   repeated Book books = 1;
-  base.BaseReply base_reply = 2;
+  int32 total_pages = 2;
+  base.BaseReply base_reply = 3;
 }
 
 message GetBookByIdRequest {

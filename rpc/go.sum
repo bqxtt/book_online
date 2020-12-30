@@ -1,7 +1,9 @@
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
-github.com/bqxtt/book_online/user v0.0.0-20201225042454-211f53b0d448 h1:SdAQgsB+AdxW9VNR/NduZ18cOYV4N/KOm6W0puiCs/o=
-github.com/bqxtt/book_online/user v0.0.0-20201225042454-211f53b0d448/go.mod h1:xpLI/qTEYN1zkxxMb9WL4H5B5ZldxK/iGtukUJJq1t0=
+github.com/bqxtt/book_online/book v0.0.0-20201230134400-cebe5ed17b7a h1:SGf2sZeraeRza9CVdYrdgVieGVdcRaz/kuqex9NQfnc=
+github.com/bqxtt/book_online/book v0.0.0-20201230134400-cebe5ed17b7a/go.mod h1:4WxknskiUshzbAD+IM+EWrCXTXHOFlpFowyq+3MzKDI=
+github.com/bqxtt/book_online/user v0.0.0-20201230134400-cebe5ed17b7a h1:4meIUQyVZaXS+16sDJ8xH+UiSpp9v/wQAvBFFDPjeMQ=
+github.com/bqxtt/book_online/user v0.0.0-20201230134400-cebe5ed17b7a/go.mod h1:nCfj9ETBC6UX4Ve+FrY87wIwSk6POF0Rk24Roh1ujgE=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/cncf/udpa/go v0.0.0-20200629203442-efcf912fb354/go.mod h1:WmhPx2Nbnhtbo57+VJT5O0JRkEi1Wbu0z5j0R8u5Hbk=
@@ -71,6 +73,7 @@ google.golang.org/grpc v1.25.1/go.mod h1:c3i+UQWmh7LiEpx4sFZnkU36qjEYZ0imhYfXVyQ
 google.golang.org/grpc v1.27.0/go.mod h1:qbnxyOmOxrQa7FizSgH+ReBfzJrCY1pSN7KXBS8abTk=
 google.golang.org/grpc v1.34.0 h1:raiipEjMOIC/TO2AvyTxP25XFdLxNIBwzDh3FM3XztI=
 google.golang.org/grpc v1.34.0/go.mod h1:WotjhfgOW/POjDeRt8vscBtXq+2VjORFy659qA51WJ8=
+google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.0.1/go.mod h1:6Kw0yEErY5E/yWrBtf03jp27GLLJujG4z/JK95pnjjw=
 google.golang.org/protobuf v0.0.0-20200109180630-ec00e32a8dfd/go.mod h1:DFci5gLYBciE7Vtevhsrf46CRTquxDuWsQurQQe4oz8=
 google.golang.org/protobuf v0.0.0-20200221191635-4d8936d0db64/go.mod h1:kwYJMbMJ01Woi6D6+Kah6886xMZcty6N08ah7+eCXa0=
 google.golang.org/protobuf v0.0.0-20200228230310-ab0ca4ff8a60/go.mod h1:cfTl7dwQJ+fmap5saPgwCLgHXTUD7jkjRqWcaiX5VyM=

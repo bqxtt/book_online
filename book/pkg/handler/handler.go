@@ -53,7 +53,7 @@ func (bh *BookHandler) GetBooksByPage(ctx context.Context, request *bookpb.GetBo
 		}, nil
 	}
 	page, pageSize := request.Page, request.PageSize
-	if page < 0 || pageSize < 0 {
+	if page < 1 || pageSize < 0 {
 		return &bookpb.GetBooksByPageResponse{
 			Books:     nil,
 			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "page or page size is incorrect"),
