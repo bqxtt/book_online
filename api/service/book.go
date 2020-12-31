@@ -41,13 +41,53 @@ func (bs *bookServiceImpl) ListBooksByPage(page int32, pageSize int32) ([]*entit
 }
 
 func (bs *bookServiceImpl) CreateBook(book *entity.Book) error {
-	panic("implement me")
+	request := &bookpb.CreateBookRequest{
+		Book: adapter.EntityBookToRpcBook(book),
+	}
+	resp, err := rpc_book.BookServiceClient.CreateBook(context.Background(), request)
+	if err != nil {
+		return fmt.Errorf("rpc book servcice error, err: %v", err)
+	}
+	if resp == nil {
+		return fmt.Errorf("rpc book service resp is nil")
+	}
+	if resp.BaseReply.Status != 1 {
+		return fmt.Errorf("rpc book service error, err: %v", resp.BaseReply.Message)
+	}
+	return nil
 }
 
 func (bs *bookServiceImpl) UpdateBook(book *entity.Book) error {
-	panic("implement me")
+	request := &bookpb.UpdateBookRequest{
+		Id:   book.BookId,
+		Book: adapter.EntityBookToRpcBook(book),
+	}
+	resp, err := rpc_book.BookServiceClient.UpdateBook(context.Background(), request)
+	if err != nil {
+		return fmt.Errorf("rpc book service error, err: %v", err)
+	}
+	if resp == nil {
+		return fmt.Errorf("rpc book serivce resp is nil")
+	}
+	if resp.BaseReply.Status != 1 {
+		return fmt.Errorf("rpc book service error, err: %v", resp.BaseReply.Message)
+	}
+	return nil
 }
 
 func (bs *bookServiceImpl) DeleteBookById(bookId int64) error {
-	panic("implement me")
+	request := &bookpb.DeleteBookByIdRequest{
+		Id: bookId,
+	}
+	resp, err := rpc_book.BookServiceClient.DeleteBookById(context.Background(), request)
+	if err != nil {
+		return fmt.Errorf("rpc book service error, err: %v", err)
+	}
+	if resp == nil {
+		return fmt.Errorf("rpc book service resp is nil")
+	}
+	if resp.BaseReply.Status != 1 {
+		return fmt.Errorf("rpc book service error, err: %v", err)
+	}
+	return nil
 }

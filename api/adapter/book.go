@@ -17,3 +17,16 @@ func RpcBookToEntityBook(rpcBook *bookpb.Book) *entity.Book {
 		Description: rpcBook.Description,
 	}
 }
+
+func EntityBookToRpcBook(entityBook *entity.Book) *bookpb.Book {
+	return &bookpb.Book{
+		Id:          entityBook.BookId,
+		ISBN:        entityBook.ISBN,
+		BookName:    entityBook.BookName,
+		Publisher:   entityBook.Publisher,
+		Category:    entityBook.Category,
+		Author:      entityBook.Author,
+		ImgUrl:      entityBook.ImgUrl,
+		Description: entityBook.Description,
+	}
+}

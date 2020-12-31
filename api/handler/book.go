@@ -8,6 +8,7 @@ import (
 	"github.com/bqxtt/book_online/api/utils"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 // @Tags user
@@ -39,12 +40,14 @@ func ListBooks(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, &contract.ListBooksResponse{
 			BaseResponse: utils.NewFailureResponse("page or page size is incorrect"),
 		})
+		return
 	}
 	books, totalPages, err := service.BookService.ListBooksByPage(request.Page, request.PageSize)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, &contract.ListBooksResponse{
 			BaseResponse: utils.NewFailureResponse("book service is error, err: %v", err),
 		})
+		return
 	}
 	c.JSON(http.StatusOK, &contract.ListBooksResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
@@ -83,8 +86,15 @@ func CreateBook(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, &contract.CreateBookResponse{
 			BaseResponse: utils.NewFailureResponse("request param error, err: %v", err),
 		})
+		return
 	}
-
+	err := service.BookService.CreateBook(request.Book)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &contract.CreateBookResponse{
+			BaseResponse: utils.NewFailureResponse("book service error, err: %v", err),
+		})
+		return
+	}
 	c.JSON(http.StatusOK, &contract.CreateBookResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
 	})
@@ -121,7 +131,13 @@ func UpdateBook(c *gin.Context) {
 			BaseResponse: utils.NewFailureResponse("request param error, err: %v", err),
 		})
 	}
-
+	err := service.BookService.UpdateBook(request.Book)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &contract.UpdateBookResponse{
+			BaseResponse: utils.NewFailureResponse("book service error, err: %v", err),
+		})
+		return
+	}
 	c.JSON(http.StatusOK, &contract.UpdateBookResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
 	})
@@ -154,7 +170,20 @@ func DeleteBook(c *gin.Context) {
 	}
 	bookId := c.Param("bookId")
 	fmt.Println(bookId)
-
+	id, err := strconv.ParseInt(bookId, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &contract.DeleteBookResponse{
+			BaseResponse: utils.NewFailureResponse("book id parse error, err: %v", err),
+		})
+		return
+	}
+	err = service.BookService.DeleteBookById(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &contract.DeleteBookResponse{
+			BaseResponse: utils.NewFailureResponse("book service error, err: %v", err),
+		})
+		return
+	}
 	c.JSON(http.StatusOK, &contract.DeleteBookResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
 	})
