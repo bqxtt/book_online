@@ -118,7 +118,7 @@ definitions:
         items:
           $ref: '#/definitions/entity.Book'
         type: array
-      total_page:
+      total_pages:
         type: integer
     type: object
   contract.ListBorrowedBookResponse:
@@ -524,16 +524,6 @@ paths:
       - application/json
       description: 分页图书
       parameters:
-      - description: page
-        in: path
-        name: page
-        required: true
-        type: integer
-      - description: page size
-        in: path
-        name: page_size
-        required: true
-        type: integer
       - description: Authentication Token
         in: header
         name: Authorization

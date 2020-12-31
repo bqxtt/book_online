@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%v", common.DefaultUserGRPCHandlerPort))
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%v", common.DefaultBookGRPCHandlerPort))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}

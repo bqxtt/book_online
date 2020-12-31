@@ -17,5 +17,6 @@ func Init() {
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
+	log.Println("user rpc service connect...")
 	UserServiceClient = userpb.NewUserServiceClient(conn)
 }

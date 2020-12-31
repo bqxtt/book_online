@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/bqxtt/book_online/api/auth"
 	"github.com/bqxtt/book_online/api/model/contract"
-	"github.com/bqxtt/book_online/api/model/entity"
+	"github.com/bqxtt/book_online/api/service"
 	"github.com/bqxtt/book_online/api/utils"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -15,8 +15,6 @@ import (
 // @Description 分页图书
 // @Accept  json
 // @Produce json
-// @Param   page path int true "page"
-// @Param   page_size path int true "page size"
 // @Param Authorization header string true "Authentication Token"
 // @Param   request body contract.ListBooksRequest true "list book request"
 // @Success 200 {object} contract.ListBooksResponse
@@ -37,11 +35,21 @@ func ListBooks(c *gin.Context) {
 		})
 		return
 	}
-
+	if request.Page < 1 || request.PageSize < 0 {
+		c.JSON(http.StatusBadRequest, &contract.ListBooksResponse{
+			BaseResponse: utils.NewFailureResponse("page or page size is incorrect"),
+		})
+	}
+	books, totalPages, err := service.BookService.ListBooksByPage(request.Page, request.PageSize)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &contract.ListBooksResponse{
+			BaseResponse: utils.NewFailureResponse("book service is error, err: %v", err),
+		})
+	}
 	c.JSON(http.StatusOK, &contract.ListBooksResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
-		Books:        []*entity.Book{},
-		TotalPage:    10,
+		Books:        books,
+		TotalPages:   totalPages,
 	})
 }
 

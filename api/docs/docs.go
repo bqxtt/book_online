@@ -431,20 +431,6 @@ var doc = `{
                 "summary": "图书列表",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "page",
-                        "name": "page",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "page size",
-                        "name": "page_size",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
                         "type": "string",
                         "description": "Authentication Token",
                         "name": "Authorization",
@@ -1050,7 +1036,7 @@ var doc = `{
                         "$ref": "#/definitions/entity.Book"
                     }
                 },
-                "total_page": {
+                "total_pages": {
                     "type": "integer"
                 }
             }

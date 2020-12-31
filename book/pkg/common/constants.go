@@ -1,7 +1,7 @@
 package common
 
 const (
-	DefaultUserGRPCHandlerPort = 50001
+	DefaultBookGRPCHandlerPort = 50002
 )
 
 type DAOType string

@@ -10,7 +10,7 @@ type ListBooksRequest struct {
 type ListBooksResponse struct {
 	BaseResponse *BaseResponse  `json:"base_response"`
 	Books        []*entity.Book `json:"books"`
-	TotalPage    int64          `json:"total_page"`
+	TotalPages   int32          `json:"total_pages"`
 }
 
 type CreateBookRequest struct {
