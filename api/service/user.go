@@ -6,6 +6,7 @@ import (
 	"github.com/bqxtt/book_online/api/model/entity"
 	"github.com/bqxtt/book_online/rpc/clients/rpc_user"
 	"github.com/bqxtt/book_online/rpc/clients/rpc_user/userpb"
+	"strconv"
 )
 
 type IUserService interface {
@@ -18,9 +19,13 @@ type userServiceImpl struct{}
 var UserService IUserService = &userServiceImpl{}
 
 func (svc *userServiceImpl) Register(user *entity.UserAuth) error {
+	userId, err := strconv.Atoi(user.UserId)
+	if err != nil {
+		return fmt.Errorf("user id error, err: %v", err)
+	}
 	request := &userpb.RegisterRequest{
 		UserAuth: &userpb.UserAuth{
-			UserId:    user.UserId,
+			UserId:    int64(userId),
 			PwdDigest: user.Password,
 		},
 	}
@@ -38,9 +43,13 @@ func (svc *userServiceImpl) Register(user *entity.UserAuth) error {
 }
 
 func (svc *userServiceImpl) Login(userAuth *entity.UserAuth) error {
+	userId, err := strconv.Atoi(userAuth.UserId)
+	if err != nil {
+		return fmt.Errorf("user id error, err: %v", err)
+	}
 	request := &userpb.LoginRequest{
 		UserAuth: &userpb.UserAuth{
-			UserId:    userAuth.UserId,
+			UserId:    int64(userId),
 			PwdDigest: userAuth.Password,
 		},
 	}
