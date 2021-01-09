@@ -1369,6 +1369,10 @@ var doc = `{
                 },
                 "publisher": {
                     "type": "string"
+                },
+                "rent_status": {
+                    "description": "1：未借出 2：已借出",
+                    "type": "integer"
                 }
             }
         },

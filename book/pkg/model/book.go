@@ -5,6 +5,7 @@ import "time"
 type Book struct {
 	ID          int64 `gorm:"primary_key"`
 	Status      int8  //软删除
+	RentStatus  int8
 	ImgUrl      string
 	ISBN        string
 	BookName    string

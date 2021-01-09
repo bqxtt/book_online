@@ -14,6 +14,7 @@ func RpcBookToModelBook(rpcBook *bookpb.Book) *model.Book {
 		Category:    rpcBook.Category,
 		Author:      rpcBook.Author,
 		Description: rpcBook.Description,
+		RentStatus:  int8(rpcBook.RentStatus),
 	}
 }
 
@@ -27,5 +28,6 @@ func ModelBookToRpcBook(modelBook *model.Book) *bookpb.Book {
 		Author:      modelBook.Author,
 		ImgUrl:      modelBook.ImgUrl,
 		Description: modelBook.Description,
+		RentStatus:  int32(modelBook.RentStatus),
 	}
 }

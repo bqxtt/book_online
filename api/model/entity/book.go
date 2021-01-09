@@ -9,4 +9,6 @@ type Book struct {
 	Category    string `form:"category" json:"category"`
 	Author      string `form:"author" json:"author" binding:"required"`
 	Description string `form:"description" json:"description"`
+	//1：未借出 2：已借出
+	RentStatus int8 `form:"rent_status" json:"rent_status"`
 }
