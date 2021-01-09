@@ -3,8 +3,8 @@ package model
 import "time"
 
 type Book struct {
-	ID          int64
-	Status      int8
+	ID          int64 `gorm:"primary_key"`
+	Status      int8  //软删除
 	ImgUrl      string
 	ISBN        string
 	BookName    string
