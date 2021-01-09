@@ -76,7 +76,7 @@ func Init() {
 // @Success 200 {string} string
 // @Router /token/admin [get]
 func getAdminToken(c *gin.Context) {
-	token, err := auth.GenerateToken(10175101201, "admin")
+	token, err := auth.GenerateToken("10175101201", "admin")
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
@@ -94,7 +94,7 @@ func getAdminToken(c *gin.Context) {
 // @Success 200 {string} string
 // @Router /token/user [get]
 func getUserToken(c *gin.Context) {
-	token, err := auth.GenerateToken(10175101201, "user")
+	token, err := auth.GenerateToken("10175101201", "user")
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),

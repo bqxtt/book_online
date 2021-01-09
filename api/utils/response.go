@@ -32,7 +32,7 @@ func NewFailureResponse(format string, args ...interface{}) *contract.BaseRespon
 // just for test
 func NewDefaultUser() *entity.User {
 	return &entity.User{
-		UserId: 10175101201,
+		UserId: "10175101201",
 		Name:   "tcg",
 	}
 }
