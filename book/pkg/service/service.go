@@ -5,6 +5,7 @@ import (
 	"github.com/bqxtt/book_online/book/pkg/common"
 	"github.com/bqxtt/book_online/book/pkg/model"
 	"github.com/bqxtt/book_online/book/pkg/model/dao"
+	"time"
 )
 
 type BookService struct {
@@ -12,7 +13,7 @@ type BookService struct {
 }
 
 func NewBookService() (*BookService, error) {
-	bd, err := dao.NewBookDao(common.DAOTypeInMemory)
+	bd, err := dao.NewBookDao(common.DAOTypeDBDirectConn)
 	return &BookService{
 		bookDao: bd,
 	}, err
@@ -25,12 +26,19 @@ func (bs *BookService) GetAllBooks() ([]*model.Book, error) {
 	return result, nil
 }
 
-func (bs *BookService) GetBooksByPage(page int32, pageSize int32) ([]*model.Book, error) {
+func (bs *BookService) GetBooksByPage(page int32, pageSize int32) ([]*model.Book, *common.PageInfo, error) {
+	count, err := bs.bookDao.GetBooksCount()
+	if err != nil {
+		return nil, nil, fmt.Errorf("fail to get books count, err: %v", err)
+	}
 	result, err := bs.bookDao.GetBooksByPage(page, pageSize)
 	if err != nil {
-		return nil, fmt.Errorf("fail to get books by page, err: %v", err)
+		return nil, nil, fmt.Errorf("fail to get books by page, err: %v", err)
 	}
-	return result, nil
+	return result, &common.PageInfo{
+		TotalPages: (count + pageSize - 1) / pageSize,
+		TotalCount: count,
+	}, nil
 }
 
 func (bs *BookService) GetBookById(id int64) (*model.Book, error) {
@@ -42,6 +50,10 @@ func (bs *BookService) GetBookById(id int64) (*model.Book, error) {
 }
 
 func (bs *BookService) CreateBook(book *model.Book) (*model.Book, error) {
+	book.CreateTime = time.Now()
+	book.UpdateTime = time.Now()
+	book.RentStatus = 1
+	book.Status = int8(common.BOOK_AVALIABLE)
 	result, err := bs.bookDao.CreateBook(book)
 	if err != nil {
 		return nil, fmt.Errorf("fail to create book, err: %v", err)
@@ -50,6 +62,7 @@ func (bs *BookService) CreateBook(book *model.Book) (*model.Book, error) {
 }
 
 func (bs *BookService) UpdateBook(book *model.Book) (*model.Book, error) {
+	book.UpdateTime = time.Now()
 	result, err := bs.bookDao.UpdateBook(book)
 	if err != nil {
 		return nil, fmt.Errorf("fail to update book, err: %v", err)

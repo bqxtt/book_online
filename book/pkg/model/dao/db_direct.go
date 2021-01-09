@@ -67,3 +67,12 @@ func (DB *DBDirectDAO) DeleteBookById(bookId int64) error {
 func (DB *DBDirectDAO) GetAllBooks() ([]*model.Book, error) {
 	panic("implement me")
 }
+
+func (DB *DBDirectDAO) GetBooksCount() (int32, error) {
+	var count int32
+	result := DB.DB.Model(&model.Book{}).Where("status = ?", common.BOOK_AVALIABLE).Count(&count)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+	return count, nil
+}

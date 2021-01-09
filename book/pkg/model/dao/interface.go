@@ -8,6 +8,7 @@ import (
 type IBookDao interface {
 	GetAllBooks() ([]*model.Book, error)
 	GetBooksByPage(page int32, pageSize int32) ([]*model.Book, error)
+	GetBooksCount() (int32, error)
 	GetBookById(id int64) (*model.Book, error)
 	CreateBook(book *model.Book) (*model.Book, error)
 	UpdateBook(book *model.Book) (*model.Book, error)
@@ -17,6 +18,8 @@ type IBookDao interface {
 
 func NewBookDao(daoType common.DAOType) (IBookDao, error) {
 	switch daoType {
+	case common.DAOTypeDBDirectConn:
+		return NewDBDirectDAO()
 	//todo
 	default:
 		return NewInMemoryDAO()

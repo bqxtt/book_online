@@ -12,6 +12,7 @@ require (
 	github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14
 	github.com/swaggo/gin-swagger v1.3.0
 	github.com/swaggo/swag v1.7.0
+	golang.org/x/tools v0.0.0-20201120155355-20be4ac4bd6e
 )
 
 replace github.com/bqxtt/book_online/rpc => ../rpc

@@ -35,3 +35,7 @@ func (in *InMemoryDAO) DeleteBookById(bookId int64) (err error) {
 func (in *InMemoryDAO) GetAllBooks() (books []*model.Book, err error) {
 	panic("implement me")
 }
+
+func (in *InMemoryDAO) GetBooksCount() (int32, error) {
+	panic("implement me")
+}

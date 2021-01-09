@@ -59,7 +59,7 @@ func (bh *BookHandler) GetBooksByPage(ctx context.Context, request *bookpb.GetBo
 			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "page or page size is incorrect"),
 		}, nil
 	}
-	modelBooks, err := bh.bookService.GetBooksByPage(page, pageSize)
+	modelBooks, pageInfo, err := bh.bookService.GetBooksByPage(page, pageSize)
 	if err != nil {
 		return &bookpb.GetBooksByPageResponse{
 			Books:     nil,
@@ -71,8 +71,10 @@ func (bh *BookHandler) GetBooksByPage(ctx context.Context, request *bookpb.GetBo
 		rpcBooks = append(rpcBooks, adapter.ModelBookToRpcBook(modelBook))
 	}
 	return &bookpb.GetBooksByPageResponse{
-		Books:     rpcBooks,
-		BaseReply: utils.NewDefaultSuccessReply(),
+		Books:      rpcBooks,
+		TotalCount: pageInfo.TotalCount,
+		TotalPages: pageInfo.TotalPages,
+		BaseReply:  utils.NewDefaultSuccessReply(),
 	}, nil
 }
 
