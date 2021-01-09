@@ -325,7 +325,7 @@ definitions:
       name:
         type: string
       user_id:
-        type: integer
+        type: string
     required:
     - name
     - user_id
@@ -335,7 +335,7 @@ definitions:
       password:
         type: string
       user_id:
-        type: integer
+        type: string
     required:
     - password
     - user_id
