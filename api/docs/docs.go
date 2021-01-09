@@ -1248,11 +1248,8 @@ var doc = `{
                 "base_response": {
                     "$ref": "#/definitions/contract.BaseResponse"
                 },
-                "role": {
-                    "type": "string"
-                },
-                "token": {
-                    "type": "string"
+                "user_info": {
+                    "$ref": "#/definitions/entity.User"
                 }
             }
         },
@@ -1407,7 +1404,16 @@ var doc = `{
                 "user_id"
             ],
             "properties": {
+                "avatar_url": {
+                    "type": "string"
+                },
                 "name": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "token": {
                     "type": "string"
                 },
                 "user_id": {

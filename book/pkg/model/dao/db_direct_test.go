@@ -11,10 +11,10 @@ func TestBookDB(t *testing.T) {
 		fmt.Println(err)
 		return
 	}
-	book, err := db.GetBookById(1)
+	_, err = db.GetBookById(1)
 	if err != nil {
 		fmt.Print(err)
 		return
 	}
-	fmt.Println(book)
+	//fmt.Println(book)
 }

@@ -222,10 +222,8 @@ definitions:
     properties:
       base_response:
         $ref: '#/definitions/contract.BaseResponse'
-      role:
-        type: string
-      token:
-        type: string
+      user_info:
+        $ref: '#/definitions/entity.User'
     type: object
   contract.RegisterRequest:
     properties:
@@ -322,7 +320,13 @@ definitions:
     type: object
   entity.User:
     properties:
+      avatar_url:
+        type: string
       name:
+        type: string
+      role:
+        type: string
+      token:
         type: string
       user_id:
         type: string

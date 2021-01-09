@@ -16,8 +16,7 @@ type LoginRequest struct {
 
 type LoginResponse struct {
 	BaseResponse *BaseResponse `json:"base_response"`
-	Role         string        `json:"role"`
-	Token        string        `json:"token"`
+	UserInfo     *entity.User  `json:"user_info"`
 }
 
 type GetUserInfoRequest struct {

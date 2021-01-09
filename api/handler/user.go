@@ -5,7 +5,6 @@ import (
 	"github.com/bqxtt/book_online/api/auth"
 	"github.com/bqxtt/book_online/api/model/contract"
 	"github.com/bqxtt/book_online/api/model/entity"
-	"github.com/bqxtt/book_online/api/service"
 	"github.com/bqxtt/book_online/api/utils"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -29,12 +28,12 @@ func Register(c *gin.Context) {
 		})
 		return
 	}
-	if err := service.UserService.Register(request.UserAuth); err != nil {
-		c.JSON(http.StatusBadRequest, &contract.RegisterResponse{
-			BaseResponse: utils.NewFailureResponse("user service error, err: %v", err),
-		})
-		return
-	}
+	//if err := service.UserService.Register(request.UserAuth); err != nil {
+	//	c.JSON(http.StatusBadRequest, &contract.RegisterResponse{
+	//		BaseResponse: utils.NewFailureResponse("user service error, err: %v", err),
+	//	})
+	//	return
+	//}
 	c.JSON(http.StatusOK, &contract.RegisterResponse{
 		BaseResponse: utils.NewSuccessResponse("register success"),
 	})
@@ -67,8 +66,13 @@ func Login(c *gin.Context) {
 	token, _ := auth.GenerateToken(request.UserAuth.UserId, "admin")
 	c.JSON(http.StatusOK, &contract.LoginResponse{
 		BaseResponse: utils.NewSuccessResponse("login success"),
-		Role:         "admin",
-		Token:        token,
+		UserInfo: &entity.User{
+			UserId:    request.UserAuth.UserId,
+			Name:      "default",
+			AvatarUrl: "https://ftp.bmp.ovh/imgs/2021/01/bdd1426b103fd5d3.jpg",
+			Role:      "admin",
+			Token:     token,
+		},
 	})
 }
 

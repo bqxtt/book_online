@@ -1,7 +1,6 @@
 package dao
 
 import (
-	"fmt"
 	"github.com/bqxtt/book_online/book/pkg/model"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -21,21 +20,26 @@ func NewDBDirectDAO() (*DBDirectDAO, error) {
 	}, nil
 }
 
-func (DB *DBDirectDAO) GetBooksByPage(page int32, pageSize int32) (books []*model.Book, err error) {
+func (DB *DBDirectDAO) GetBooksByPage(page int32, pageSize int32) ([]*model.Book, error) {
 	panic("")
 }
 
-func (DB *DBDirectDAO) GetBookById(id int64) (book *model.Book, err error) {
-	err = DB.DB.Where("id = ?", id).Find(book).Error
+func (DB *DBDirectDAO) GetBookById(id int64) (*model.Book, error) {
+	var book = &model.Book{}
+	err := DB.DB.Where("id = ?", id).Find(book).Error
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(book)
+	//fmt.Println(book)
 	return book, nil
 }
 
-func (DB *DBDirectDAO) CreateBook(book *model.Book) (resultBook *model.Book, err error) {
-	panic("implement me")
+func (DB *DBDirectDAO) CreateBook(book *model.Book) (*model.Book, error) {
+	result := DB.DB.Create(book)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return book, nil
 }
 
 func (DB *DBDirectDAO) UpdateBook(book *model.Book) (resultBook *model.Book, err error) {

@@ -1,8 +1,11 @@
 package entity
 
 type User struct {
-	UserId string `form:"user_id" json:"user_id" binding:"required"`
-	Name   string `form:"name" json:"name" binding:"required"`
+	UserId    string `form:"user_id" json:"user_id" binding:"required"`
+	Name      string `form:"name" json:"name" binding:"required"`
+	AvatarUrl string `form:"avatar_url" json:"avatar_url"`
+	Role      string `form:"role" json:"role"`
+	Token     string `form:"token" json:"token"`
 }
 
 type UserAuth struct {
