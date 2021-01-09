@@ -8,9 +8,9 @@ type ListBooksRequest struct {
 }
 
 type ListBooksResponse struct {
-	BaseResponse *BaseResponse  `json:"base_response"`
-	Books        []*entity.Book `json:"books"`
-	TotalPages   int32          `json:"total_pages"`
+	BaseResponse *BaseResponse    `json:"base_response"`
+	Books        []*entity.Book   `json:"books"`
+	PageInfo     *entity.PageInfo `json:"page_info"`
 }
 
 type CreateBookRequest struct {

@@ -117,7 +117,7 @@ var doc = `{
             }
         },
         "/admin/book/record/all": {
-            "get": {
+            "post": {
                 "description": "所有用户所有借阅图书记录",
                 "consumes": [
                     "application/json"
@@ -136,6 +136,15 @@ var doc = `{
                         "name": "Authorization",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "description": "list all book records request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/contract.ListAllBookRecordsRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -155,7 +164,7 @@ var doc = `{
             }
         },
         "/admin/book/record/borrow": {
-            "get": {
+            "post": {
                 "description": "所有用户待还图书记录",
                 "consumes": [
                     "application/json"
@@ -174,6 +183,15 @@ var doc = `{
                         "name": "Authorization",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "description": "list all borrowed book records request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/contract.ListAllBorrowedBookRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -193,7 +211,7 @@ var doc = `{
             }
         },
         "/admin/book/record/return": {
-            "get": {
+            "post": {
                 "description": "所有用户已还图书记录",
                 "consumes": [
                     "application/json"
@@ -212,6 +230,15 @@ var doc = `{
                         "name": "Authorization",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "description": "list all returned book records request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/contract.ListAllReturnedBookRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -464,7 +491,7 @@ var doc = `{
             }
         },
         "/book/record/all": {
-            "get": {
+            "post": {
                 "description": "所有借阅图书记录",
                 "consumes": [
                     "application/json"
@@ -483,6 +510,15 @@ var doc = `{
                         "name": "Authorization",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "description": "list book records request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/contract.ListBookRecordsRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -502,7 +538,7 @@ var doc = `{
             }
         },
         "/book/record/borrow": {
-            "get": {
+            "post": {
                 "description": "待还图书记录",
                 "consumes": [
                     "application/json"
@@ -521,6 +557,15 @@ var doc = `{
                         "name": "Authorization",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "description": "list borrowed book request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/contract.ListBorrowedBookRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -540,7 +585,7 @@ var doc = `{
             }
         },
         "/book/record/return": {
-            "get": {
+            "post": {
                 "description": "已还图书记录",
                 "consumes": [
                     "application/json"
@@ -559,6 +604,15 @@ var doc = `{
                         "name": "Authorization",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "description": "list returned book request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/contract.ListReturnedBookRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -924,17 +978,50 @@ var doc = `{
                 }
             }
         },
+        "contract.ListAllBookRecordsRequest": {
+            "type": "object",
+            "required": [
+                "page",
+                "page_size"
+            ],
+            "properties": {
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                }
+            }
+        },
         "contract.ListAllBookRecordsResponse": {
             "type": "object",
             "properties": {
                 "base_response": {
                     "$ref": "#/definitions/contract.BaseResponse"
                 },
+                "page_info": {
+                    "$ref": "#/definitions/entity.PageInfo"
+                },
                 "records": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/entity.Record"
                     }
+                }
+            }
+        },
+        "contract.ListAllBorrowedBookRequest": {
+            "type": "object",
+            "required": [
+                "page",
+                "page_size"
+            ],
+            "properties": {
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
                 }
             }
         },
@@ -944,6 +1031,9 @@ var doc = `{
                 "base_response": {
                     "$ref": "#/definitions/contract.BaseResponse"
                 },
+                "page_info": {
+                    "$ref": "#/definitions/entity.PageInfo"
+                },
                 "records": {
                     "type": "array",
                     "items": {
@@ -952,11 +1042,29 @@ var doc = `{
                 }
             }
         },
+        "contract.ListAllReturnedBookRequest": {
+            "type": "object",
+            "required": [
+                "page",
+                "page_size"
+            ],
+            "properties": {
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                }
+            }
+        },
         "contract.ListAllReturnedBookResponse": {
             "type": "object",
             "properties": {
                 "base_response": {
                     "$ref": "#/definitions/contract.BaseResponse"
+                },
+                "page_info": {
+                    "$ref": "#/definitions/entity.PageInfo"
                 },
                 "records": {
                     "type": "array",
@@ -995,11 +1103,29 @@ var doc = `{
                 }
             }
         },
+        "contract.ListBookRecordsRequest": {
+            "type": "object",
+            "required": [
+                "page",
+                "page_size"
+            ],
+            "properties": {
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                }
+            }
+        },
         "contract.ListBookRecordsResponse": {
             "type": "object",
             "properties": {
                 "base_response": {
                     "$ref": "#/definitions/contract.BaseResponse"
+                },
+                "page_info": {
+                    "$ref": "#/definitions/entity.PageInfo"
                 },
                 "records": {
                     "type": "array",
@@ -1036,7 +1162,22 @@ var doc = `{
                         "$ref": "#/definitions/entity.Book"
                     }
                 },
-                "total_pages": {
+                "page_info": {
+                    "$ref": "#/definitions/entity.PageInfo"
+                }
+            }
+        },
+        "contract.ListBorrowedBookRequest": {
+            "type": "object",
+            "required": [
+                "page",
+                "page_size"
+            ],
+            "properties": {
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
                     "type": "integer"
                 }
             }
@@ -1047,6 +1188,9 @@ var doc = `{
                 "base_response": {
                     "$ref": "#/definitions/contract.BaseResponse"
                 },
+                "page_info": {
+                    "$ref": "#/definitions/entity.PageInfo"
+                },
                 "records": {
                     "type": "array",
                     "items": {
@@ -1055,11 +1199,29 @@ var doc = `{
                 }
             }
         },
+        "contract.ListReturnedBookRequest": {
+            "type": "object",
+            "required": [
+                "page",
+                "page_size"
+            ],
+            "properties": {
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                }
+            }
+        },
         "contract.ListReturnedBookResponse": {
             "type": "object",
             "properties": {
                 "base_response": {
                     "$ref": "#/definitions/contract.BaseResponse"
+                },
+                "page_info": {
+                    "$ref": "#/definitions/entity.PageInfo"
                 },
                 "records": {
                     "type": "array",
@@ -1114,7 +1276,15 @@ var doc = `{
             }
         },
         "contract.ReturnBookRequest": {
-            "type": "object"
+            "type": "object",
+            "required": [
+                "book_id"
+            ],
+            "properties": {
+                "book_id": {
+                    "type": "integer"
+                }
+            }
         },
         "contract.ReturnBookResponse": {
             "type": "object",
@@ -1202,6 +1372,17 @@ var doc = `{
                 },
                 "publisher": {
                     "type": "string"
+                }
+            }
+        },
+        "entity.PageInfo": {
+            "type": "object",
+            "properties": {
+                "total_count": {
+                    "type": "integer"
+                },
+                "total_pages": {
+                    "type": "integer"
                 }
             }
         },

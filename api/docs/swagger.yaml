@@ -45,28 +45,64 @@ definitions:
       user:
         $ref: '#/definitions/entity.User'
     type: object
+  contract.ListAllBookRecordsRequest:
+    properties:
+      page:
+        type: integer
+      page_size:
+        type: integer
+    required:
+    - page
+    - page_size
+    type: object
   contract.ListAllBookRecordsResponse:
     properties:
       base_response:
         $ref: '#/definitions/contract.BaseResponse'
+      page_info:
+        $ref: '#/definitions/entity.PageInfo'
       records:
         items:
           $ref: '#/definitions/entity.Record'
         type: array
+    type: object
+  contract.ListAllBorrowedBookRequest:
+    properties:
+      page:
+        type: integer
+      page_size:
+        type: integer
+    required:
+    - page
+    - page_size
     type: object
   contract.ListAllBorrowedBookResponse:
     properties:
       base_response:
         $ref: '#/definitions/contract.BaseResponse'
+      page_info:
+        $ref: '#/definitions/entity.PageInfo'
       records:
         items:
           $ref: '#/definitions/entity.Record'
         type: array
     type: object
+  contract.ListAllReturnedBookRequest:
+    properties:
+      page:
+        type: integer
+      page_size:
+        type: integer
+    required:
+    - page
+    - page_size
+    type: object
   contract.ListAllReturnedBookResponse:
     properties:
       base_response:
         $ref: '#/definitions/contract.BaseResponse'
+      page_info:
+        $ref: '#/definitions/entity.PageInfo'
       records:
         items:
           $ref: '#/definitions/entity.Record'
@@ -91,10 +127,22 @@ definitions:
           $ref: '#/definitions/entity.User'
         type: array
     type: object
+  contract.ListBookRecordsRequest:
+    properties:
+      page:
+        type: integer
+      page_size:
+        type: integer
+    required:
+    - page
+    - page_size
+    type: object
   contract.ListBookRecordsResponse:
     properties:
       base_response:
         $ref: '#/definitions/contract.BaseResponse'
+      page_info:
+        $ref: '#/definitions/entity.PageInfo'
       records:
         items:
           $ref: '#/definitions/entity.Record'
@@ -118,22 +166,46 @@ definitions:
         items:
           $ref: '#/definitions/entity.Book'
         type: array
-      total_pages:
+      page_info:
+        $ref: '#/definitions/entity.PageInfo'
+    type: object
+  contract.ListBorrowedBookRequest:
+    properties:
+      page:
         type: integer
+      page_size:
+        type: integer
+    required:
+    - page
+    - page_size
     type: object
   contract.ListBorrowedBookResponse:
     properties:
       base_response:
         $ref: '#/definitions/contract.BaseResponse'
+      page_info:
+        $ref: '#/definitions/entity.PageInfo'
       records:
         items:
           $ref: '#/definitions/entity.Record'
         type: array
     type: object
+  contract.ListReturnedBookRequest:
+    properties:
+      page:
+        type: integer
+      page_size:
+        type: integer
+    required:
+    - page
+    - page_size
+    type: object
   contract.ListReturnedBookResponse:
     properties:
       base_response:
         $ref: '#/definitions/contract.BaseResponse'
+      page_info:
+        $ref: '#/definitions/entity.PageInfo'
       records:
         items:
           $ref: '#/definitions/entity.Record'
@@ -168,6 +240,11 @@ definitions:
         $ref: '#/definitions/contract.BaseResponse'
     type: object
   contract.ReturnBookRequest:
+    properties:
+      book_id:
+        type: integer
+    required:
+    - book_id
     type: object
   contract.ReturnBookResponse:
     properties:
@@ -226,6 +303,13 @@ definitions:
     - book_name
     - isbn
     - publisher
+    type: object
+  entity.PageInfo:
+    properties:
+      total_count:
+        type: integer
+      total_pages:
+        type: integer
     type: object
   entity.Record:
     properties:
@@ -321,7 +405,7 @@ paths:
       tags:
       - admin
   /admin/book/record/all:
-    get:
+    post:
       consumes:
       - application/json
       description: 所有用户所有借阅图书记录
@@ -331,6 +415,12 @@ paths:
         name: Authorization
         required: true
         type: string
+      - description: list all book records request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/contract.ListAllBookRecordsRequest'
       produces:
       - application/json
       responses:
@@ -346,7 +436,7 @@ paths:
       tags:
       - admin
   /admin/book/record/borrow:
-    get:
+    post:
       consumes:
       - application/json
       description: 所有用户待还图书记录
@@ -356,6 +446,12 @@ paths:
         name: Authorization
         required: true
         type: string
+      - description: list all borrowed book records request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/contract.ListAllBorrowedBookRequest'
       produces:
       - application/json
       responses:
@@ -371,7 +467,7 @@ paths:
       tags:
       - admin
   /admin/book/record/return:
-    get:
+    post:
       consumes:
       - application/json
       description: 所有用户已还图书记录
@@ -381,6 +477,12 @@ paths:
         name: Authorization
         required: true
         type: string
+      - description: list all returned book records request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/contract.ListAllReturnedBookRequest'
       produces:
       - application/json
       responses:
@@ -550,7 +652,7 @@ paths:
       tags:
       - user
   /book/record/all:
-    get:
+    post:
       consumes:
       - application/json
       description: 所有借阅图书记录
@@ -560,6 +662,12 @@ paths:
         name: Authorization
         required: true
         type: string
+      - description: list book records request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/contract.ListBookRecordsRequest'
       produces:
       - application/json
       responses:
@@ -575,7 +683,7 @@ paths:
       tags:
       - user
   /book/record/borrow:
-    get:
+    post:
       consumes:
       - application/json
       description: 待还图书记录
@@ -585,6 +693,12 @@ paths:
         name: Authorization
         required: true
         type: string
+      - description: list borrowed book request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/contract.ListBorrowedBookRequest'
       produces:
       - application/json
       responses:
@@ -600,7 +714,7 @@ paths:
       tags:
       - user
   /book/record/return:
-    get:
+    post:
       consumes:
       - application/json
       description: 已还图书记录
@@ -610,6 +724,12 @@ paths:
         name: Authorization
         required: true
         type: string
+      - description: list returned book request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/contract.ListReturnedBookRequest'
       produces:
       - application/json
       responses:

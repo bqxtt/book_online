@@ -7,7 +7,7 @@ import (
 )
 
 func Init() {
-	initRpc()
+	//initRpc()
 	router.Init()
 }
 

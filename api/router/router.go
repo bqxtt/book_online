@@ -36,9 +36,9 @@ func Init() {
 			adminBook.POST("/create", handler.CreateBook)
 			bookRecord := adminBook.Group("/record")
 			{
-				bookRecord.GET("/borrow", handler.ListAllBorrowedBook)
-				bookRecord.GET("/return", handler.ListAllReturnedBook)
-				bookRecord.GET("/all", handler.ListAllBookRecords)
+				bookRecord.POST("/borrow", handler.ListAllBorrowedBook)
+				bookRecord.POST("/return", handler.ListAllReturnedBook)
+				bookRecord.POST("/all", handler.ListAllBookRecords)
 			}
 		}
 	}
@@ -48,9 +48,9 @@ func Init() {
 		book.POST("/list", handler.ListBooks)
 		bookRecord := book.Group("/record")
 		{
-			bookRecord.GET("/borrow", handler.ListBorrowedBook)
-			bookRecord.GET("/return", handler.ListReturnedBook)
-			bookRecord.GET("/all", handler.ListBookRecords)
+			bookRecord.POST("/borrow", handler.ListBorrowedBook)
+			bookRecord.POST("/return", handler.ListReturnedBook)
+			bookRecord.POST("/all", handler.ListBookRecords)
 		}
 		book.POST("/borrow", handler.BorrowBook)
 		book.POST("/return", handler.ReturnBook)

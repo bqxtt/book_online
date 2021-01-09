@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/bqxtt/book_online/api/auth"
 	"github.com/bqxtt/book_online/api/model/contract"
+	"github.com/bqxtt/book_online/api/model/entity"
 	"github.com/bqxtt/book_online/api/utils"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -83,9 +84,10 @@ func ReturnBook(c *gin.Context) {
 // @Accept  json
 // @Produce json
 // @Param Authorization header string true "Authentication Token"
+// @Param request body contract.ListBorrowedBookRequest true "list borrowed book request"
 // @Success 200 {object} contract.ListBorrowedBookResponse
 // @Failure 400 {object} contract.ListBorrowedBookResponse
-// @Router /book/record/borrow [get]
+// @Router /book/record/borrow [post]
 func ListBorrowedBook(c *gin.Context) {
 	iClaims, exist := c.Get("auth")
 	if !exist {
@@ -101,6 +103,10 @@ func ListBorrowedBook(c *gin.Context) {
 	c.JSON(http.StatusOK, &contract.ListBorrowedBookResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
 		Records:      nil,
+		PageInfo: &entity.PageInfo{
+			TotalPages: 0,
+			TotalCount: 0,
+		},
 	})
 }
 
@@ -110,9 +116,10 @@ func ListBorrowedBook(c *gin.Context) {
 // @Accept  json
 // @Produce json
 // @Param Authorization header string true "Authentication Token"
+// @Param request body contract.ListReturnedBookRequest true "list returned book request"
 // @Success 200 {object} contract.ListReturnedBookResponse
 // @Failure 400 {object} contract.ListReturnedBookResponse
-// @Router /book/record/return [get]
+// @Router /book/record/return [post]
 func ListReturnedBook(c *gin.Context) {
 	iClaims, exist := c.Get("auth")
 	if !exist {
@@ -128,6 +135,10 @@ func ListReturnedBook(c *gin.Context) {
 	c.JSON(http.StatusOK, &contract.ListReturnedBookResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
 		Records:      nil,
+		PageInfo: &entity.PageInfo{
+			TotalPages: 0,
+			TotalCount: 0,
+		},
 	})
 }
 
@@ -137,9 +148,10 @@ func ListReturnedBook(c *gin.Context) {
 // @Accept  json
 // @Produce json
 // @Param Authorization header string true "Authentication Token"
+// @Param request body contract.ListBookRecordsRequest true "list book records request"
 // @Success 200 {object} contract.ListBookRecordsResponse
 // @Failure 400 {object} contract.ListBookRecordsResponse
-// @Router /book/record/all [get]
+// @Router /book/record/all [post]
 func ListBookRecords(c *gin.Context) {
 	iClaims, exist := c.Get("auth")
 	if !exist {
@@ -155,6 +167,10 @@ func ListBookRecords(c *gin.Context) {
 	c.JSON(http.StatusOK, &contract.ListBookRecordsResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
 		Records:      nil,
+		PageInfo: &entity.PageInfo{
+			TotalPages: 0,
+			TotalCount: 0,
+		},
 	})
 }
 
@@ -164,9 +180,10 @@ func ListBookRecords(c *gin.Context) {
 // @Accept  json
 // @Produce json
 // @Param Authorization header string true "Authentication Token"
+// @Param request body contract.ListAllBorrowedBookRequest true "list all borrowed book records request"
 // @Success 200 {object} contract.ListAllBorrowedBookResponse
 // @Failure 400 {object} contract.ListAllBorrowedBookResponse
-// @Router /admin/book/record/borrow [get]
+// @Router /admin/book/record/borrow [post]
 func ListAllBorrowedBook(c *gin.Context) {
 	iClaims, exist := c.Get("auth")
 	if !exist {
@@ -186,6 +203,10 @@ func ListAllBorrowedBook(c *gin.Context) {
 	c.JSON(http.StatusOK, &contract.ListAllBorrowedBookResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
 		Records:      nil,
+		PageInfo: &entity.PageInfo{
+			TotalPages: 0,
+			TotalCount: 0,
+		},
 	})
 }
 
@@ -195,9 +216,10 @@ func ListAllBorrowedBook(c *gin.Context) {
 // @Accept  json
 // @Produce json
 // @Param Authorization header string true "Authentication Token"
+// @Param request body contract.ListAllReturnedBookRequest true "list all returned book records request"
 // @Success 200 {object} contract.ListAllReturnedBookResponse
 // @Failure 400 {object} contract.ListAllReturnedBookResponse
-// @Router /admin/book/record/return [get]
+// @Router /admin/book/record/return [post]
 func ListAllReturnedBook(c *gin.Context) {
 	iClaims, exist := c.Get("auth")
 	if !exist {
@@ -217,6 +239,10 @@ func ListAllReturnedBook(c *gin.Context) {
 	c.JSON(http.StatusOK, &contract.ListAllReturnedBookResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
 		Records:      nil,
+		PageInfo: &entity.PageInfo{
+			TotalPages: 0,
+			TotalCount: 0,
+		},
 	})
 }
 
@@ -226,9 +252,10 @@ func ListAllReturnedBook(c *gin.Context) {
 // @Accept  json
 // @Produce json
 // @Param Authorization header string true "Authentication Token"
+// @Param request body contract.ListAllBookRecordsRequest true "list all book records request"
 // @Success 200 {object} contract.ListAllBookRecordsResponse
 // @Failure 400 {object} contract.ListAllBookRecordsResponse
-// @Router /admin/book/record/all [get]
+// @Router /admin/book/record/all [post]
 func ListAllBookRecords(c *gin.Context) {
 	iClaims, exist := c.Get("auth")
 	if !exist {
@@ -248,5 +275,9 @@ func ListAllBookRecords(c *gin.Context) {
 	c.JSON(http.StatusOK, &contract.ListAllBookRecordsResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
 		Records:      nil,
+		PageInfo: &entity.PageInfo{
+			TotalPages: 0,
+			TotalCount: 0,
+		},
 	})
 }

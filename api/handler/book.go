@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/bqxtt/book_online/api/auth"
 	"github.com/bqxtt/book_online/api/model/contract"
+	"github.com/bqxtt/book_online/api/model/entity"
 	"github.com/bqxtt/book_online/api/service"
 	"github.com/bqxtt/book_online/api/utils"
 	"github.com/gin-gonic/gin"
@@ -42,7 +43,7 @@ func ListBooks(c *gin.Context) {
 		})
 		return
 	}
-	books, totalPages, err := service.BookService.ListBooksByPage(request.Page, request.PageSize)
+	books, pageInfo, err := service.BookService.ListBooksByPage(request.Page, request.PageSize)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, &contract.ListBooksResponse{
 			BaseResponse: utils.NewFailureResponse("book service is error, err: %v", err),
@@ -52,7 +53,10 @@ func ListBooks(c *gin.Context) {
 	c.JSON(http.StatusOK, &contract.ListBooksResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
 		Books:        books,
-		TotalPages:   totalPages,
+		PageInfo: &entity.PageInfo{
+			TotalPages: pageInfo.TotalPages,
+			TotalCount: pageInfo.TotalCount,
+		},
 	})
 }
 
