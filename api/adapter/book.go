@@ -15,6 +15,7 @@ func RpcBookToEntityBook(rpcBook *bookpb.Book) *entity.Book {
 		Category:    rpcBook.Category,
 		Author:      rpcBook.Author,
 		Description: rpcBook.Description,
+		RentStatus:  int8(rpcBook.RentStatus),
 	}
 }
 
@@ -28,5 +29,6 @@ func EntityBookToRpcBook(entityBook *entity.Book) *bookpb.Book {
 		Author:      entityBook.Author,
 		ImgUrl:      entityBook.ImgUrl,
 		Description: entityBook.Description,
+		RentStatus:  int32(entityBook.RentStatus),
 	}
 }
