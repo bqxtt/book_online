@@ -73,18 +73,26 @@ func (s *UserService) UpdateUser(user *model.User) (*model.User, error) {
 }
 
 // ListUserPaged returns a slice of users, the total number of pages under the pageSize, and an error(if exists).
-func (s *UserService) ListUserPaged(pageNo int64, pageSize int64) ([]*model.User, int64, error) {
+func (s *UserService) ListUserPaged(pageNo int64, pageSize int64) ([]*model.User, int64, int64, error) {
 	limit, offset := utils.CalculateLimitOffset(pageNo, pageSize)
 
 	users, err := s.userDAO.ListUsersByLimitOffset(limit, offset)
 	if err != nil {
-		return nil, 0, fmt.Errorf("failed to list users: %v", err)
+		return nil, 0, 0, fmt.Errorf("failed to list users: %v", err)
 	}
 
 	userCount, err := s.userDAO.CountUsers()
 	if err != nil {
-		return nil, 0, fmt.Errorf("failed to get total pages: %v", err)
+		return nil, 0, 0, fmt.Errorf("failed to get total pages: %v", err)
 	}
 
-	return users, (userCount + pageSize - 1) / pageSize, nil
+	return users, (userCount + pageSize - 1) / pageSize, userCount, nil
+}
+
+func (s *UserService) DeleteUser(userId int64) error {
+	err := s.userDAO.DeleteUserByUserId(userId)
+	if err != nil {
+		return fmt.Errorf("user dao error, err: %v", err)
+	}
+	return nil
 }

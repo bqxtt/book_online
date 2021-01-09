@@ -13,8 +13,11 @@ func AdaptToModelUser(user *userpb.User) (*model.User, error) {
 	}
 
 	return &model.User{
-		UserID: user.UserId,
-		Name:   user.Name,
+		UserID:     user.UserId,
+		Name:       user.Name,
+		Department: user.Department,
+		Class:      user.Class,
+		Motto:      user.Motto,
 	}, nil
 }
 
@@ -40,9 +43,12 @@ func AdaptToPbUser(user *model.User) (*userpb.User, error) {
 	}
 
 	return &userpb.User{
-		UserId:    user.UserID,
-		Name:      user.Name,
-		CreatedAt: createdAt,
+		UserId:     user.UserID,
+		Name:       user.Name,
+		Department: user.Department,
+		Class:      user.Class,
+		Motto:      user.Motto,
+		CreatedAt:  createdAt,
 	}, nil
 }
 

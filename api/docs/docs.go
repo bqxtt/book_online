@@ -1095,6 +1095,9 @@ var doc = `{
                 "base_response": {
                     "$ref": "#/definitions/contract.BaseResponse"
                 },
+                "page_info": {
+                    "$ref": "#/definitions/entity.PageInfo"
+                },
                 "users": {
                     "type": "array",
                     "items": {
@@ -1409,6 +1412,15 @@ var doc = `{
             ],
             "properties": {
                 "avatar_url": {
+                    "type": "string"
+                },
+                "class": {
+                    "type": "string"
+                },
+                "department": {
+                    "type": "string"
+                },
+                "motto": {
                     "type": "string"
                 },
                 "name": {

@@ -82,3 +82,8 @@ func (in *InMemoryDao) UpdateUserByUserId(userId int64, user *model.User) (resul
 	in.userMap[userId] = user
 	return in.userMap[userId], nil
 }
+
+func (in *InMemoryDao) DeleteUserByUserId(userId int64) error {
+	in.userMap[userId] = nil
+	return nil
+}

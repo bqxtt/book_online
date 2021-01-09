@@ -13,6 +13,7 @@ type UserDAOInterface interface {
 	UpdateUserByUserId(userId int64, user *model.User) (result *model.User, err error)
 	ListUsersByLimitOffset(limit int64, offset int64) (results []*model.User, err error)
 	CountUsers() (result int64, err error)
+	DeleteUserByUserId(userId int64) error
 }
 
 func NewUserDAO(daoType common.DAOType) (UserDAOInterface, error) {

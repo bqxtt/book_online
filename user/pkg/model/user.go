@@ -6,11 +6,14 @@ import (
 )
 
 type User struct {
-	ID        int64
-	UserID    int64
-	Name      string
-	AvatarURL string
-	Role      common.UserRole
+	ID         int64
+	UserID     int64
+	Name       string
+	AvatarURL  string
+	Department string
+	Class      string
+	Motto      string
+	Role       common.UserRole
 
 	CreatedAt time.Time
 }

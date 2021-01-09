@@ -15,9 +15,12 @@ enum USER_ROLE {
 message User {
   int64 user_id = 1;
   string name = 2;
-  string avatar_url=3;
+  string avatar_url = 3;
   USER_ROLE role = 4;
-  google.protobuf.Timestamp created_at = 5;
+  string department = 5;
+  string class = 6;
+  string motto = 7;
+  google.protobuf.Timestamp created_at = 8;
 }
 
 message UserAuth {

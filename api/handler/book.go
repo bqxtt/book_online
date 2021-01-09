@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/bqxtt/book_online/api/auth"
 	"github.com/bqxtt/book_online/api/model/contract"
-	"github.com/bqxtt/book_online/api/model/entity"
 	"github.com/bqxtt/book_online/api/service"
 	"github.com/bqxtt/book_online/api/utils"
 	"github.com/gin-gonic/gin"
@@ -53,10 +52,7 @@ func ListBooks(c *gin.Context) {
 	c.JSON(http.StatusOK, &contract.ListBooksResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
 		Books:        books,
-		PageInfo: &entity.PageInfo{
-			TotalPages: pageInfo.TotalPages,
-			TotalCount: pageInfo.TotalCount,
-		},
+		PageInfo:     pageInfo,
 	})
 }
 

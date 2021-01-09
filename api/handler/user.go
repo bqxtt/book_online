@@ -5,6 +5,7 @@ import (
 	"github.com/bqxtt/book_online/api/auth"
 	"github.com/bqxtt/book_online/api/model/contract"
 	"github.com/bqxtt/book_online/api/model/entity"
+	"github.com/bqxtt/book_online/api/service"
 	"github.com/bqxtt/book_online/api/utils"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -86,20 +87,27 @@ func Login(c *gin.Context) {
 // @Failure 400 {object} contract.GetUserInfoResponse
 // @Router /user/info [get]
 func GetUserInfo(c *gin.Context) {
-	_, exist := c.Get("auth")
+	iClaims, exist := c.Get("auth")
 	if !exist {
 		c.JSON(http.StatusBadRequest, &contract.GetUserInfoResponse{
 			BaseResponse: utils.NewFailureResponse("missing auth header"),
 		})
 		return
 	}
-	//claims := iClaims.(*auth.Claims)
-	//userId := claims.UserId
-	//role := claims.Role
+	claims := iClaims.(*auth.Claims)
+	userId := claims.UserId
+	user, err := service.UserService.GetUserInfo(userId)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &contract.GetUserInfoResponse{
+			BaseResponse: utils.NewFailureResponse("user service error, err: %v", err),
+			User:         nil,
+		})
+		return
+	}
 
 	c.JSON(http.StatusOK, &contract.GetUserInfoResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
-		User:         utils.NewDefaultUser(),
+		User:         user,
 	})
 }
 
@@ -129,10 +137,16 @@ func UpdateUserInfo(c *gin.Context) {
 		})
 		return
 	}
-
+	user, err := service.UserService.UpdateUserInfo(request.User)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &contract.UpdateUserInfoResponse{
+			BaseResponse: utils.NewFailureResponse("user service error, err: %v", err),
+		})
+		return
+	}
 	c.JSON(http.StatusOK, &contract.GetUserInfoResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
-		User:         utils.NewDefaultUser(),
+		User:         user,
 	})
 }
 
@@ -169,10 +183,17 @@ func ListAllUsers(c *gin.Context) {
 		})
 		return
 	}
-
+	users, pageInfo, err := service.UserService.ListUsersByPage(request.Page, request.PageSize)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &contract.ListAllUsersResponse{
+			BaseResponse: utils.NewFailureResponse("user service error, err: %v", err),
+		})
+		return
+	}
 	c.JSON(http.StatusOK, &contract.ListAllUsersResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
-		Users:        []*entity.User{utils.NewDefaultUser(), utils.NewDefaultUser()},
+		Users:        users,
+		PageInfo:     pageInfo,
 	})
 }
 
@@ -203,6 +224,14 @@ func DeleteUser(c *gin.Context) {
 	}
 	userId := c.Param("userId")
 	fmt.Println(userId)
+
+	err := service.UserService.DeleteUser(userId)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &contract.DeleteUserResponse{
+			BaseResponse: utils.NewFailureResponse("user service error, err: %v", err),
+		})
+		return
+	}
 
 	c.JSON(http.StatusOK, &contract.DeleteUserResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),

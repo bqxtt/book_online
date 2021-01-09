@@ -182,7 +182,7 @@ func (h *UserHandler) ListUserPaged(ctx context.Context, request *userpb.ListUse
 		}, nil
 	}
 
-	users, totalPages, err := h.userService.ListUserPaged(pageNo, pageSize)
+	users, totalPages, totalCount, err := h.userService.ListUserPaged(pageNo, pageSize)
 	if err != nil {
 		return &userpb.ListUsersPagedReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE,
@@ -201,5 +201,25 @@ func (h *UserHandler) ListUserPaged(ctx context.Context, request *userpb.ListUse
 		Reply:      utils.PbReplyf(base.REPLY_STATUS_SUCCESS, defaultSuccessMessage),
 		Users:      resultPb,
 		TotalPages: totalPages,
+		TotalCount: totalCount,
+	}, nil
+}
+
+func (h *UserHandler) DeleteUser(ctx context.Context, request *userpb.DeleteUserRequest) (*userpb.DeleteUserReply, error) {
+	if request == nil {
+		return &userpb.DeleteUserReply{
+			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "nil delete user request pb message"),
+		}, nil
+	}
+
+	err := h.userService.DeleteUser(request.UserId)
+	if err != nil {
+		return &userpb.DeleteUserReply{
+			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "failed to delete user, err: %v", err),
+		}, nil
+	}
+
+	return &userpb.DeleteUserReply{
+		Reply: utils.PbReplyf(base.REPLY_STATUS_SUCCESS, defaultSuccessMessage),
 	}, nil
 }

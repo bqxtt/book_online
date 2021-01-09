@@ -122,6 +122,8 @@ definitions:
     properties:
       base_response:
         $ref: '#/definitions/contract.BaseResponse'
+      page_info:
+        $ref: '#/definitions/entity.PageInfo'
       users:
         items:
           $ref: '#/definitions/entity.User'
@@ -324,6 +326,12 @@ definitions:
   entity.User:
     properties:
       avatar_url:
+        type: string
+      class:
+        type: string
+      department:
+        type: string
+      motto:
         type: string
       name:
         type: string

@@ -41,8 +41,9 @@ type ListAllUsersRequest struct {
 }
 
 type ListAllUsersResponse struct {
-	BaseResponse *BaseResponse  `json:"base_response"`
-	Users        []*entity.User `json:"users"`
+	BaseResponse *BaseResponse    `json:"base_response"`
+	Users        []*entity.User   `json:"users"`
+	PageInfo     *entity.PageInfo `json:"page_info"`
 }
 
 type DeleteUserRequest struct {
