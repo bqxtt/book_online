@@ -241,10 +241,10 @@ definitions:
     type: object
   contract.ReturnBookRequest:
     properties:
-      book_id:
+      record_id:
         type: integer
     required:
-    - book_id
+    - record_id
     type: object
   contract.ReturnBookResponse:
     properties:
@@ -322,6 +322,8 @@ definitions:
         type: string
       deadline:
         type: string
+      record_id:
+        type: integer
       returned_at:
         type: string
       status:

@@ -1278,10 +1278,10 @@ var doc = `{
         "contract.ReturnBookRequest": {
             "type": "object",
             "required": [
-                "book_id"
+                "record_id"
             ],
             "properties": {
-                "book_id": {
+                "record_id": {
                     "type": "integer"
                 }
             }
@@ -1401,6 +1401,9 @@ var doc = `{
                 },
                 "deadline": {
                     "type": "string"
+                },
+                "record_id": {
+                    "type": "integer"
                 },
                 "returned_at": {
                     "type": "string"

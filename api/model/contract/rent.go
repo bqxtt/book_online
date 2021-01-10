@@ -11,7 +11,7 @@ type BorrowBookResponse struct {
 }
 
 type ReturnBookRequest struct {
-	BookId int64 `form:"book_id" json:"book_id" binding:"required"`
+	RecordId int64 `form:"record_id" json:"record_id" binding:"required"`
 }
 
 type ReturnBookResponse struct {

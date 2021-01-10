@@ -1,6 +1,7 @@
 package entity
 
 type Record struct {
+	RecordId   int64        `json:"record_id"`
 	UserId     int64        `json:"user_id"`
 	Book       *Book        `json:"book"`
 	BorrowedAt string       `json:"borrowed_at"`
