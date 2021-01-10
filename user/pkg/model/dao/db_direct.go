@@ -23,11 +23,11 @@ func NewDBDirectDAO() (*DBDirectDAO, error) {
 func (DB *DBDirectDAO) CreateUser(user *model.User, userAuth *model.UserAuth) (resultUser *model.User, resultUA *model.UserAuth, err error) {
 	result := DB.DB.Create(user)
 	if result.Error != nil {
-		return nil, nil, err
+		return nil, nil, result.Error
 	}
 	result = result.Create(userAuth)
 	if result.Error != nil {
-		return nil, nil, err
+		return nil, nil, result.Error
 	}
 	return user, userAuth, nil
 }
