@@ -3,7 +3,7 @@ package common
 // TODO: move to envs
 const (
 	DefaultUserGRPCHandlerPort = 50001
-	DefaultUserAvatarURL       = "http://localhost:8080/image/avatar.jpg"
+	DefaultUserAvatarURL       = "https://ftp.bmp.ovh/imgs/2021/01/bdd1426b103fd5d3.jpg"
 	DefaultUserPageSize        = 10
 )
 
