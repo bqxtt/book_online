@@ -18,6 +18,7 @@ func AdaptToModelUser(user *userpb.User) (*model.User, error) {
 		Department: user.Department,
 		Class:      user.Class,
 		Motto:      user.Motto,
+		AvatarUrl:  user.AvatarUrl,
 	}, nil
 }
 
@@ -48,6 +49,8 @@ func AdaptToPbUser(user *model.User) (*userpb.User, error) {
 		Department: user.Department,
 		Class:      user.Class,
 		Motto:      user.Motto,
+		Role:       userpb.USER_ROLE(user.Role),
+		AvatarUrl:  user.AvatarUrl,
 		CreatedAt:  createdAt,
 	}, nil
 }

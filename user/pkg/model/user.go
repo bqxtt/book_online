@@ -7,9 +7,9 @@ import (
 
 type User struct {
 	ID         int64
-	UserID     int64
+	UserID     int64 `gorm:"primary_key"`
 	Name       string
-	AvatarURL  string
+	AvatarUrl  string
 	Department string
 	Class      string
 	Motto      string

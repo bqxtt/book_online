@@ -18,6 +18,8 @@ type UserDAOInterface interface {
 
 func NewUserDAO(daoType common.DAOType) (UserDAOInterface, error) {
 	switch daoType {
+	case common.DAOTypeDBDirectConn:
+		return NewDBDirectDAO()
 	// TODO:
 	default:
 		return NewInMemoryDao()

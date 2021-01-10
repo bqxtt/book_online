@@ -13,7 +13,7 @@ import (
 
 type IUserService interface {
 	Register(userAuth *entity.UserAuth) error
-	Login(userAuth *entity.UserAuth) error
+	Login(userAuth *entity.UserAuth) (*entity.User, error)
 	GetUserInfo(userId string) (*entity.User, error)
 	UpdateUserInfo(user *entity.User) (*entity.User, error)
 	DeleteUser(userId string) error
@@ -48,10 +48,10 @@ func (svc *userServiceImpl) Register(user *entity.UserAuth) error {
 	return nil
 }
 
-func (svc *userServiceImpl) Login(userAuth *entity.UserAuth) error {
+func (svc *userServiceImpl) Login(userAuth *entity.UserAuth) (*entity.User, error) {
 	userId, err := strconv.Atoi(userAuth.UserId)
 	if err != nil {
-		return fmt.Errorf("user id error, err: %v", err)
+		return nil, fmt.Errorf("user id error, err: %v", err)
 	}
 	request := &userpb.LoginRequest{
 		UserAuth: &userpb.UserAuth{
@@ -61,15 +61,15 @@ func (svc *userServiceImpl) Login(userAuth *entity.UserAuth) error {
 	}
 	resp, err := rpc_user.UserServiceClient.Login(context.Background(), request)
 	if err != nil {
-		return fmt.Errorf("rpc user service error, err: %v", err)
+		return nil, fmt.Errorf("rpc user service error, err: %v", err)
 	}
 	if resp == nil {
-		return fmt.Errorf("login response is nil")
+		return nil, fmt.Errorf("login response is nil")
 	}
 	if resp.Reply.Status != 1 {
-		return fmt.Errorf("%v", resp.Reply.Message)
+		return nil, fmt.Errorf("%v", resp.Reply.Message)
 	}
-	return nil
+	return adapter.RpcUserToEntityUser(resp.User), nil
 }
 
 func (svc *userServiceImpl) GetUserInfo(userId string) (*entity.User, error) {

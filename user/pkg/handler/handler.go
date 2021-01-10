@@ -49,7 +49,7 @@ func (h *UserHandler) Register(ctx context.Context, request *userpb.RegisterRequ
 	defaultUser := &model.User{
 		UserID:    userAuth.UserID,
 		Name:      fmt.Sprint(userAuth.UserID),
-		AvatarURL: common.DefaultUserAvatarURL,
+		AvatarUrl: common.DefaultUserAvatarURL,
 		Role:      common.UserRole(common.UserRoleNormal),
 	}
 

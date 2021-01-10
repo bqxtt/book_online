@@ -13,7 +13,7 @@ type UserService struct {
 }
 
 func NewUserService() (*UserService, error) {
-	ud, err := dao.NewUserDAO(common.DAOTypeDefault)
+	ud, err := dao.NewUserDAO(common.DAOTypeDBDirectConn)
 	if err != nil {
 		return nil, err
 	}
@@ -72,7 +72,7 @@ func (s *UserService) UpdateUser(user *model.User) (*model.User, error) {
 	return resultUserInfo, nil
 }
 
-// ListUserPaged returns a slice of users, the total number of pages under the pageSize, and an error(if exists).
+// ListUserPaged returns a slice of users, the total number of pages under the pageSize, the total count of users, and an error(if exists).
 func (s *UserService) ListUserPaged(pageNo int64, pageSize int64) ([]*model.User, int64, int64, error) {
 	limit, offset := utils.CalculateLimitOffset(pageNo, pageSize)
 

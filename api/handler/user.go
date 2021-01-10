@@ -29,12 +29,12 @@ func Register(c *gin.Context) {
 		})
 		return
 	}
-	//if err := service.UserService.Register(request.UserAuth); err != nil {
-	//	c.JSON(http.StatusBadRequest, &contract.RegisterResponse{
-	//		BaseResponse: utils.NewFailureResponse("user service error, err: %v", err),
-	//	})
-	//	return
-	//}
+	if err := service.UserService.Register(request.UserAuth); err != nil {
+		c.JSON(http.StatusBadRequest, &contract.RegisterResponse{
+			BaseResponse: utils.NewFailureResponse("user service error, err: %v", err),
+		})
+		return
+	}
 	c.JSON(http.StatusOK, &contract.RegisterResponse{
 		BaseResponse: utils.NewSuccessResponse("register success"),
 	})
@@ -58,20 +58,22 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
-	//if err := service.UserService.Login(request.UserAuth); err != nil {
-	//	c.JSON(http.StatusBadRequest, &contract.LoginResponse{
-	//		BaseResponse: utils.NewFailureResponse("user service error, err: %v", err),
-	//	})
-	//	return
-	//}
-	token, _ := auth.GenerateToken(request.UserAuth.UserId, "admin")
+	user, err := service.UserService.Login(request.UserAuth)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &contract.LoginResponse{
+			BaseResponse: utils.NewFailureResponse("user service error, err: %v", err),
+		})
+		return
+	}
+
+	token, _ := auth.GenerateToken(user.UserId, user.Role)
 	c.JSON(http.StatusOK, &contract.LoginResponse{
 		BaseResponse: utils.NewSuccessResponse("login success"),
 		UserInfo: &entity.User{
-			UserId:    request.UserAuth.UserId,
-			Name:      "default",
-			AvatarUrl: "https://ftp.bmp.ovh/imgs/2021/01/bdd1426b103fd5d3.jpg",
-			Role:      "admin",
+			UserId:    user.UserId,
+			Name:      user.Name,
+			AvatarUrl: user.AvatarUrl,
+			Role:      user.Role,
 			Token:     token,
 		},
 	})
@@ -122,7 +124,7 @@ func GetUserInfo(c *gin.Context) {
 // @Failure 400 {object} contract.UpdateUserInfoResponse
 // @Router /user/info/update [post]
 func UpdateUserInfo(c *gin.Context) {
-	_, exist := c.Get("auth")
+	iClaims, exist := c.Get("auth")
 	if !exist {
 		c.JSON(http.StatusBadRequest, &contract.GetUserInfoResponse{
 			BaseResponse: utils.NewFailureResponse("missing auth header"),
@@ -137,6 +139,8 @@ func UpdateUserInfo(c *gin.Context) {
 		})
 		return
 	}
+	claims := iClaims.(*auth.Claims)
+	request.User.UserId = claims.UserId
 	user, err := service.UserService.UpdateUserInfo(request.User)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, &contract.UpdateUserInfoResponse{
