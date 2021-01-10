@@ -58,6 +58,7 @@ func NewDefaultRecords(userId int64, status entity.RecordStatus) *entity.Record 
 		BorrowedAt: now.Format("2006-01-02"),
 		ReturnedAt: now.Format("2006-01-02"),
 		Deadline:   now.Format("2006-01-02"),
+		RecordId:   10,
 		Status:     status,
 	}
 }
