@@ -1,6 +1,9 @@
 package dao
 
-import "github.com/bqxtt/book_online/book/pkg/model"
+import (
+	"github.com/bqxtt/book_online/book/pkg/common"
+	"github.com/bqxtt/book_online/book/pkg/model"
+)
 
 type InMemoryDAO struct {
 	BookMap map[int64]*model.Book
@@ -37,5 +40,9 @@ func (in *InMemoryDAO) GetAllBooks() (books []*model.Book, err error) {
 }
 
 func (in *InMemoryDAO) GetBooksCount() (int32, error) {
+	panic("implement me")
+}
+
+func (in *InMemoryDAO) SetBookRentStatus(bookId int64, rentStatus common.BookRentStatus) error {
 	panic("implement me")
 }

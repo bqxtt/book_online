@@ -21,3 +21,10 @@ const (
 	BOOK_AVALIABLE BookStatus = 1
 	BOOK_DELETED   BookStatus = 2
 )
+
+type BookRentStatus int8
+
+const (
+	BOOK_RETURNED BookRentStatus = 1
+	BOOK_BORROWED BookRentStatus = 2
+)

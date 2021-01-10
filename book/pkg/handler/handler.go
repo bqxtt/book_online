@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"fmt"
 	"github.com/bqxtt/book_online/book/pkg/handler/adapter"
 	"github.com/bqxtt/book_online/book/pkg/sdk/base"
 	"github.com/bqxtt/book_online/book/pkg/sdk/bookpb"
@@ -26,14 +27,14 @@ func (bh *BookHandler) GetAllBooks(ctx context.Context, request *bookpb.GetAllBo
 		return &bookpb.GetAllBooksResponse{
 			Books:     nil,
 			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "get all books request is nil"),
-		}, nil
+		}, fmt.Errorf("get all books request is nil")
 	}
 	modelBooks, err := bh.bookService.GetAllBooks()
 	if err != nil {
 		return &bookpb.GetAllBooksResponse{
 			Books:     nil,
 			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "book service get all books error, err: %v", err),
-		}, nil
+		}, err
 	}
 	var rpcBooks []*bookpb.Book
 	for _, modelBook := range modelBooks {
@@ -50,21 +51,21 @@ func (bh *BookHandler) GetBooksByPage(ctx context.Context, request *bookpb.GetBo
 		return &bookpb.GetBooksByPageResponse{
 			Books:     nil,
 			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "get books by page request is nil"),
-		}, nil
+		}, fmt.Errorf("get books by page request is nil")
 	}
 	page, pageSize := request.Page, request.PageSize
 	if page < 1 || pageSize < 0 {
 		return &bookpb.GetBooksByPageResponse{
 			Books:     nil,
 			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "page or page size is incorrect"),
-		}, nil
+		}, fmt.Errorf("page or page size is incorrect")
 	}
 	modelBooks, pageInfo, err := bh.bookService.GetBooksByPage(page, pageSize)
 	if err != nil {
 		return &bookpb.GetBooksByPageResponse{
 			Books:     nil,
 			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "book service get book by page error, err: %v", err),
-		}, nil
+		}, err
 	}
 	var rpcBooks []*bookpb.Book
 	for _, modelBook := range modelBooks {
@@ -83,14 +84,14 @@ func (bh *BookHandler) GetBookById(ctx context.Context, request *bookpb.GetBookB
 		return &bookpb.GetBookByIdResponse{
 			Book:      nil,
 			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "get book by id request is nil"),
-		}, nil
+		}, fmt.Errorf("get book by id request is nil")
 	}
 	modelBook, err := bh.bookService.GetBookById(request.BookId)
 	if err != nil {
 		return &bookpb.GetBookByIdResponse{
 			Book:      nil,
 			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "get book by id error, err: %v", err),
-		}, nil
+		}, err
 	}
 	return &bookpb.GetBookByIdResponse{
 		Book:      adapter.ModelBookToRpcBook(modelBook),
@@ -102,19 +103,19 @@ func (bh *BookHandler) CreateBook(ctx context.Context, request *bookpb.CreateBoo
 	if request == nil {
 		return &bookpb.CreateBookResponse{
 			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "create book request is nil"),
-		}, nil
+		}, fmt.Errorf("create book request is nil")
 	}
 	if request.Book == nil {
 		return &bookpb.CreateBookResponse{
 			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "create book request book is nil"),
-		}, nil
+		}, fmt.Errorf("create book request book is nil")
 	}
 	modelBook := adapter.RpcBookToModelBook(request.Book)
 	result, err := bh.bookService.CreateBook(modelBook)
 	if err != nil {
 		return &bookpb.CreateBookResponse{
 			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "book service create book error, err: %v", err),
-		}, nil
+		}, err
 	}
 	return &bookpb.CreateBookResponse{
 		BaseReply: utils.NewDefaultSuccessReply(),
@@ -126,13 +127,13 @@ func (bh *BookHandler) UpdateBook(ctx context.Context, request *bookpb.UpdateBoo
 	if request == nil {
 		return &bookpb.UpdateBookResponse{
 			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "update book request is nil"),
-		}, nil
+		}, fmt.Errorf("update book request is nil")
 	}
 	bookId, book := request.Id, request.Book
 	if book == nil || bookId < 0 {
 		return &bookpb.UpdateBookResponse{
 			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "update book request book is nil or book id is incorrect"),
-		}, nil
+		}, fmt.Errorf("update book request book is nil or book id is incorrect")
 	}
 	book.Id = bookId
 	modelBook := adapter.RpcBookToModelBook(book)
@@ -140,7 +141,7 @@ func (bh *BookHandler) UpdateBook(ctx context.Context, request *bookpb.UpdateBoo
 	if err != nil {
 		return &bookpb.UpdateBookResponse{
 			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "book service update book error, err: %v", err),
-		}, nil
+		}, err
 	}
 	return &bookpb.UpdateBookResponse{
 		BaseReply: utils.NewDefaultSuccessReply(),
@@ -152,21 +153,75 @@ func (bh *BookHandler) DeleteBookById(ctx context.Context, request *bookpb.Delet
 	if request == nil {
 		return &bookpb.DeleteBookByIdResponse{
 			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "delete book by id request is nil"),
-		}, nil
+		}, fmt.Errorf("delete book by id request is nil")
 	}
 	bookId := request.Id
 	if bookId < 0 {
 		return &bookpb.DeleteBookByIdResponse{
 			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "delete book by id book id is incorrect"),
-		}, nil
+		}, fmt.Errorf("delete book by id book id is incorrect")
 	}
 	err := bh.bookService.DeleteBookById(bookId)
 	if err != nil {
 		return &bookpb.DeleteBookByIdResponse{
 			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "book service delete book error. err: %v", err),
-		}, nil
+		}, err
 	}
 	return &bookpb.DeleteBookByIdResponse{
+		BaseReply: utils.NewDefaultSuccessReply(),
+	}, nil
+}
+
+func (bh *BookHandler) CheckBookBorrowed(ctx context.Context, request *bookpb.CheckBookBorrowedRequest) (*bookpb.CheckBookBorrowedResponse, error) {
+	if request == nil {
+		return &bookpb.CheckBookBorrowedResponse{
+			Borrowed:  false,
+			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "check book borrowed request is nil"),
+		}, fmt.Errorf("check book borrowed request is nil")
+	}
+	borrowed, err := bh.bookService.CheckBookBorrowed(request.BookId)
+	if err != nil {
+		return &bookpb.CheckBookBorrowedResponse{
+			Borrowed:  false,
+			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "book service check book borrowed error, err: %v", err),
+		}, err
+	}
+	return &bookpb.CheckBookBorrowedResponse{
+		Borrowed:  borrowed,
+		BaseReply: utils.NewDefaultSuccessReply(),
+	}, nil
+}
+
+func (bh *BookHandler) SetBookBorrowed(ctx context.Context, request *bookpb.SetBookBorrowedRequest) (*bookpb.SetBookBorrowedResponse, error) {
+	if request == nil {
+		return &bookpb.SetBookBorrowedResponse{
+			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "set book borrowed request is nil"),
+		}, fmt.Errorf("set book borrowed request is nil")
+	}
+	err := bh.bookService.SetBookBorrowed(request.BookId)
+	if err != nil {
+		return &bookpb.SetBookBorrowedResponse{
+			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "book service set book borrowed error, err: %v", err),
+		}, err
+	}
+	return &bookpb.SetBookBorrowedResponse{
+		BaseReply: utils.NewDefaultSuccessReply(),
+	}, nil
+}
+
+func (bh *BookHandler) SetBookReturned(ctx context.Context, request *bookpb.SetBookReturnedRequest) (*bookpb.SetBookReturnedResponse, error) {
+	if request == nil {
+		return &bookpb.SetBookReturnedResponse{
+			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "set book returned request is nil"),
+		}, fmt.Errorf("set book returned request is nil")
+	}
+	err := bh.bookService.SetBookReturned(request.BookId)
+	if err != nil {
+		return &bookpb.SetBookReturnedResponse{
+			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "book service set book returned error, err: %v", err),
+		}, err
+	}
+	return &bookpb.SetBookReturnedResponse{
 		BaseReply: utils.NewDefaultSuccessReply(),
 	}, nil
 }

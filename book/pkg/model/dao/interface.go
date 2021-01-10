@@ -12,6 +12,7 @@ type IBookDao interface {
 	GetBookById(id int64) (*model.Book, error)
 	CreateBook(book *model.Book) (*model.Book, error)
 	UpdateBook(book *model.Book) (*model.Book, error)
+	SetBookRentStatus(bookId int64, rentStatus common.BookRentStatus) error
 	//软删除，status
 	DeleteBookById(bookId int64) error
 }

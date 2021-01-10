@@ -76,3 +76,11 @@ func (DB *DBDirectDAO) GetBooksCount() (int32, error) {
 	}
 	return count, nil
 }
+
+func (DB *DBDirectDAO) SetBookRentStatus(bookId int64, rentStatus common.BookRentStatus) error {
+	result := DB.DB.Model(&model.Book{ID: bookId}).Update("rent_status", rentStatus)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}

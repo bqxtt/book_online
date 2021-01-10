@@ -14,12 +14,35 @@ service BookService {
   rpc CreateBook(CreateBookRequest) returns(CreateBookResponse) {};
   rpc UpdateBook(UpdateBookRequest) returns(UpdateBookResponse) {};
   rpc DeleteBookById(DeleteBookByIdRequest) returns(DeleteBookByIdResponse) {};
+  rpc CheckBookBorrowed(CheckBookBorrowedRequest) returns(CheckBookBorrowedResponse) {};
+  rpc SetBookBorrowed(SetBookBorrowedRequest) returns(SetBookBorrowedResponse) {};
+  rpc SetBookReturned(SetBookReturnedRequest) returns(SetBookReturnedResponse) {};
+}
+
+message CheckBookBorrowedRequest {
+  int64 book_id = 1;
+}
+message CheckBookBorrowedResponse {
+  bool borrowed = 1;
+  base.BaseReply base_reply = 2;
+}
+
+message SetBookBorrowedRequest {
+  int64 book_id = 1;
+}
+message SetBookBorrowedResponse {
+  base.BaseReply base_reply = 1;
+}
+
+message SetBookReturnedRequest {
+  int64 book_id = 1;
+}
+message SetBookReturnedResponse {
+  base.BaseReply base_reply = 1;
 }
 
 message GetAllBooksRequest {
-
 }
-
 message GetAllBooksResponse {
   repeated Book books = 1;
   base.BaseReply base_reply = 2;

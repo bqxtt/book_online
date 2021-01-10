@@ -1,61 +1,86 @@
 syntax = "proto3";
 
-option go_package = "github.com/bqxtt/book_online/user/pkg/sdk/userpb";
+option go_package = "github.com/bqxtt/book_online/rent/pkg/sdk/rentpb";
 
-import "userpb/user.proto";
+import "rentpb/rent.proto";
 import "base/request_response.proto";
+import "include/google/protobuf/timestamp.proto";
 
 package sdk;
 
-service UserService {
-  rpc Register(RegisterRequest) returns (RegisterReply) {}
-  rpc Login(LoginRequest) returns (LoginReply) {};
-  rpc GetInfo(GetInfoRequest) returns (GetInfoReply) {};
-  rpc UpdateInfo(UpdateInfoRequest) returns (UpdateInfoReply) {};
-  rpc ListUsersPaged(ListUsersPagedRequest) returns (ListUsersPagedReply) {};
+service RentService {
+  rpc BorrowBook(BorrowBookRequest) returns (BorrowBookReply) {};
+  rpc ReturnBook(ReturnBookRequest) returns (ReturnBookReply) {};
+  rpc ListBorrowedBook(ListBorrowedBookRequest) returns (ListBorrowedBookReply) {};
+  rpc ListReturnedBook(ListReturnedBookRequest) returns (ListReturnedBookReply) {};
+  rpc ListAllBorrowedBook(ListAllBorrowedBookRequest) returns (ListAllBorrowedBookReply) {};
+  rpc ListAllReturnedBook(ListAllReturnedBookRequest) returns (ListAllReturnedBookReply) {};
+  rpc ListAllBookRecords(ListAllBookRecordsRequest) returns (ListAllBookRecordsReply) {};
 }
 
-message RegisterRequest {
-  UserAuth user_auth = 1;
-}
-
-message RegisterReply {
-  base.BaseReply reply = 1;
-}
-
-message LoginRequest {
-  UserAuth user_auth = 1;
-}
-
-message LoginReply {
-  base.BaseReply reply = 1;
-  User user = 2;
-}
-
-message GetInfoRequest {
+message BorrowBookRequest {
   int64 user_id = 1;
+  int64 book_id = 2;
 }
 
-message GetInfoReply {
+message BorrowBookReply {
   base.BaseReply reply = 1;
-  User user = 2;
+  google.protobuf.Timestamp deadline = 2;
 }
 
-message UpdateInfoRequest {
-  User user_info = 1;
+message ReturnBookRequest {
+  int64 record_id = 1;
 }
 
-message UpdateInfoReply {
+message ReturnBookReply {
   base.BaseReply reply = 1;
-  User result_user_info = 2;
 }
 
-message ListUsersPagedRequest {
+message ListBorrowedBookRequest {
+  int64 user_id = 1;
+  base.Page page = 2;
+}
+
+message ListBorrowedBookReply {
+  base.BaseReply reply = 1;
+  repeated RentRecord records = 2;
+}
+
+message ListReturnedBookRequest {
+  int64 user_id = 1;
+  base.Page page = 2;
+}
+
+message ListReturnedBookReply {
+  base.BaseReply reply = 1;
+  repeated RentRecord records = 2;
+}
+
+message ListAllBorrowedBookRequest {
   base.Page page = 1;
 }
 
-message ListUsersPagedReply {
+message ListAllBorrowedBookReply {
   base.BaseReply reply = 1;
-  repeated User users = 2;
-  int64 total_pages = 3;
+  repeated RentRecord records = 2;
+}
+
+message ListAllReturnedBookRequest {
+  int64 user_id = 1;
+  base.Page page = 2;
+}
+
+message ListAllReturnedBookReply {
+  base.BaseReply reply = 1;
+  repeated RentRecord records = 2;
+}
+
+message ListAllBookRecordsRequest {
+  int64 user_id = 1;
+  base.Page page = 2;
+}
+
+message ListAllBookRecordsReply {
+  base.BaseReply reply = 1;
+  repeated RentRecord records = 2;
 }

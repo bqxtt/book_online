@@ -77,3 +77,27 @@ func (bs *BookService) DeleteBookById(bookId int64) error {
 	}
 	return nil
 }
+
+func (bs *BookService) CheckBookBorrowed(bookId int64) (bool, error) {
+	book, err := bs.bookDao.GetBookById(bookId)
+	if err != nil {
+		return false, err
+	}
+	return common.BookRentStatus(book.RentStatus) == common.BOOK_BORROWED, nil
+}
+
+func (bs *BookService) SetBookBorrowed(bookId int64) error {
+	err := bs.bookDao.SetBookRentStatus(bookId, common.BOOK_BORROWED)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (bs *BookService) SetBookReturned(bookId int64) error {
+	err := bs.bookDao.SetBookRentStatus(bookId, common.BOOK_RETURNED)
+	if err != nil {
+		return err
+	}
+	return nil
+}

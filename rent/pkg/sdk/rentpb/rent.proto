@@ -1,26 +1,17 @@
 syntax = "proto3";
 
-option go_package = "github.com/bqxtt/book_online/user/pkg/sdk/userpb";
+option go_package = "github.com/bqxtt/book_online/rent/pkg/sdk/rentpb";
 
 import "include/google/protobuf/timestamp.proto";
+import "include/bookpb/book.proto";
 
 package sdk;
 
-enum USER_ROLE {
-  UNKNOWN = 0;
-  NORMAL = 1;
-  ADMIN = 2;
-}
-
-message User {
-  int64 user_id = 1;
-  string name = 2;
-  string avatar_url=3;
-  USER_ROLE role = 4;
-  google.protobuf.Timestamp created_at = 5;
-}
-
-message UserAuth {
-  int64 user_id=1;
-  string pwd_digest=2;
+message RentRecord {
+  int64 id = 1;
+  int64 user_id = 2;
+  Book book = 3;
+  google.protobuf.Timestamp borrowed_at = 4;
+  google.protobuf.Timestamp returned_at = 5;
+  google.protobuf.Timestamp deadline = 6;
 }
