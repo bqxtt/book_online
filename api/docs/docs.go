@@ -1396,6 +1396,15 @@ var doc = `{
                 "book": {
                     "$ref": "#/definitions/entity.Book"
                 },
+                "borrowedAt": {
+                    "type": "string"
+                },
+                "deadline": {
+                    "type": "string"
+                },
+                "returnedAt": {
+                    "type": "string"
+                },
                 "status": {
                     "type": "integer"
                 },

@@ -8,6 +8,7 @@ import (
 	"github.com/bqxtt/book_online/api/utils"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 // @Tags user
@@ -99,13 +100,26 @@ func ListBorrowedBook(c *gin.Context) {
 	claims := iClaims.(*auth.Claims)
 	userId := claims.UserId
 	fmt.Println(userId)
+	id, _ := strconv.ParseInt(userId, 10, 64)
+	request := &contract.ListBorrowedBookRequest{}
+	if err := c.ShouldBindJSON(request); err != nil {
+		c.JSON(http.StatusBadRequest, &contract.ListBorrowedBookResponse{
+			BaseResponse: utils.NewFailureResponse("request param error, err: %v", err),
+		})
+		return
+	}
 
 	c.JSON(http.StatusOK, &contract.ListBorrowedBookResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
-		Records:      nil,
+		Records: []*entity.Record{
+			utils.NewDefaultRecords(id, entity.BOOK_BORROWED),
+			utils.NewDefaultRecords(id, entity.BOOK_BORROWED),
+			utils.NewDefaultRecords(id, entity.BOOK_BORROWED),
+			utils.NewDefaultRecords(id, entity.BOOK_BORROWED),
+		},
 		PageInfo: &entity.PageInfo{
-			TotalPages: 0,
-			TotalCount: 0,
+			TotalPages: (4 + request.PageSize - 1) / request.PageSize,
+			TotalCount: 4,
 		},
 	})
 }
@@ -131,13 +145,26 @@ func ListReturnedBook(c *gin.Context) {
 	claims := iClaims.(*auth.Claims)
 	userId := claims.UserId
 	fmt.Println(userId)
+	id, _ := strconv.ParseInt(userId, 10, 64)
+	request := &contract.ListReturnedBookRequest{}
+	if err := c.ShouldBindJSON(request); err != nil {
+		c.JSON(http.StatusBadRequest, &contract.ListReturnedBookResponse{
+			BaseResponse: utils.NewFailureResponse("request param error, err: %v", err),
+		})
+		return
+	}
 
 	c.JSON(http.StatusOK, &contract.ListReturnedBookResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
-		Records:      nil,
+		Records: []*entity.Record{
+			utils.NewDefaultRecords(id, entity.BOOK_RETURNED),
+			utils.NewDefaultRecords(id, entity.BOOK_RETURNED),
+			utils.NewDefaultRecords(id, entity.BOOK_RETURNED),
+			utils.NewDefaultRecords(id, entity.BOOK_RETURNED),
+		},
 		PageInfo: &entity.PageInfo{
-			TotalPages: 0,
-			TotalCount: 0,
+			TotalPages: (4 + request.PageSize - 1) / request.PageSize,
+			TotalCount: 4,
 		},
 	})
 }
@@ -163,13 +190,30 @@ func ListBookRecords(c *gin.Context) {
 	claims := iClaims.(*auth.Claims)
 	userId := claims.UserId
 	fmt.Println(userId)
+	id, _ := strconv.ParseInt(userId, 10, 64)
+	request := &contract.ListBookRecordsRequest{}
+	if err := c.ShouldBindJSON(request); err != nil {
+		c.JSON(http.StatusBadRequest, &contract.ListBookRecordsResponse{
+			BaseResponse: utils.NewFailureResponse("request param error, err: %v", err),
+		})
+		return
+	}
 
 	c.JSON(http.StatusOK, &contract.ListBookRecordsResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
-		Records:      nil,
+		Records: []*entity.Record{
+			utils.NewDefaultRecords(id, entity.BOOK_RETURNED),
+			utils.NewDefaultRecords(id, entity.BOOK_RETURNED),
+			utils.NewDefaultRecords(id, entity.BOOK_RETURNED),
+			utils.NewDefaultRecords(id, entity.BOOK_RETURNED),
+			utils.NewDefaultRecords(id, entity.BOOK_BORROWED),
+			utils.NewDefaultRecords(id, entity.BOOK_BORROWED),
+			utils.NewDefaultRecords(id, entity.BOOK_BORROWED),
+			utils.NewDefaultRecords(id, entity.BOOK_BORROWED),
+		},
 		PageInfo: &entity.PageInfo{
-			TotalPages: 0,
-			TotalCount: 0,
+			TotalPages: (8 + request.PageSize - 1) / request.PageSize,
+			TotalCount: 8,
 		},
 	})
 }
@@ -200,12 +244,25 @@ func ListAllBorrowedBook(c *gin.Context) {
 		return
 	}
 
+	request := &contract.ListAllBorrowedBookRequest{}
+	if err := c.ShouldBindJSON(request); err != nil {
+		c.JSON(http.StatusBadRequest, &contract.ListAllBorrowedBookResponse{
+			BaseResponse: utils.NewFailureResponse("request param error, err: %v", err),
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, &contract.ListAllBorrowedBookResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
-		Records:      nil,
+		Records: []*entity.Record{
+			utils.NewDefaultRecords(1017, entity.BOOK_BORROWED),
+			utils.NewDefaultRecords(1017, entity.BOOK_BORROWED),
+			utils.NewDefaultRecords(1017, entity.BOOK_BORROWED),
+			utils.NewDefaultRecords(1017, entity.BOOK_BORROWED),
+		},
 		PageInfo: &entity.PageInfo{
-			TotalPages: 0,
-			TotalCount: 0,
+			TotalPages: (4 + request.PageSize - 1) / request.PageSize,
+			TotalCount: 4,
 		},
 	})
 }
@@ -235,13 +292,25 @@ func ListAllReturnedBook(c *gin.Context) {
 		})
 		return
 	}
+	request := &contract.ListAllReturnedBookRequest{}
+	if err := c.ShouldBindJSON(request); err != nil {
+		c.JSON(http.StatusBadRequest, &contract.ListAllReturnedBookResponse{
+			BaseResponse: utils.NewFailureResponse("request param error, err: %v", err),
+		})
+		return
+	}
 
 	c.JSON(http.StatusOK, &contract.ListAllReturnedBookResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
-		Records:      nil,
+		Records: []*entity.Record{
+			utils.NewDefaultRecords(1017, entity.BOOK_RETURNED),
+			utils.NewDefaultRecords(1017, entity.BOOK_RETURNED),
+			utils.NewDefaultRecords(1, entity.BOOK_RETURNED),
+			utils.NewDefaultRecords(1, entity.BOOK_RETURNED),
+		},
 		PageInfo: &entity.PageInfo{
-			TotalPages: 0,
-			TotalCount: 0,
+			TotalPages: (4 + request.PageSize - 1) / request.PageSize,
+			TotalCount: 4,
 		},
 	})
 }
@@ -271,13 +340,29 @@ func ListAllBookRecords(c *gin.Context) {
 		})
 		return
 	}
+	request := &contract.ListAllBookRecordsRequest{}
+	if err := c.ShouldBindJSON(request); err != nil {
+		c.JSON(http.StatusBadRequest, &contract.ListAllBookRecordsResponse{
+			BaseResponse: utils.NewFailureResponse("request param error, err: %v", err),
+		})
+		return
+	}
 
 	c.JSON(http.StatusOK, &contract.ListAllBookRecordsResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
-		Records:      nil,
+		Records: []*entity.Record{
+			utils.NewDefaultRecords(1017, entity.BOOK_RETURNED),
+			utils.NewDefaultRecords(1017, entity.BOOK_RETURNED),
+			utils.NewDefaultRecords(1017, entity.BOOK_RETURNED),
+			utils.NewDefaultRecords(1017, entity.BOOK_RETURNED),
+			utils.NewDefaultRecords(1017, entity.BOOK_BORROWED),
+			utils.NewDefaultRecords(1017, entity.BOOK_BORROWED),
+			utils.NewDefaultRecords(1017, entity.BOOK_BORROWED),
+			utils.NewDefaultRecords(1017, entity.BOOK_BORROWED),
+		},
 		PageInfo: &entity.PageInfo{
-			TotalPages: 0,
-			TotalCount: 0,
+			TotalPages: (8 + request.PageSize - 1) / request.PageSize,
+			TotalCount: 8,
 		},
 	})
 }

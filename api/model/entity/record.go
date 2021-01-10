@@ -1,9 +1,14 @@
 package entity
 
+import "time"
+
 type Record struct {
-	UserId int64
-	Book   *Book
-	Status RecordStatus
+	UserId     int64
+	Book       *Book
+	BorrowedAt time.Time
+	ReturnedAt time.Time
+	Deadline   time.Time
+	Status     RecordStatus
 }
 
 type RecordStatus int32
