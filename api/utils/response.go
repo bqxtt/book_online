@@ -51,12 +51,13 @@ func NewDefaultBook() *entity.Book {
 	}
 }
 func NewDefaultRecords(userId int64, status entity.RecordStatus) *entity.Record {
+	now := time.Now()
 	return &entity.Record{
 		UserId:     userId,
 		Book:       NewDefaultBook(),
-		BorrowedAt: time.Now(),
-		ReturnedAt: time.Now(),
-		Deadline:   time.Now(),
+		BorrowedAt: now.Format("2006-01-02"),
+		ReturnedAt: now.Format("2006-01-02"),
+		Deadline:   now.Format("2006-01-02"),
 		Status:     status,
 	}
 }

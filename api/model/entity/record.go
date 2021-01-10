@@ -1,14 +1,12 @@
 package entity
 
-import "time"
-
 type Record struct {
-	UserId     int64
-	Book       *Book
-	BorrowedAt time.Time
-	ReturnedAt time.Time
-	Deadline   time.Time
-	Status     RecordStatus
+	UserId     int64        `json:"user_id"`
+	Book       *Book        `json:"book"`
+	BorrowedAt string       `json:"borrowed_at"`
+	ReturnedAt string       `json:"returned_at"`
+	Deadline   string       `json:"deadline"`
+	Status     RecordStatus `json:"status"`
 }
 
 type RecordStatus int32

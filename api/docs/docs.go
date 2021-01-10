@@ -1396,19 +1396,19 @@ var doc = `{
                 "book": {
                     "$ref": "#/definitions/entity.Book"
                 },
-                "borrowedAt": {
+                "borrowed_at": {
                     "type": "string"
                 },
                 "deadline": {
                     "type": "string"
                 },
-                "returnedAt": {
+                "returned_at": {
                     "type": "string"
                 },
                 "status": {
                     "type": "integer"
                 },
-                "userId": {
+                "user_id": {
                     "type": "integer"
                 }
             }
