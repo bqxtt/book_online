@@ -62,7 +62,7 @@ func BorrowBook(c *gin.Context) {
 
 	c.JSON(http.StatusOK, &contract.BorrowBookResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
-		Deadline:     deadline.Format("2000-01-01"),
+		Deadline:     deadline.Format("2006/01/02"),
 	})
 }
 
