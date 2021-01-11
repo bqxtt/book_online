@@ -4,6 +4,7 @@ go 1.14
 
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
+	github.com/bqxtt/book_online/rent v0.0.0-00010101000000-000000000000
 	github.com/bqxtt/book_online/rpc v0.0.0-00010101000000-000000000000
 	github.com/bqxtt/book_online/user v0.0.0-20210110154121-986ea162dee3
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible

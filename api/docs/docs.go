@@ -932,6 +932,9 @@ var doc = `{
             "properties": {
                 "base_response": {
                     "$ref": "#/definitions/contract.BaseResponse"
+                },
+                "deadline": {
+                    "type": "string"
                 }
             }
         },
@@ -1337,6 +1340,9 @@ var doc = `{
             "properties": {
                 "base_response": {
                     "$ref": "#/definitions/contract.BaseResponse"
+                },
+                "user": {
+                    "$ref": "#/definitions/entity.User"
                 }
             }
         },

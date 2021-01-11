@@ -20,8 +20,8 @@ type ReturnBookResponse struct {
 }
 
 type ListBorrowedBookRequest struct {
-	Page     int32 `form:"page" json:"page" binding:"required"`
-	PageSize int32 `form:"page_size" json:"page_size" binding:"required"`
+	Page     int64 `form:"page" json:"page" binding:"required"`
+	PageSize int64 `form:"page_size" json:"page_size" binding:"required"`
 }
 
 type ListBorrowedBookResponse struct {
@@ -31,8 +31,8 @@ type ListBorrowedBookResponse struct {
 }
 
 type ListReturnedBookRequest struct {
-	Page     int32 `form:"page" json:"page" binding:"required"`
-	PageSize int32 `form:"page_size" json:"page_size" binding:"required"`
+	Page     int64 `form:"page" json:"page" binding:"required"`
+	PageSize int64 `form:"page_size" json:"page_size" binding:"required"`
 }
 
 type ListReturnedBookResponse struct {
@@ -42,8 +42,8 @@ type ListReturnedBookResponse struct {
 }
 
 type ListBookRecordsRequest struct {
-	Page     int32 `form:"page" json:"page" binding:"required"`
-	PageSize int32 `form:"page_size" json:"page_size" binding:"required"`
+	Page     int64 `form:"page" json:"page" binding:"required"`
+	PageSize int64 `form:"page_size" json:"page_size" binding:"required"`
 }
 
 type ListBookRecordsResponse struct {
@@ -53,8 +53,8 @@ type ListBookRecordsResponse struct {
 }
 
 type ListAllBorrowedBookRequest struct {
-	Page     int32 `form:"page" json:"page" binding:"required"`
-	PageSize int32 `form:"page_size" json:"page_size" binding:"required"`
+	Page     int64 `form:"page" json:"page" binding:"required"`
+	PageSize int64 `form:"page_size" json:"page_size" binding:"required"`
 }
 
 type ListAllBorrowedBookResponse struct {
@@ -64,8 +64,8 @@ type ListAllBorrowedBookResponse struct {
 }
 
 type ListAllReturnedBookRequest struct {
-	Page     int32 `form:"page" json:"page" binding:"required"`
-	PageSize int32 `form:"page_size" json:"page_size" binding:"required"`
+	Page     int64 `form:"page" json:"page" binding:"required"`
+	PageSize int64 `form:"page_size" json:"page_size" binding:"required"`
 }
 
 type ListAllReturnedBookResponse struct {
@@ -75,8 +75,8 @@ type ListAllReturnedBookResponse struct {
 }
 
 type ListAllBookRecordsRequest struct {
-	Page     int32 `form:"page" json:"page" binding:"required"`
-	PageSize int32 `form:"page_size" json:"page_size" binding:"required"`
+	Page     int64 `form:"page" json:"page" binding:"required"`
+	PageSize int64 `form:"page_size" json:"page_size" binding:"required"`
 }
 
 type ListAllBookRecordsResponse struct {

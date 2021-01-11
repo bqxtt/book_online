@@ -17,6 +17,8 @@ definitions:
     properties:
       base_response:
         $ref: '#/definitions/contract.BaseResponse'
+      deadline:
+        type: string
     type: object
   contract.CreateBookRequest:
     properties:
@@ -279,6 +281,8 @@ definitions:
     properties:
       base_response:
         $ref: '#/definitions/contract.BaseResponse'
+      user:
+        $ref: '#/definitions/entity.User'
     type: object
   entity.Book:
     properties:

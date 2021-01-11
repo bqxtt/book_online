@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/bqxtt/book_online/api/auth"
 	"github.com/bqxtt/book_online/api/model/contract"
-	"github.com/bqxtt/book_online/api/model/entity"
 	"github.com/bqxtt/book_online/api/service"
 	"github.com/bqxtt/book_online/api/utils"
 	"github.com/gin-gonic/gin"
@@ -95,7 +94,13 @@ func ReturnBook(c *gin.Context) {
 	claims := iClaims.(*auth.Claims)
 	userId := claims.UserId
 	fmt.Println(userId)
-
+	err := service.RentService.ReturnBook(request.RecordId)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &contract.ReturnBookResponse{
+			BaseResponse: utils.NewFailureResponse("rent service error, err: %v", err),
+		})
+		return
+	}
 	c.JSON(http.StatusOK, &contract.ReturnBookResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
 	})
@@ -130,19 +135,20 @@ func ListBorrowedBook(c *gin.Context) {
 		})
 		return
 	}
+	records, pageInfo, err := service.RentService.ListBorrowedBook(id, request.Page, request.PageSize)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &contract.ListBorrowedBookResponse{
+			BaseResponse: utils.NewFailureResponse("rent service error, err: %v", err),
+			Records:      nil,
+			PageInfo:     nil,
+		})
+		return
+	}
 
 	c.JSON(http.StatusOK, &contract.ListBorrowedBookResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
-		Records: []*entity.Record{
-			utils.NewDefaultRecords(id, entity.BOOK_BORROWED),
-			utils.NewDefaultRecords(id, entity.BOOK_BORROWED),
-			utils.NewDefaultRecords(id, entity.BOOK_BORROWED),
-			utils.NewDefaultRecords(id, entity.BOOK_BORROWED),
-		},
-		PageInfo: &entity.PageInfo{
-			TotalPages: (4 + request.PageSize - 1) / request.PageSize,
-			TotalCount: 4,
-		},
+		Records:      records,
+		PageInfo:     pageInfo,
 	})
 }
 
@@ -175,19 +181,19 @@ func ListReturnedBook(c *gin.Context) {
 		})
 		return
 	}
-
+	records, pageInfo, err := service.RentService.ListReturnedBook(id, request.Page, request.PageSize)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &contract.ListReturnedBookResponse{
+			BaseResponse: utils.NewFailureResponse("rent service error, err: %v", err),
+			Records:      nil,
+			PageInfo:     nil,
+		})
+		return
+	}
 	c.JSON(http.StatusOK, &contract.ListReturnedBookResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
-		Records: []*entity.Record{
-			utils.NewDefaultRecords(id, entity.BOOK_RETURNED),
-			utils.NewDefaultRecords(id, entity.BOOK_RETURNED),
-			utils.NewDefaultRecords(id, entity.BOOK_RETURNED),
-			utils.NewDefaultRecords(id, entity.BOOK_RETURNED),
-		},
-		PageInfo: &entity.PageInfo{
-			TotalPages: (4 + request.PageSize - 1) / request.PageSize,
-			TotalCount: 4,
-		},
+		Records:      records,
+		PageInfo:     pageInfo,
 	})
 }
 
@@ -220,23 +226,19 @@ func ListBookRecords(c *gin.Context) {
 		})
 		return
 	}
-
+	records, pageInfo, err := service.RentService.ListBook(id, request.Page, request.PageSize)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &contract.ListBookRecordsResponse{
+			BaseResponse: utils.NewFailureResponse("rent service error, err: %v", err),
+			Records:      nil,
+			PageInfo:     nil,
+		})
+		return
+	}
 	c.JSON(http.StatusOK, &contract.ListBookRecordsResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
-		Records: []*entity.Record{
-			utils.NewDefaultRecords(id, entity.BOOK_RETURNED),
-			utils.NewDefaultRecords(id, entity.BOOK_RETURNED),
-			utils.NewDefaultRecords(id, entity.BOOK_RETURNED),
-			utils.NewDefaultRecords(id, entity.BOOK_RETURNED),
-			utils.NewDefaultRecords(id, entity.BOOK_BORROWED),
-			utils.NewDefaultRecords(id, entity.BOOK_BORROWED),
-			utils.NewDefaultRecords(id, entity.BOOK_BORROWED),
-			utils.NewDefaultRecords(id, entity.BOOK_BORROWED),
-		},
-		PageInfo: &entity.PageInfo{
-			TotalPages: (8 + request.PageSize - 1) / request.PageSize,
-			TotalCount: 8,
-		},
+		Records:      records,
+		PageInfo:     pageInfo,
 	})
 }
 
@@ -274,18 +276,20 @@ func ListAllBorrowedBook(c *gin.Context) {
 		return
 	}
 
+	records, pageInfo, err := service.RentService.ListAllBorrowedBook(request.Page, request.PageSize)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &contract.ListAllBorrowedBookResponse{
+			BaseResponse: utils.NewFailureResponse("rent service error, err:%v", err),
+			Records:      nil,
+			PageInfo:     nil,
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, &contract.ListAllBorrowedBookResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
-		Records: []*entity.Record{
-			utils.NewDefaultRecords(1017, entity.BOOK_BORROWED),
-			utils.NewDefaultRecords(1017, entity.BOOK_BORROWED),
-			utils.NewDefaultRecords(1017, entity.BOOK_BORROWED),
-			utils.NewDefaultRecords(1017, entity.BOOK_BORROWED),
-		},
-		PageInfo: &entity.PageInfo{
-			TotalPages: (4 + request.PageSize - 1) / request.PageSize,
-			TotalCount: 4,
-		},
+		Records:      records,
+		PageInfo:     pageInfo,
 	})
 }
 
@@ -321,19 +325,20 @@ func ListAllReturnedBook(c *gin.Context) {
 		})
 		return
 	}
+	records, pageInfo, err := service.RentService.ListAllReturnedBook(request.Page, request.PageSize)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &contract.ListAllReturnedBookResponse{
+			BaseResponse: utils.NewFailureResponse("rent service error, err: %v", err),
+			Records:      nil,
+			PageInfo:     nil,
+		})
+		return
+	}
 
 	c.JSON(http.StatusOK, &contract.ListAllReturnedBookResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
-		Records: []*entity.Record{
-			utils.NewDefaultRecords(1017, entity.BOOK_RETURNED),
-			utils.NewDefaultRecords(1017, entity.BOOK_RETURNED),
-			utils.NewDefaultRecords(1, entity.BOOK_RETURNED),
-			utils.NewDefaultRecords(1, entity.BOOK_RETURNED),
-		},
-		PageInfo: &entity.PageInfo{
-			TotalPages: (4 + request.PageSize - 1) / request.PageSize,
-			TotalCount: 4,
-		},
+		Records:      records,
+		PageInfo:     pageInfo,
 	})
 }
 
@@ -369,22 +374,18 @@ func ListAllBookRecords(c *gin.Context) {
 		})
 		return
 	}
-
+	records, pageInfo, err := service.RentService.ListAllBookRecords(request.Page, request.PageSize)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &contract.ListAllBookRecordsResponse{
+			BaseResponse: utils.NewFailureResponse("rent service error, err: %v", err),
+			Records:      nil,
+			PageInfo:     nil,
+		})
+		return
+	}
 	c.JSON(http.StatusOK, &contract.ListAllBookRecordsResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
-		Records: []*entity.Record{
-			utils.NewDefaultRecords(1017, entity.BOOK_RETURNED),
-			utils.NewDefaultRecords(1017, entity.BOOK_RETURNED),
-			utils.NewDefaultRecords(1017, entity.BOOK_RETURNED),
-			utils.NewDefaultRecords(1017, entity.BOOK_RETURNED),
-			utils.NewDefaultRecords(1017, entity.BOOK_BORROWED),
-			utils.NewDefaultRecords(1017, entity.BOOK_BORROWED),
-			utils.NewDefaultRecords(1017, entity.BOOK_BORROWED),
-			utils.NewDefaultRecords(1017, entity.BOOK_BORROWED),
-		},
-		PageInfo: &entity.PageInfo{
-			TotalPages: (8 + request.PageSize - 1) / request.PageSize,
-			TotalCount: 8,
-		},
+		Records:      records,
+		PageInfo:     pageInfo,
 	})
 }

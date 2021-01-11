@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/bqxtt/book_online/api/auth"
 	"github.com/bqxtt/book_online/api/model/contract"
-	"github.com/bqxtt/book_online/api/model/entity"
 	"github.com/bqxtt/book_online/api/service"
 	"github.com/bqxtt/book_online/api/utils"
 	"github.com/gin-gonic/gin"
@@ -67,15 +66,10 @@ func Login(c *gin.Context) {
 	}
 
 	token, _ := auth.GenerateToken(user.UserId, user.Role)
+	user.Token = token
 	c.JSON(http.StatusOK, &contract.LoginResponse{
 		BaseResponse: utils.NewSuccessResponse("login success"),
-		UserInfo: &entity.User{
-			UserId:    user.UserId,
-			Name:      user.Name,
-			AvatarUrl: user.AvatarUrl,
-			Role:      user.Role,
-			Token:     token,
-		},
+		UserInfo:     user,
 	})
 }
 
@@ -126,7 +120,7 @@ func GetUserInfo(c *gin.Context) {
 func UpdateUserInfo(c *gin.Context) {
 	iClaims, exist := c.Get("auth")
 	if !exist {
-		c.JSON(http.StatusBadRequest, &contract.GetUserInfoResponse{
+		c.JSON(http.StatusBadRequest, &contract.UpdateUserInfoResponse{
 			BaseResponse: utils.NewFailureResponse("missing auth header"),
 		})
 		return
