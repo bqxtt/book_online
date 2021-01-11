@@ -8,6 +8,7 @@ type BorrowBookRequest struct {
 
 type BorrowBookResponse struct {
 	BaseResponse *BaseResponse `json:"base_response"`
+	Deadline     string        `json:"deadline"`
 }
 
 type ReturnBookRequest struct {

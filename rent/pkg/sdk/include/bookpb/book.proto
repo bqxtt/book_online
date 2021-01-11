@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/bqxtt/book_online/book/pkg/sdk/bookpb";
+option go_package = "github.com/bqxtt/book_online/rent/pkg/sdk/include/bookpb";
 
 package sdk;
 
@@ -13,4 +13,5 @@ message Book {
   string author = 6;
   string img_url = 7;
   string description = 8;
+  int32  rent_status = 9;
 }

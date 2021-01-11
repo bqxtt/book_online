@@ -1,18 +1,3 @@
-# github.com/bqxtt/book_online/book v0.0.0-20210110154121-986ea162dee3
-## explicit
-github.com/bqxtt/book_online/book/pkg/sdk/base
-github.com/bqxtt/book_online/book/pkg/sdk/bookpb
-# github.com/bqxtt/book_online/user v0.0.0-20210110154121-986ea162dee3
-## explicit
-github.com/bqxtt/book_online/user/pkg/common
-github.com/bqxtt/book_online/user/pkg/handler
-github.com/bqxtt/book_online/user/pkg/handler/adapter
-github.com/bqxtt/book_online/user/pkg/model
-github.com/bqxtt/book_online/user/pkg/model/dao
-github.com/bqxtt/book_online/user/pkg/sdk/base
-github.com/bqxtt/book_online/user/pkg/sdk/userpb
-github.com/bqxtt/book_online/user/pkg/service
-github.com/bqxtt/book_online/user/pkg/utils
 # github.com/go-sql-driver/mysql v1.5.0
 github.com/go-sql-driver/mysql
 # github.com/golang/protobuf v1.4.3
@@ -23,6 +8,7 @@ github.com/golang/protobuf/ptypes/any
 github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/timestamp
 # github.com/jinzhu/gorm v1.9.16
+## explicit
 github.com/jinzhu/gorm
 github.com/jinzhu/gorm/dialects/mysql
 # github.com/jinzhu/inflection v1.0.0
@@ -88,8 +74,6 @@ google.golang.org/grpc/serviceconfig
 google.golang.org/grpc/stats
 google.golang.org/grpc/status
 google.golang.org/grpc/tap
-# google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.0.1
-## explicit
 # google.golang.org/protobuf v1.25.0
 ## explicit
 google.golang.org/protobuf/encoding/prototext
@@ -121,4 +105,3 @@ google.golang.org/protobuf/runtime/protoimpl
 google.golang.org/protobuf/types/known/anypb
 google.golang.org/protobuf/types/known/durationpb
 google.golang.org/protobuf/types/known/timestamppb
-# github.com/bqxtt/book_online/rent => ../rent

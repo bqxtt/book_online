@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-option go_package = "github.com/bqxtt/book_online/user/pkg/sdk/userpb";
+option go_package = "github.com/bqxtt/book_online/rent/pkg/sdk/include/userpb";
 
-import "rentpb/rent.proto";
+import "include/userpb/user.proto";
 import "base/request_response.proto";
 
 package sdk;
@@ -13,6 +13,7 @@ service UserService {
   rpc GetInfo(GetInfoRequest) returns (GetInfoReply) {};
   rpc UpdateInfo(UpdateInfoRequest) returns (UpdateInfoReply) {};
   rpc ListUsersPaged(ListUsersPagedRequest) returns (ListUsersPagedReply) {};
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserReply) {};
 }
 
 message RegisterRequest {
@@ -58,4 +59,13 @@ message ListUsersPagedReply {
   base.BaseReply reply = 1;
   repeated User users = 2;
   int64 total_pages = 3;
+  int64 total_count = 4;
+}
+
+message DeleteUserRequest {
+  int64 userId = 1;
+}
+
+message DeleteUserReply {
+  base.BaseReply reply = 1;
 }

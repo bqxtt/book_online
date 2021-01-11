@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/bqxtt/book_online/user/pkg/sdk/userpb";
+option go_package = "github.com/bqxtt/book_online/rent/pkg/sdk/include/userpb";
 
 import "include/google/protobuf/timestamp.proto";
 
@@ -15,9 +15,12 @@ enum USER_ROLE {
 message User {
   int64 user_id = 1;
   string name = 2;
-  string avatar_url=3;
+  string avatar_url = 3;
   USER_ROLE role = 4;
-  google.protobuf.Timestamp created_at = 5;
+  string department = 5;
+  string class = 6;
+  string motto = 7;
+  google.protobuf.Timestamp created_at = 8;
 }
 
 message UserAuth {

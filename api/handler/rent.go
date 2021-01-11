@@ -5,6 +5,7 @@ import (
 	"github.com/bqxtt/book_online/api/auth"
 	"github.com/bqxtt/book_online/api/model/contract"
 	"github.com/bqxtt/book_online/api/model/entity"
+	"github.com/bqxtt/book_online/api/service"
 	"github.com/bqxtt/book_online/api/utils"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -36,12 +37,33 @@ func BorrowBook(c *gin.Context) {
 		})
 		return
 	}
+	if request.BookId <= 0 {
+		c.JSON(http.StatusBadRequest, &contract.BorrowBookResponse{
+			BaseResponse: utils.NewFailureResponse("book id is invalid, bookId=[%v]", request.BookId),
+		})
+		return
+	}
 	claims := iClaims.(*auth.Claims)
 	userId := claims.UserId
 	fmt.Println(userId)
+	id, err := strconv.ParseInt(userId, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &contract.BorrowBookResponse{
+			BaseResponse: utils.NewFailureResponse("user id error, err: %v", err),
+		})
+		return
+	}
+	deadline, err := service.RentService.BorrowBook(id, request.BookId)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &contract.BorrowBookResponse{
+			BaseResponse: utils.NewFailureResponse("rent service error, err: %v", err),
+		})
+		return
+	}
 
 	c.JSON(http.StatusOK, &contract.BorrowBookResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
+		Deadline:     deadline.Format("2000-01-01"),
 	})
 }
 

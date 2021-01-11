@@ -33,6 +33,7 @@ type UpdateUserInfoRequest struct {
 
 type UpdateUserInfoResponse struct {
 	BaseResponse *BaseResponse `json:"base_response"`
+	User         *entity.User  `json:"user"`
 }
 
 type ListAllUsersRequest struct {

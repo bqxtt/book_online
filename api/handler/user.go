@@ -133,7 +133,7 @@ func UpdateUserInfo(c *gin.Context) {
 	}
 	request := &contract.UpdateUserInfoRequest{}
 	if err := c.ShouldBindJSON(request); err != nil {
-		c.JSON(http.StatusBadRequest, &contract.GetUserInfoResponse{
+		c.JSON(http.StatusBadRequest, &contract.UpdateUserInfoResponse{
 			BaseResponse: utils.NewFailureResponse("request param error, err: %v", err),
 			User:         nil,
 		})
@@ -148,7 +148,7 @@ func UpdateUserInfo(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(http.StatusOK, &contract.GetUserInfoResponse{
+	c.JSON(http.StatusOK, &contract.UpdateUserInfoResponse{
 		BaseResponse: utils.NewSuccessResponse("success"),
 		User:         user,
 	})
