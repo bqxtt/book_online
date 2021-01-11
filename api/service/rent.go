@@ -90,21 +90,138 @@ func (rs *RentServiceImpl) ListBorrowedBook(userId int64, page int64, pageSize i
 }
 
 func (rs *RentServiceImpl) ListReturnedBook(userId int64, page int64, pageSize int64) ([]*entity.Record, *entity.PageInfo, error) {
-	panic("implement me")
+	request := &rentpb.ListReturnedBookRequest{
+		UserId: userId,
+		Page: &base.Page{
+			PageNo:   page,
+			PageSize: pageSize,
+		},
+	}
+	resp, err := rpc_rent.RentServiceClient.ListReturnedBook(context.Background(), request)
+	if err != nil {
+		return nil, nil, err
+	}
+	if resp == nil {
+		return nil, nil, fmt.Errorf("list returned book resp is nil")
+	}
+	if resp.Reply.Status != 1 {
+		return nil, nil, fmt.Errorf("rpc service error, err:%v", resp.Reply.Message)
+	}
+	var records []*entity.Record
+	for _, r := range resp.Records {
+		records = append(records, adapter.RpcRecordToEntityRecord(r))
+	}
+	return records, &entity.PageInfo{
+		TotalPages: 0,
+		TotalCount: 0,
+	}, nil
 }
 
 func (rs *RentServiceImpl) ListBook(userId int64, page int64, pageSize int64) ([]*entity.Record, *entity.PageInfo, error) {
-	panic("implement me")
+	request := &rentpb.ListBookRequest{
+		UserId: userId,
+		Page: &base.Page{
+			PageNo:   page,
+			PageSize: pageSize,
+		},
+	}
+	resp, err := rpc_rent.RentServiceClient.ListBook(context.Background(), request)
+	if err != nil {
+		return nil, nil, err
+	}
+	if resp == nil {
+		return nil, nil, fmt.Errorf("list book resp is nil")
+	}
+	if resp.Reply.Status != 1 {
+		return nil, nil, fmt.Errorf("rpc service error, err:%v", resp.Reply.Message)
+	}
+	var records []*entity.Record
+	for _, r := range resp.Records {
+		records = append(records, adapter.RpcRecordToEntityRecord(r))
+	}
+	return records, &entity.PageInfo{
+		TotalPages: 0,
+		TotalCount: 0,
+	}, nil
 }
 
 func (rs *RentServiceImpl) ListAllBorrowedBook(page int64, pageSize int64) ([]*entity.Record, *entity.PageInfo, error) {
-	panic("implement me")
+	request := &rentpb.ListAllBorrowedBookRequest{
+		Page: &base.Page{
+			PageNo:   page,
+			PageSize: pageSize,
+		},
+	}
+	resp, err := rpc_rent.RentServiceClient.ListAllBorrowedBook(context.Background(), request)
+	if err != nil {
+		return nil, nil, err
+	}
+	if resp == nil {
+		return nil, nil, fmt.Errorf("list all borrowed book resp is nil")
+	}
+	if resp.Reply.Status != 1 {
+		return nil, nil, fmt.Errorf("rpc service error, err:%v", resp.Reply.Message)
+	}
+	var records []*entity.Record
+	for _, r := range resp.Records {
+		records = append(records, adapter.RpcRecordToEntityRecord(r))
+	}
+	return records, &entity.PageInfo{
+		TotalPages: 0,
+		TotalCount: 0,
+	}, nil
 }
 
 func (rs *RentServiceImpl) ListAllReturnedBook(page int64, pageSize int64) ([]*entity.Record, *entity.PageInfo, error) {
-	panic("implement me")
+	request := &rentpb.ListAllReturnedBookRequest{
+		Page: &base.Page{
+			PageNo:   page,
+			PageSize: pageSize,
+		},
+	}
+	resp, err := rpc_rent.RentServiceClient.ListAllReturnedBook(context.Background(), request)
+	if err != nil {
+		return nil, nil, err
+	}
+	if resp == nil {
+		return nil, nil, fmt.Errorf("list all returned book resp is nil")
+	}
+	if resp.Reply.Status != 1 {
+		return nil, nil, fmt.Errorf("rpc service error, err:%v", resp.Reply.Message)
+	}
+	var records []*entity.Record
+	for _, r := range resp.Records {
+		records = append(records, adapter.RpcRecordToEntityRecord(r))
+	}
+	return records, &entity.PageInfo{
+		TotalPages: 0,
+		TotalCount: 0,
+	}, nil
 }
 
 func (rs *RentServiceImpl) ListAllBookRecords(page int64, pageSize int64) ([]*entity.Record, *entity.PageInfo, error) {
-	panic("implement me")
+	request := &rentpb.ListAllBookRecordsRequest{
+		Page: &base.Page{
+			PageNo:   page,
+			PageSize: pageSize,
+		},
+	}
+	resp, err := rpc_rent.RentServiceClient.ListAllBookRecords(context.Background(), request)
+	if err != nil {
+		return nil, nil, err
+	}
+	if resp == nil {
+		return nil, nil, fmt.Errorf("list all book resp is nil")
+	}
+	if resp.Reply.Status != 1 {
+		return nil, nil, fmt.Errorf("rpc service error, err:%v", resp.Reply.Message)
+	}
+	var records []*entity.Record
+	for _, r := range resp.Records {
+		records = append(records, adapter.RpcRecordToEntityRecord(r))
+	}
+	return records, &entity.PageInfo{
+		TotalPages: 0,
+		TotalCount: 0,
+	}, nil
 }
