@@ -174,6 +174,9 @@ func NewDBDirectDAO() (*DBDirectDAO, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	db.AutoMigrate(&model.RentRecord{})
+
 	return &DBDirectDAO{
 		DB: db,
 	}, nil
