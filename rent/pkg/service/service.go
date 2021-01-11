@@ -34,68 +34,68 @@ func NewRentService() (*RentService, error) {
 	}, nil
 }
 
-func (r *RentService) ListBorrowedBook(userId int64, pageNo int64, pageSize int64) ([]*model.RentRecordDetail, error) {
+func (r *RentService) ListBorrowedBook(userId int64, pageNo int64, pageSize int64) ([]*model.RentRecordDetail, int64, int64, error) {
 	limit, offset := utils.CalculateLimitOffset(pageNo, pageSize)
 
-	records, err := r.rentDAO.ListBorrowedRecordByUserId(userId, limit, offset)
+	records, total, err := r.rentDAO.ListBorrowedRecordByUserId(userId, limit, offset)
 	if err != nil {
-		return nil, err
+		return nil, 0, 0, err
 	}
 
 	details, err := r.fillOutRecordDetails(records)
 	if err != nil {
-		return nil, err
+		return nil, 0, 0, err
 	}
 
-	return details, nil
+	return details, total, (total + pageSize - 1) / pageSize, nil
 }
 
-func (r *RentService) ListReturnedBook(userId int64, pageNo int64, pageSize int64) ([]*model.RentRecordDetail, error) {
+func (r *RentService) ListReturnedBook(userId int64, pageNo int64, pageSize int64) ([]*model.RentRecordDetail, int64, int64, error) {
 	limit, offset := utils.CalculateLimitOffset(pageNo, pageSize)
 
-	records, err := r.rentDAO.ListReturnedRecordByUserId(userId, limit, offset)
+	records, total, err := r.rentDAO.ListReturnedRecordByUserId(userId, limit, offset)
 	if err != nil {
-		return nil, err
+		return nil, 0, 0, err
 	}
 
 	details, err := r.fillOutRecordDetails(records)
 	if err != nil {
-		return nil, err
+		return nil, 0, 0, err
 	}
 
-	return details, nil
+	return details, total, (total + pageSize - 1) / pageSize, nil
 }
 
-func (r *RentService) ListAllBorrowedBook(pageNo int64, pageSize int64) ([]*model.RentRecordDetail, error) {
+func (r *RentService) ListAllBorrowedBook(pageNo int64, pageSize int64) ([]*model.RentRecordDetail, int64, int64, error) {
 	limit, offset := utils.CalculateLimitOffset(pageNo, pageSize)
 
-	records, err := r.rentDAO.ListAllBorrowedRecord(limit, offset)
+	records, total, err := r.rentDAO.ListAllBorrowedRecord(limit, offset)
 	if err != nil {
-		return nil, err
+		return nil, 0, 0, err
 	}
 
 	details, err := r.fillOutRecordDetails(records)
 	if err != nil {
-		return nil, err
+		return nil, 0, 0, err
 	}
 
-	return details, nil
+	return details, total, (total + pageSize - 1) / pageSize, nil
 }
 
-func (r *RentService) ListAllReturnedBook(pageNo int64, pageSize int64) ([]*model.RentRecordDetail, error) {
+func (r *RentService) ListAllReturnedBook(pageNo int64, pageSize int64) ([]*model.RentRecordDetail, int64, int64, error) {
 	limit, offset := utils.CalculateLimitOffset(pageNo, pageSize)
 
-	records, err := r.rentDAO.ListAllReturnedRecord(limit, offset)
+	records, total, err := r.rentDAO.ListAllReturnedRecord(limit, offset)
 	if err != nil {
-		return nil, err
+		return nil, 0, 0, err
 	}
 
 	details, err := r.fillOutRecordDetails(records)
 	if err != nil {
-		return nil, err
+		return nil, 0, 0, err
 	}
 
-	return details, nil
+	return details, total, (total + pageSize - 1) / pageSize, nil
 }
 
 func (r *RentService) ReturnBook(recordId int64) error {
@@ -138,36 +138,36 @@ func (r *RentService) ReturnBook(recordId int64) error {
 	return nil
 }
 
-func (r *RentService) ListRecordByUserId(userId int64, pageNo int64, pageSize int64) ([]*model.RentRecordDetail, error) {
+func (r *RentService) ListRecordByUserId(userId int64, pageNo int64, pageSize int64) ([]*model.RentRecordDetail, int64, int64, error) {
 	limit, offset := utils.CalculateLimitOffset(pageNo, pageSize)
 
-	records, err := r.rentDAO.ListRecordByUserId(userId, limit, offset)
+	records, total, err := r.rentDAO.ListRecordByUserId(userId, limit, offset)
 	if err != nil {
-		return nil, err
+		return nil, 0, 0, err
 	}
 
 	details, err := r.fillOutRecordDetails(records)
 	if err != nil {
-		return nil, err
+		return nil, 0, 0, err
 	}
 
-	return details, nil
+	return details, total, (total + pageSize - 1) / pageSize, nil
 }
 
-func (r *RentService) ListAllRecord(pageNo int64, pageSize int64) ([]*model.RentRecordDetail, error) {
+func (r *RentService) ListAllRecord(pageNo int64, pageSize int64) ([]*model.RentRecordDetail, int64, int64, error) {
 	limit, offset := utils.CalculateLimitOffset(pageNo, pageSize)
 
-	records, err := r.rentDAO.ListAllRecord(limit, offset)
+	records, total, err := r.rentDAO.ListAllRecord(limit, offset)
 	if err != nil {
-		return nil, err
+		return nil, 0, 0, err
 	}
 
 	details, err := r.fillOutRecordDetails(records)
 	if err != nil {
-		return nil, err
+		return nil, 0, 0, err
 	}
 
-	return details, nil
+	return details, total, (total + pageSize - 1) / pageSize, nil
 }
 
 func (r *RentService) BorrowBook(userId int64, bookId int64) (deadline time.Time, err error) {
