@@ -84,8 +84,8 @@ func (rs *RentServiceImpl) ListBorrowedBook(userId int64, page int64, pageSize i
 		records = append(records, adapter.RpcRecordToEntityRecord(r))
 	}
 	return records, &entity.PageInfo{
-		TotalPages: 0,
-		TotalCount: 0,
+		TotalPages: resp.TotalPages,
+		TotalCount: resp.TotalCount,
 	}, nil
 }
 
@@ -112,8 +112,8 @@ func (rs *RentServiceImpl) ListReturnedBook(userId int64, page int64, pageSize i
 		records = append(records, adapter.RpcRecordToEntityRecord(r))
 	}
 	return records, &entity.PageInfo{
-		TotalPages: 0,
-		TotalCount: 0,
+		TotalPages: resp.TotalPages,
+		TotalCount: resp.TotalCount,
 	}, nil
 }
 
@@ -140,8 +140,8 @@ func (rs *RentServiceImpl) ListBook(userId int64, page int64, pageSize int64) ([
 		records = append(records, adapter.RpcRecordToEntityRecord(r))
 	}
 	return records, &entity.PageInfo{
-		TotalPages: 0,
-		TotalCount: 0,
+		TotalPages: resp.TotalPages,
+		TotalCount: resp.TotalCount,
 	}, nil
 }
 
@@ -167,8 +167,8 @@ func (rs *RentServiceImpl) ListAllBorrowedBook(page int64, pageSize int64) ([]*e
 		records = append(records, adapter.RpcRecordToEntityRecord(r))
 	}
 	return records, &entity.PageInfo{
-		TotalPages: 0,
-		TotalCount: 0,
+		TotalPages: resp.TotalPages,
+		TotalCount: resp.TotalCount,
 	}, nil
 }
 
@@ -194,8 +194,8 @@ func (rs *RentServiceImpl) ListAllReturnedBook(page int64, pageSize int64) ([]*e
 		records = append(records, adapter.RpcRecordToEntityRecord(r))
 	}
 	return records, &entity.PageInfo{
-		TotalPages: 0,
-		TotalCount: 0,
+		TotalPages: resp.TotalPages,
+		TotalCount: resp.TotalCount,
 	}, nil
 }
 
@@ -221,7 +221,7 @@ func (rs *RentServiceImpl) ListAllBookRecords(page int64, pageSize int64) ([]*en
 		records = append(records, adapter.RpcRecordToEntityRecord(r))
 	}
 	return records, &entity.PageInfo{
-		TotalPages: 0,
-		TotalCount: 0,
+		TotalPages: resp.TotalPages,
+		TotalCount: resp.TotalCount,
 	}, nil
 }
