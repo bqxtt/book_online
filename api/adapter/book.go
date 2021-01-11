@@ -2,7 +2,7 @@ package adapter
 
 import (
 	"github.com/bqxtt/book_online/api/model/entity"
-	"github.com/bqxtt/book_online/rpc/clients/rpc_book/bookpb"
+	"github.com/bqxtt/book_online/rpc/model/bookpb"
 )
 
 func RpcBookToEntityBook(rpcBook *bookpb.Book) *entity.Book {

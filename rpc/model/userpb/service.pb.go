@@ -7,7 +7,7 @@
 package userpb
 
 import (
-	base "github.com/bqxtt/book_online/user/pkg/sdk/base"
+	base "github.com/bqxtt/book_online/rpc/model/base"
 	proto "github.com/golang/protobuf/proto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"

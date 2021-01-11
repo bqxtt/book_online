@@ -13,7 +13,7 @@ type BookClient struct {
 }
 
 func NewBookClient() (*BookClient, error) {
-	conn, err := grpc.Dial("139.9.140.136:50002", grpc.WithInsecure(), grpc.WithBlock())
+	conn, err := grpc.Dial("localhost:50002", grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		return nil, err
 	}

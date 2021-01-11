@@ -2,7 +2,7 @@ package adapter
 
 import (
 	"github.com/bqxtt/book_online/api/model/entity"
-	"github.com/bqxtt/book_online/rpc/clients/rpc_user/userpb"
+	"github.com/bqxtt/book_online/rpc/model/userpb"
 	"strconv"
 )
 

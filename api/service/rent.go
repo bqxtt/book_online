@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"github.com/bqxtt/book_online/api/adapter"
 	"github.com/bqxtt/book_online/api/model/entity"
-	"github.com/bqxtt/book_online/rent/pkg/sdk/base"
 	"github.com/bqxtt/book_online/rpc/clients/rpc_rent"
-	"github.com/bqxtt/book_online/rpc/clients/rpc_rent/rentpb"
+	"github.com/bqxtt/book_online/rpc/model/base"
+	"github.com/bqxtt/book_online/rpc/model/rentpb"
 	"time"
 )
 

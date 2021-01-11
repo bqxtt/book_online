@@ -7,7 +7,7 @@
 package rentpb
 
 import (
-	bookpb "github.com/bqxtt/book_online/rent/pkg/sdk/include/bookpb"
+	bookpb "github.com/bqxtt/book_online/rpc/model/bookpb"
 	proto "github.com/golang/protobuf/proto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"

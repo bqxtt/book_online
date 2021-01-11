@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/bqxtt/book_online/rent/pkg/common"
-	"github.com/bqxtt/book_online/rent/pkg/handler"
+	rent "github.com/bqxtt/book_online/rent/pkg/handler"
 	"github.com/bqxtt/book_online/rent/pkg/sdk/rentpb"
 	"google.golang.org/grpc"
 	"log"
@@ -16,7 +16,7 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	handler, err := handler.NewHandler()
+	handler, err := rent.NewHandler()
 	if err != nil {
 		log.Fatalf("failed to create handler: %v", err)
 	}

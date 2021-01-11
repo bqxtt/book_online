@@ -1,7 +1,7 @@
 package rpc_rent
 
 import (
-	"github.com/bqxtt/book_online/rpc/clients/rpc_rent/rentpb"
+	"github.com/bqxtt/book_online/rpc/model/rentpb"
 	"google.golang.org/grpc"
 	"log"
 )
@@ -9,7 +9,7 @@ import (
 var RentServiceClient rentpb.RentServiceClient
 
 const (
-	address = "localhost:50003"
+	address = "localhost:50005"
 )
 
 func Init() {
@@ -17,6 +17,6 @@ func Init() {
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
-	log.Println("rent service connect...")
+	log.Println("rent rpc service connect...")
 	RentServiceClient = rentpb.NewRentServiceClient(conn)
 }

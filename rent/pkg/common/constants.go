@@ -2,7 +2,7 @@ package common
 
 // TODO: move to envs
 const (
-	DefaultUserGRPCHandlerPort = 50003
+	DefaultUserGRPCHandlerPort = 50005
 	DefaultRecordPageSize      = 10
 	DefaultWaitBookRPCTime     = 3  // time unit: second
 	DefaultBookKeptInterval    = 30 // time unit: day

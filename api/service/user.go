@@ -6,8 +6,8 @@ import (
 	"github.com/bqxtt/book_online/api/adapter"
 	"github.com/bqxtt/book_online/api/model/entity"
 	"github.com/bqxtt/book_online/rpc/clients/rpc_user"
-	"github.com/bqxtt/book_online/rpc/clients/rpc_user/userpb"
-	"github.com/bqxtt/book_online/user/pkg/sdk/base"
+	"github.com/bqxtt/book_online/rpc/model/base"
+	"github.com/bqxtt/book_online/rpc/model/userpb"
 	"strconv"
 )
 
@@ -153,7 +153,7 @@ func (svc *userServiceImpl) ListUsersByPage(page int32, pageSize int32) ([]*enti
 		users = append(users, adapter.RpcUserToEntityUser(user))
 	}
 	return users, &entity.PageInfo{
-		TotalPages: int32(resp.TotalPages),
-		TotalCount: int32(resp.TotalCount),
+		TotalPages: resp.TotalPages,
+		TotalCount: resp.TotalCount,
 	}, nil
 }

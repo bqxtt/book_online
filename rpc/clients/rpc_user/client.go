@@ -1,7 +1,7 @@
 package rpc_user
 
 import (
-	"github.com/bqxtt/book_online/rpc/clients/rpc_user/userpb"
+	"github.com/bqxtt/book_online/rpc/model/userpb"
 	"google.golang.org/grpc"
 	"log"
 )

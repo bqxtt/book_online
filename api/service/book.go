@@ -6,7 +6,7 @@ import (
 	"github.com/bqxtt/book_online/api/adapter"
 	"github.com/bqxtt/book_online/api/model/entity"
 	"github.com/bqxtt/book_online/rpc/clients/rpc_book"
-	"github.com/bqxtt/book_online/rpc/clients/rpc_book/bookpb"
+	"github.com/bqxtt/book_online/rpc/model/bookpb"
 )
 
 type IBookService interface {
@@ -41,8 +41,8 @@ func (bs *bookServiceImpl) ListBooksByPage(page int32, pageSize int32) ([]*entit
 		entityBooks = append(entityBooks, adapter.RpcBookToEntityBook(v))
 	}
 	return entityBooks, &entity.PageInfo{
-		TotalPages: resp.TotalPages,
-		TotalCount: resp.TotalCount,
+		TotalPages: int64(resp.TotalPages),
+		TotalCount: int64(resp.TotalCount),
 	}, nil
 }
 

@@ -1,7 +1,7 @@
 package rpc_book
 
 import (
-	"github.com/bqxtt/book_online/rpc/clients/rpc_book/bookpb"
+	"github.com/bqxtt/book_online/rpc/model/bookpb"
 	"google.golang.org/grpc"
 	"log"
 )
@@ -17,6 +17,6 @@ func Init() {
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
-	log.Println("user book service connect...")
+	log.Println("book rpc service connect...")
 	BookServiceClient = bookpb.NewBookServiceClient(conn)
 }
