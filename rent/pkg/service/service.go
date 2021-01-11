@@ -171,7 +171,7 @@ func (r *RentService) ListAllRecord(pageNo int64, pageSize int64) ([]*model.Rent
 }
 
 func (r *RentService) BorrowBook(userId int64, bookId int64) (deadline time.Time, err error) {
-	borrowedAt, deadline := time.Now(), time.Now().Add(common.DefaultBookKeptInterval)
+	borrowedAt, deadline := time.Now(), time.Now().Add(common.DefaultBookKeptInterval*24*time.Hour)
 	// set default
 	returnedAt := time.Unix(0, 0)
 
