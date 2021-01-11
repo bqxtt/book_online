@@ -13,9 +13,20 @@ service RentService {
   rpc ReturnBook(ReturnBookRequest) returns (ReturnBookReply) {};
   rpc ListBorrowedBook(ListBorrowedBookRequest) returns (ListBorrowedBookReply) {};
   rpc ListReturnedBook(ListReturnedBookRequest) returns (ListReturnedBookReply) {};
+  rpc ListBook(ListBookRequest) returns (ListBookReply) {};
   rpc ListAllBorrowedBook(ListAllBorrowedBookRequest) returns (ListAllBorrowedBookReply) {};
   rpc ListAllReturnedBook(ListAllReturnedBookRequest) returns (ListAllReturnedBookReply) {};
   rpc ListAllBookRecords(ListAllBookRecordsRequest) returns (ListAllBookRecordsReply) {};
+}
+
+message ListBookRequest {
+  int64 user_id = 1;
+  base.Page page = 2;
+}
+
+message ListBookReply {
+  base.BaseReply reply = 1;
+  repeated RentRecord records = 2;
 }
 
 message BorrowBookRequest {

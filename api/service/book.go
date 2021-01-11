@@ -32,6 +32,9 @@ func (bs *bookServiceImpl) ListBooksByPage(page int32, pageSize int32) ([]*entit
 	if resp == nil {
 		return nil, nil, fmt.Errorf("rpc book service resp is nil")
 	}
+	if resp.BaseReply.Status != 1 {
+		return nil, nil, fmt.Errorf("rpc book service error, err: %v", resp.BaseReply.Message)
+	}
 	rpcBooks := resp.Books
 	entityBooks := make([]*entity.Book, 0)
 	for _, v := range rpcBooks {

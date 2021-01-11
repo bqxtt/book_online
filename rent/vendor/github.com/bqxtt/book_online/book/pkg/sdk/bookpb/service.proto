@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+option go_package = "github.com/bqxtt/book_online/book/pkg/sdk/bookpb";
+
+package sdk;
+
+import "bookpb/book.proto";
+import "base/request_response.proto";
+
+service BookService {
+  rpc GetAllBooks(GetAllBooksRequest) returns(GetAllBooksResponse) {};
+  rpc GetBooksByPage(GetBooksByPageRequest) returns(GetBooksByPageResponse) {};
+  rpc GetBookById(GetBookByIdRequest) returns(GetBookByIdResponse) {};
+  rpc CreateBook(CreateBookRequest) returns(CreateBookResponse) {};
+  rpc UpdateBook(UpdateBookRequest) returns(UpdateBookResponse) {};
+  rpc DeleteBookById(DeleteBookByIdRequest) returns(DeleteBookByIdResponse) {};
+  rpc CheckBookBorrowed(CheckBookBorrowedRequest) returns(CheckBookBorrowedResponse) {};
+  rpc SetBookBorrowed(SetBookBorrowedRequest) returns(SetBookBorrowedResponse) {};
+  rpc SetBookReturned(SetBookReturnedRequest) returns(SetBookReturnedResponse) {};
+}
+
+message CheckBookBorrowedRequest {
+  int64 book_id = 1;
+}
+message CheckBookBorrowedResponse {
+  bool borrowed = 1;
+  base.BaseReply base_reply = 2;
+}
+
+message SetBookBorrowedRequest {
+  int64 book_id = 1;
+}
+message SetBookBorrowedResponse {
+  base.BaseReply base_reply = 1;
+}
+
+message SetBookReturnedRequest {
+  int64 book_id = 1;
+}
+message SetBookReturnedResponse {
+  base.BaseReply base_reply = 1;
+}
+
+message GetAllBooksRequest {
+}
+message GetAllBooksResponse {
+  repeated Book books = 1;
+  base.BaseReply base_reply = 2;
+}
+
+message GetBooksByPageRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+}
+
+message GetBooksByPageResponse {
+  repeated Book books = 1;
+  int32 total_pages = 2;
+  int32 total_count = 3;
+  base.BaseReply base_reply = 4;
+}
+
+message GetBookByIdRequest {
+  int64 book_id = 1;
+}
+
+message GetBookByIdResponse {
+  Book book = 1;
+  base.BaseReply base_reply = 2;
+}
+
+message CreateBookRequest {
+  Book book = 1;
+}
+
+message CreateBookResponse {
+  base.BaseReply base_reply = 1;
+  int64 id = 2;
+}
+
+message UpdateBookRequest {
+  int64 id = 1;
+  Book book = 2;
+}
+
+message UpdateBookResponse {
+  base.BaseReply base_reply = 1;
+  int64 id = 2;
+}
+
+message DeleteBookByIdRequest {
+  int64 id = 1;
+}
+
+message DeleteBookByIdResponse {
+  base.BaseReply base_reply = 1;
+}

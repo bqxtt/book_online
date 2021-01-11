@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/bqxtt/book_online/user/pkg/sdk/base";
+option go_package = "github.com/bqxtt/book_online/rent/pkg/sdk/base";
 
 package base;
 

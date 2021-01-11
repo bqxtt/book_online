@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/bqxtt/book_online/api/router"
 	"github.com/bqxtt/book_online/rpc/clients/rpc_book"
+	"github.com/bqxtt/book_online/rpc/clients/rpc_rent"
 	"github.com/bqxtt/book_online/rpc/clients/rpc_user"
 	"os"
 	"strings"
@@ -23,7 +24,7 @@ func initRpc() {
 	funcs := make(map[string]func(), 0)
 	funcs["user"] = rpc_user.Init
 	funcs["book"] = rpc_book.Init
-
+	funcs["rent"] = rpc_rent.Init
 	for _, r := range rpc {
 		fmt.Println(r)
 		funcs[r]()
