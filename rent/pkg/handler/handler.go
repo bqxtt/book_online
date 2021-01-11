@@ -88,7 +88,7 @@ func (r *RentHandler) ListBorrowedBook(ctx context.Context, request *rentpb.List
 	userId := request.GetUserId()
 	pageNo, pageSize := request.GetPage().GetPageNo(), request.GetPage().GetPageSize()
 
-	details, err := r.rentSerivce.ListBorrowedBook(userId, pageNo, pageSize)
+	details, totalCount, totalPages, err := r.rentSerivce.ListBorrowedBook(userId, pageNo, pageSize)
 	if err != nil {
 		return &rentpb.ListBorrowedBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "list borrowed book records failed: %v", err),
@@ -103,8 +103,10 @@ func (r *RentHandler) ListBorrowedBook(ctx context.Context, request *rentpb.List
 	}
 
 	return &rentpb.ListBorrowedBookReply{
-		Reply:   utils.PbReplyf(base.REPLY_STATUS_SUCCESS, defaultSuccessMessage),
-		Records: pbRecords,
+		Reply:      utils.PbReplyf(base.REPLY_STATUS_SUCCESS, defaultSuccessMessage),
+		Records:    pbRecords,
+		TotalCount: totalCount,
+		TotalPages: totalPages,
 	}, nil
 }
 
@@ -118,7 +120,7 @@ func (r *RentHandler) ListReturnedBook(ctx context.Context, request *rentpb.List
 	userId := request.GetUserId()
 	pageNo, pageSize := request.GetPage().GetPageNo(), request.GetPage().GetPageSize()
 
-	details, err := r.rentSerivce.ListReturnedBook(userId, pageNo, pageSize)
+	details, totalCount, totalPages, err := r.rentSerivce.ListReturnedBook(userId, pageNo, pageSize)
 	if err != nil {
 		return &rentpb.ListReturnedBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "list returned book records failed: %v", err),
@@ -133,8 +135,10 @@ func (r *RentHandler) ListReturnedBook(ctx context.Context, request *rentpb.List
 	}
 
 	return &rentpb.ListReturnedBookReply{
-		Reply:   utils.PbReplyf(base.REPLY_STATUS_SUCCESS, defaultSuccessMessage),
-		Records: pbRecords,
+		Reply:      utils.PbReplyf(base.REPLY_STATUS_SUCCESS, defaultSuccessMessage),
+		Records:    pbRecords,
+		TotalCount: totalCount,
+		TotalPages: totalPages,
 	}, nil
 }
 
@@ -148,7 +152,7 @@ func (r *RentHandler) ListBook(ctx context.Context, request *rentpb.ListBookRequ
 	userId := request.GetUserId()
 	pageNo, pageSize := request.GetPage().GetPageNo(), request.GetPage().GetPageSize()
 
-	details, err := r.rentSerivce.ListRecordByUserId(userId, pageNo, pageSize)
+	details, totalCount, totalPages, err := r.rentSerivce.ListRecordByUserId(userId, pageNo, pageSize)
 	if err != nil {
 		return &rentpb.ListBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "list book records failed: %v", err),
@@ -163,8 +167,10 @@ func (r *RentHandler) ListBook(ctx context.Context, request *rentpb.ListBookRequ
 	}
 
 	return &rentpb.ListBookReply{
-		Reply:   utils.PbReplyf(base.REPLY_STATUS_SUCCESS, defaultSuccessMessage),
-		Records: pbRecords,
+		Reply:      utils.PbReplyf(base.REPLY_STATUS_SUCCESS, defaultSuccessMessage),
+		Records:    pbRecords,
+		TotalCount: totalCount,
+		TotalPages: totalPages,
 	}, nil
 }
 
@@ -177,7 +183,7 @@ func (r *RentHandler) ListAllBorrowedBook(ctx context.Context, request *rentpb.L
 
 	pageNo, pageSize := request.GetPage().GetPageNo(), request.GetPage().GetPageSize()
 
-	details, err := r.rentSerivce.ListAllBorrowedBook(pageNo, pageSize)
+	details, totalCount, totalPages, err := r.rentSerivce.ListAllBorrowedBook(pageNo, pageSize)
 	if err != nil {
 		return &rentpb.ListAllBorrowedBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "list all borrowed book records failed: %v", err),
@@ -192,8 +198,10 @@ func (r *RentHandler) ListAllBorrowedBook(ctx context.Context, request *rentpb.L
 	}
 
 	return &rentpb.ListAllBorrowedBookReply{
-		Reply:   utils.PbReplyf(base.REPLY_STATUS_SUCCESS, defaultSuccessMessage),
-		Records: pbRecords,
+		Reply:      utils.PbReplyf(base.REPLY_STATUS_SUCCESS, defaultSuccessMessage),
+		Records:    pbRecords,
+		TotalCount: totalCount,
+		TotalPages: totalPages,
 	}, nil
 }
 
@@ -206,7 +214,7 @@ func (r *RentHandler) ListAllReturnedBook(ctx context.Context, request *rentpb.L
 
 	pageNo, pageSize := request.GetPage().GetPageNo(), request.GetPage().GetPageSize()
 
-	details, err := r.rentSerivce.ListAllReturnedBook(pageNo, pageSize)
+	details, totalCount, totalPages, err := r.rentSerivce.ListAllReturnedBook(pageNo, pageSize)
 	if err != nil {
 		return &rentpb.ListAllReturnedBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "list all returned book records failed: %v", err),
@@ -221,8 +229,10 @@ func (r *RentHandler) ListAllReturnedBook(ctx context.Context, request *rentpb.L
 	}
 
 	return &rentpb.ListAllReturnedBookReply{
-		Reply:   utils.PbReplyf(base.REPLY_STATUS_SUCCESS, defaultSuccessMessage),
-		Records: pbRecords,
+		Reply:      utils.PbReplyf(base.REPLY_STATUS_SUCCESS, defaultSuccessMessage),
+		Records:    pbRecords,
+		TotalCount: totalCount,
+		TotalPages: totalPages,
 	}, nil
 }
 
@@ -235,7 +245,7 @@ func (r *RentHandler) ListAllBookRecords(ctx context.Context, request *rentpb.Li
 
 	pageNo, pageSize := request.GetPage().GetPageNo(), request.GetPage().GetPageSize()
 
-	details, err := r.rentSerivce.ListAllRecord(pageNo, pageSize)
+	details, totalCount, totalPages, err := r.rentSerivce.ListAllRecord(pageNo, pageSize)
 	if err != nil {
 		return &rentpb.ListAllBookRecordsReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "list all book records failed: %v", err),
@@ -250,7 +260,9 @@ func (r *RentHandler) ListAllBookRecords(ctx context.Context, request *rentpb.Li
 	}
 
 	return &rentpb.ListAllBookRecordsReply{
-		Reply:   utils.PbReplyf(base.REPLY_STATUS_SUCCESS, defaultSuccessMessage),
-		Records: pbRecords,
+		Reply:      utils.PbReplyf(base.REPLY_STATUS_SUCCESS, defaultSuccessMessage),
+		Records:    pbRecords,
+		TotalCount: totalCount,
+		TotalPages: totalPages,
 	}, nil
 }

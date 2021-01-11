@@ -91,70 +91,82 @@ func (d *DBDirectDAO) UpdateRentRecord(record *model.RentRecord) (*model.RentRec
 	return record, nil
 }
 
-func (d *DBDirectDAO) ListBorrowedRecordByUserId(userId int64, limit int64, offset int64) ([]*model.RentRecord, error) {
+func (d *DBDirectDAO) ListBorrowedRecordByUserId(userId int64, limit int64, offset int64) ([]*model.RentRecord, int64, error) {
 	var records []*model.RentRecord
+	var total int64
 
-	result := d.DB.Where("user_id = ? and finished = ?", userId, false).Limit(limit).Offset(offset).Find(&records)
+	result := d.DB.Model(&records).Where("user_id = ? and finished = ?", userId, false).Count(&total).
+		Limit(limit).Offset(offset).Find(&records)
 	if result.Error != nil {
-		return nil, result.Error
+		return nil, 0, result.Error
 	}
 
-	return records, nil
+	return records, total, nil
 }
 
-func (d *DBDirectDAO) ListReturnedRecordByUserId(userId int64, limit int64, offset int64) ([]*model.RentRecord, error) {
+func (d *DBDirectDAO) ListReturnedRecordByUserId(userId int64, limit int64, offset int64) ([]*model.RentRecord, int64, error) {
 	var records []*model.RentRecord
+	var total int64
 
-	result := d.DB.Where("user_id = ? and finished = ?", userId, true).Limit(limit).Offset(offset).Find(&records)
+	result := d.DB.Model(&records).Where("user_id = ? and finished = ?", userId, true).Count(&total).
+		Limit(limit).Offset(offset).Find(&records)
 	if result.Error != nil {
-		return nil, result.Error
+		return nil, 0, result.Error
 	}
 
-	return records, nil
+	return records, total, nil
 }
 
-func (d *DBDirectDAO) ListRecordByUserId(userId int64, limit int64, offset int64) ([]*model.RentRecord, error) {
+func (d *DBDirectDAO) ListRecordByUserId(userId int64, limit int64, offset int64) ([]*model.RentRecord, int64, error) {
 	var records []*model.RentRecord
+	var total int64
 
-	result := d.DB.Where("user_id = ?", userId).Limit(limit).Offset(offset).Find(&records)
+	result := d.DB.Model(&records).Where("user_id = ?", userId).Count(&total).
+		Limit(limit).Offset(offset).Find(&records)
 	if result.Error != nil {
-		return nil, result.Error
+		return nil, 0, result.Error
 	}
 
-	return records, nil
+	return records, total, nil
 }
 
-func (d *DBDirectDAO) ListAllBorrowedRecord(limit int64, offset int64) ([]*model.RentRecord, error) {
+func (d *DBDirectDAO) ListAllBorrowedRecord(limit int64, offset int64) ([]*model.RentRecord, int64, error) {
 	var records []*model.RentRecord
+	var total int64
 
-	result := d.DB.Where("finished = ?", false).Limit(limit).Offset(offset).Find(&records)
+	result := d.DB.Model(&records).Where("finished = ?", false).Count(&total).
+		Limit(limit).Offset(offset).Find(&records)
 	if result.Error != nil {
-		return nil, result.Error
+		return nil, 0, result.Error
 	}
 
-	return records, nil
+	return records, total, nil
 }
 
-func (d *DBDirectDAO) ListAllReturnedRecord(limit int64, offset int64) ([]*model.RentRecord, error) {
+func (d *DBDirectDAO) ListAllReturnedRecord(limit int64, offset int64) ([]*model.RentRecord, int64, error) {
 	var records []*model.RentRecord
+	var total int64
 
-	result := d.DB.Where("finished = ?", true).Limit(limit).Offset(offset).Find(&records)
+	result := d.DB.Model(&records).Where("finished = ?", true).Count(&total).
+		Limit(limit).Offset(offset).Find(&records)
 	if result.Error != nil {
-		return nil, result.Error
+		return nil, 0, result.Error
 	}
 
-	return records, nil
+	return records, total, nil
 }
 
-func (d *DBDirectDAO) ListAllRecord(limit int64, offset int64) ([]*model.RentRecord, error) {
+func (d *DBDirectDAO) ListAllRecord(limit int64, offset int64) ([]*model.RentRecord, int64, error) {
 	var records []*model.RentRecord
+	var total int64
 
-	result := d.DB.Limit(limit).Offset(offset).Find(&records)
+	result := d.DB.Model(&records).Count(&total).
+		Limit(limit).Offset(offset).Find(&records)
 	if result.Error != nil {
-		return nil, result.Error
+		return nil, 0, result.Error
 	}
 
-	return records, nil
+	return records, total, nil
 }
 
 func NewDBDirectDAO() (*DBDirectDAO, error) {
