@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"errors"
 	"github.com/bqxtt/book_online/rent/pkg/handler/adapter"
 	"github.com/bqxtt/book_online/rent/pkg/sdk/base"
 	"github.com/bqxtt/book_online/rent/pkg/sdk/rentpb"
@@ -33,7 +34,7 @@ func (r *RentHandler) BorrowBook(ctx context.Context, request *rentpb.BorrowBook
 	if request == nil {
 		return &rentpb.BorrowBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "nil borrow book request pb message"),
-		}, nil
+		}, errors.New("nil borrow book request pb message")
 	}
 
 	userId, bookId := request.GetUserId(), request.GetBookId()
@@ -42,14 +43,14 @@ func (r *RentHandler) BorrowBook(ctx context.Context, request *rentpb.BorrowBook
 	if err != nil {
 		return &rentpb.BorrowBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "borrow book failed: %v", err),
-		}, nil
+		}, err
 	}
 
 	deadlinePb, err := ptypes.TimestampProto(deadline)
 	if err != nil {
 		return &rentpb.BorrowBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "invalid deadline: %v", err),
-		}, nil
+		}, err
 	}
 
 	return &rentpb.BorrowBookReply{
@@ -62,7 +63,7 @@ func (r *RentHandler) ReturnBook(ctx context.Context, request *rentpb.ReturnBook
 	if request == nil {
 		return &rentpb.ReturnBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "nil return book request pb message"),
-		}, nil
+		}, errors.New("nil return book request pb message")
 	}
 
 	recordId := request.GetRecordId()
@@ -70,7 +71,7 @@ func (r *RentHandler) ReturnBook(ctx context.Context, request *rentpb.ReturnBook
 	if err := r.rentSerivce.ReturnBook(recordId); err != nil {
 		return &rentpb.ReturnBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "return book failed: %v", err),
-		}, nil
+		}, err
 	}
 
 	return &rentpb.ReturnBookReply{
@@ -82,7 +83,7 @@ func (r *RentHandler) ListBorrowedBook(ctx context.Context, request *rentpb.List
 	if request == nil {
 		return &rentpb.ListBorrowedBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "nil list borrowed book request pb message"),
-		}, nil
+		}, errors.New("nil list borrowed book request pb message")
 	}
 
 	userId := request.GetUserId()
@@ -92,14 +93,14 @@ func (r *RentHandler) ListBorrowedBook(ctx context.Context, request *rentpb.List
 	if err != nil {
 		return &rentpb.ListBorrowedBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "list borrowed book records failed: %v", err),
-		}, nil
+		}, err
 	}
 
 	pbRecords, err := adapter.AdaptToPbRentRecords(details)
 	if err != nil {
 		return &rentpb.ListBorrowedBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "failed to adapt to pb: %v", err),
-		}, nil
+		}, err
 	}
 
 	return &rentpb.ListBorrowedBookReply{
@@ -114,7 +115,7 @@ func (r *RentHandler) ListReturnedBook(ctx context.Context, request *rentpb.List
 	if request == nil {
 		return &rentpb.ListReturnedBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "nil list returned book request pb message"),
-		}, nil
+		}, errors.New("nil list returned book request pb message")
 	}
 
 	userId := request.GetUserId()
@@ -124,14 +125,14 @@ func (r *RentHandler) ListReturnedBook(ctx context.Context, request *rentpb.List
 	if err != nil {
 		return &rentpb.ListReturnedBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "list returned book records failed: %v", err),
-		}, nil
+		}, err
 	}
 
 	pbRecords, err := adapter.AdaptToPbRentRecords(details)
 	if err != nil {
 		return &rentpb.ListReturnedBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "failed to adapt to pb: %v", err),
-		}, nil
+		}, err
 	}
 
 	return &rentpb.ListReturnedBookReply{
@@ -146,7 +147,7 @@ func (r *RentHandler) ListBook(ctx context.Context, request *rentpb.ListBookRequ
 	if request == nil {
 		return &rentpb.ListBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "nil list book request pb message"),
-		}, nil
+		}, errors.New("nil list book request pb message")
 	}
 
 	userId := request.GetUserId()
@@ -156,14 +157,14 @@ func (r *RentHandler) ListBook(ctx context.Context, request *rentpb.ListBookRequ
 	if err != nil {
 		return &rentpb.ListBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "list book records failed: %v", err),
-		}, nil
+		}, err
 	}
 
 	pbRecords, err := adapter.AdaptToPbRentRecords(details)
 	if err != nil {
 		return &rentpb.ListBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "failed to adapt to pb: %v", err),
-		}, nil
+		}, err
 	}
 
 	return &rentpb.ListBookReply{
@@ -178,7 +179,7 @@ func (r *RentHandler) ListAllBorrowedBook(ctx context.Context, request *rentpb.L
 	if request == nil {
 		return &rentpb.ListAllBorrowedBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "nil list all borrowed book request pb message"),
-		}, nil
+		}, errors.New("nil list all borrowed book request pb message")
 	}
 
 	pageNo, pageSize := request.GetPage().GetPageNo(), request.GetPage().GetPageSize()
@@ -187,14 +188,14 @@ func (r *RentHandler) ListAllBorrowedBook(ctx context.Context, request *rentpb.L
 	if err != nil {
 		return &rentpb.ListAllBorrowedBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "list all borrowed book records failed: %v", err),
-		}, nil
+		}, err
 	}
 
 	pbRecords, err := adapter.AdaptToPbRentRecords(details)
 	if err != nil {
 		return &rentpb.ListAllBorrowedBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "failed to adapt to pb: %v", err),
-		}, nil
+		}, err
 	}
 
 	return &rentpb.ListAllBorrowedBookReply{
@@ -209,7 +210,7 @@ func (r *RentHandler) ListAllReturnedBook(ctx context.Context, request *rentpb.L
 	if request == nil {
 		return &rentpb.ListAllReturnedBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "nil list all returned book request pb message"),
-		}, nil
+		}, errors.New("nil list all returned book request pb message")
 	}
 
 	pageNo, pageSize := request.GetPage().GetPageNo(), request.GetPage().GetPageSize()
@@ -218,14 +219,14 @@ func (r *RentHandler) ListAllReturnedBook(ctx context.Context, request *rentpb.L
 	if err != nil {
 		return &rentpb.ListAllReturnedBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "list all returned book records failed: %v", err),
-		}, nil
+		}, err
 	}
 
 	pbRecords, err := adapter.AdaptToPbRentRecords(details)
 	if err != nil {
 		return &rentpb.ListAllReturnedBookReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "failed to adapt to pb: %v", err),
-		}, nil
+		}, err
 	}
 
 	return &rentpb.ListAllReturnedBookReply{
@@ -240,7 +241,7 @@ func (r *RentHandler) ListAllBookRecords(ctx context.Context, request *rentpb.Li
 	if request == nil {
 		return &rentpb.ListAllBookRecordsReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "nil list all book records request pb message"),
-		}, nil
+		}, errors.New("nil list all book records request pb message")
 	}
 
 	pageNo, pageSize := request.GetPage().GetPageNo(), request.GetPage().GetPageSize()
@@ -249,14 +250,14 @@ func (r *RentHandler) ListAllBookRecords(ctx context.Context, request *rentpb.Li
 	if err != nil {
 		return &rentpb.ListAllBookRecordsReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "list all book records failed: %v", err),
-		}, nil
+		}, err
 	}
 
 	pbRecords, err := adapter.AdaptToPbRentRecords(details)
 	if err != nil {
 		return &rentpb.ListAllBookRecordsReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "failed to adapt to pb: %v", err),
-		}, nil
+		}, err
 	}
 
 	return &rentpb.ListAllBookRecordsReply{
