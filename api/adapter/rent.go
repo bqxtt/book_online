@@ -20,9 +20,9 @@ func RpcRecordToEntityRecord(record *rentpb.RentRecord) *entity.Record {
 		RecordId:   record.Id,
 		UserId:     record.UserId,
 		Book:       RpcBookToEntityBook(record.Book),
-		BorrowedAt: record.BorrowedAt.AsTime().Format("2000-01-01"),
-		ReturnedAt: record.ReturnedAt.AsTime().Format("2000-01-01"),
-		Deadline:   record.Deadline.AsTime().Format("2000-01-01"),
+		BorrowedAt: record.BorrowedAt.AsTime().Format("2006/01/02"),
+		ReturnedAt: record.ReturnedAt.AsTime().Format("2006/01/02"),
+		Deadline:   record.Deadline.AsTime().Format("2006/01/02"),
 		Status:     RpcRecordStatusToEntityRecordStatus(record.Status),
 	}
 }

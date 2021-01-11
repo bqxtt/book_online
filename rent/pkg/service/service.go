@@ -100,7 +100,7 @@ func (r *RentService) ListAllReturnedBook(pageNo int64, pageSize int64) ([]*mode
 
 func (r *RentService) ReturnBook(recordId int64) error {
 	record, err := r.rentDAO.GetRentRecordById(recordId)
-	if err == nil {
+	if err != nil {
 		return err
 	}
 	if record == nil {
