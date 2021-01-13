@@ -175,7 +175,7 @@ func (h *UserHandler) ListUsersPaged(ctx context.Context, request *userpb.ListUs
 	}
 
 	pageNo, pageSize := request.GetPage().GetPageNo(), request.GetPage().GetPageSize()
-	if utils.IsValidPagedInfo(pageNo, pageSize) {
+	if !utils.IsValidPagedInfo(pageNo, pageSize) {
 		return &userpb.ListUsersPagedReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE,
 				"get invalid page info: pageNo=%v, pageSize=%v", pageNo, pageSize),
