@@ -167,7 +167,7 @@ func (h *UserHandler) GetInfo(ctx context.Context, request *userpb.GetInfoReques
 	}, nil
 }
 
-func (h *UserHandler) ListUserPaged(ctx context.Context, request *userpb.ListUsersPagedRequest) (*userpb.ListUsersPagedReply, error) {
+func (h *UserHandler) ListUsersPaged(ctx context.Context, request *userpb.ListUsersPagedRequest) (*userpb.ListUsersPagedReply, error) {
 	if request == nil {
 		return &userpb.ListUsersPagedReply{
 			Reply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "nil list user paged request pb message"),
