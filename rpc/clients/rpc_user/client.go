@@ -9,7 +9,8 @@ import (
 var UserServiceClient userpb.UserServiceClient
 
 const (
-	address = "localhost:50001"
+	//address = "localhost:50001"
+	address = "101.200.155.166:30001"
 )
 
 func Init() {

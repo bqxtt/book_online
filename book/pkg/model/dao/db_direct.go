@@ -48,8 +48,8 @@ func (DB *DBDirectDAO) CreateBook(book *model.Book) (*model.Book, error) {
 	return book, nil
 }
 
-func (DB *DBDirectDAO) UpdateBook(book *model.Book) (*model.Book, error) {
-	result := DB.DB.Model(book).Update(book)
+func (DB *DBDirectDAO) UpdateBook(bookId int64, book *model.Book) (*model.Book, error) {
+	result := DB.DB.Model(&model.Book{ID: bookId}).Update(book)
 	if result.Error != nil {
 		return nil, result.Error
 	}

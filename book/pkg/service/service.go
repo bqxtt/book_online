@@ -61,9 +61,9 @@ func (bs *BookService) CreateBook(book *model.Book) (*model.Book, error) {
 	return result, nil
 }
 
-func (bs *BookService) UpdateBook(book *model.Book) (*model.Book, error) {
+func (bs *BookService) UpdateBook(bookId int64, book *model.Book) (*model.Book, error) {
 	book.UpdateTime = time.Now()
-	result, err := bs.bookDao.UpdateBook(book)
+	result, err := bs.bookDao.UpdateBook(bookId, book)
 	if err != nil {
 		return nil, fmt.Errorf("fail to update book, err: %v", err)
 	}

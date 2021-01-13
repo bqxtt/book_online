@@ -27,7 +27,7 @@ func (in *InMemoryDAO) CreateBook(book *model.Book) (resultBook *model.Book, err
 	panic("implement me")
 }
 
-func (in *InMemoryDAO) UpdateBook(book *model.Book) (resultBook *model.Book, err error) {
+func (in *InMemoryDAO) UpdateBook(bookId int64, book *model.Book) (resultBook *model.Book, err error) {
 	panic("implement me")
 }
 

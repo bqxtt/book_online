@@ -135,9 +135,8 @@ func (bh *BookHandler) UpdateBook(ctx context.Context, request *bookpb.UpdateBoo
 			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "update book request book is nil or book id is incorrect"),
 		}, fmt.Errorf("update book request book is nil or book id is incorrect")
 	}
-	book.Id = bookId
 	modelBook := adapter.RpcBookToModelBook(book)
-	result, err := bh.bookService.UpdateBook(modelBook)
+	result, err := bh.bookService.UpdateBook(bookId, modelBook)
 	if err != nil {
 		return &bookpb.UpdateBookResponse{
 			BaseReply: utils.PbReplyf(base.REPLY_STATUS_FAILURE, "book service update book error, err: %v", err),
