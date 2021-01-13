@@ -8,6 +8,7 @@ type Record struct {
 	ReturnedAt string       `json:"returned_at"`
 	Deadline   string       `json:"deadline"`
 	Status     RecordStatus `json:"status"`
+	StatusStr  string       `json:"status_str"`
 }
 
 type RecordStatus int32
